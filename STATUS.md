@@ -1,13 +1,21 @@
 # STATUS
 
 **Project:** Fantasy Hoops Decision Assistant  
-**Status:** API access application pending  
+**Status:** Yahoo Fantasy API access submitted — awaiting review  
 **Lifecycle:** Active  
 **Repository:** `Allen930311/fantasy-hoops-decision-assistant`
 
 ## Current objective
 
-Obtain Yahoo Fantasy Sports API access and validate a read-only R0 against the owner's Fantasy Basketball league.
+Wait for Yahoo Fantasy Sports API approval, then validate a read-only R0 against the owner's Fantasy Basketball league.
+
+## API access state
+
+Yahoo Fantasy Sports API access application was successfully submitted on 2026-10-04.
+
+Yahoo currently provides read access only. Write access is not available at this time.
+
+The application is now waiting for review by the Yahoo Fantasy Sports team.
 
 ## R0 acceptance
 
@@ -26,6 +34,6 @@ No production integration has been implemented yet. Do not build around assumed 
 
 ## Next action
 
-Submit / complete Yahoo Fantasy API access approval, then begin OAuth and live league-read validation.
+Wait for Yahoo's approval response. Once credentials / access are granted, configure OAuth locally without committing secrets and begin live league-read validation.
 
 _Last reviewed: 2026-10-04_
