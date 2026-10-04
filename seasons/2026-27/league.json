@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "league_size": 16,
+  "roster_size": 13,
+  "owner_team_id": "team_02",
+  "scoring": {
+    "FTA": -0.25,
+    "3PTM": 2,
+    "PTS": 1,
+    "OREB": 2.5,
+    "DREB": 1.5,
+    "AST": 2,
+    "STL": 3,
+    "BLK": 3,
+    "TO": -2,
+    "PF": -1,
+    "TECH": -1,
+    "EJCT": -10,
+    "FF": -5,
+    "DD": 7,
+    "TD": 6
+  },
+  "scoring_notes": [
+    "Scoring is season-specific and must not be assumed for future seasons.",
+    "DD and TD bonuses are cumulative unless the live Yahoo league settings prove otherwise."
+  ],
+  "state_source": "owner-provided 16-team preseason snapshot",
+  "state_authority": "bootstrap_only_until_yahoo_read_only_reconciliation"
+}
