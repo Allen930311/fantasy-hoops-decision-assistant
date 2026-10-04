@@ -42,7 +42,7 @@
         "Jrue Holiday",
         "Max Christie",
         "Zaccharie Risacher",
-        "Marcus Smart"
+        "Pelle Larsson"
       ]
     },
     {
@@ -325,5 +325,12 @@
         "Precious Achiuwa"
       ]
     }
-  ]
+  ],
+  "last_manual_change": {
+    "date": "2026-10-04",
+    "team_id": "team_02",
+    "out": "Marcus Smart",
+    "in": "Pelle Larsson",
+    "authority": "owner_confirmed"
+  }
 }
