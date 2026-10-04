@@ -39,12 +39,35 @@ FA / waiver / trade analysis
 Actionable recommendation
 ```
 
+## Season-scoped league data
+
+League configuration is versioned by season because rosters and scoring rules can change every year.
+
+The current bootstrap snapshot lives under:
+
+- [`seasons/2026-27/league.json`](seasons/2026-27/league.json) — **2026–2027** scoring rules and league metadata.
+- [`seasons/2026-27/rosters.json`](seasons/2026-27/rosters.json) — mutable 16-team roster state.
+- [`seasons/2026-27/README.md`](seasons/2026-27/README.md) — update and season-boundary policy.
+
+Do not overwrite an old season to represent a new one. Create a new season directory and explicitly define that season's rosters and scoring rules.
+
+Until Yahoo read-only reconciliation is complete, the owner-provided season snapshot is the bootstrap ownership-state source. Once validated, Yahoo becomes league-state truth; the season-scoped owner scoring configuration remains decision truth.
+
 ## Status
 
 Repository initialized. Yahoo Fantasy API access is being requested before implementation begins.
+
+A season-scoped **2026–2027** 16-team bootstrap roster and custom scoring configuration are now available for decision-support work before live Yahoo ingestion is validated.
 
 See [STATUS.md](STATUS.md) for current operational state.
 
 ## Security
 
 Do not commit Yahoo OAuth client secrets, refresh tokens, access tokens, cookies, or personal league credentials to this repository. Local secrets must stay outside version control.
+
+
+## Scheduled monitor
+
+The recurring Fantasy monitor is repository-driven. Its stable bootstrap is [SCHEDULED-RUN.md](SCHEDULED-RUN.md).
+
+The schedule itself must not contain a hard-coded roster or scoring model. Update the repository's current season state instead, and the next run will read the new truth.

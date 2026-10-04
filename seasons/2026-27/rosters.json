@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "as_of": "2026-10-04",
+  "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
+  "owner_team_id": "team_02",
+  "teams": [
+    {
+      "team_id": "team_01",
+      "label": "第1隊",
+      "is_owner": false,
+      "players": [
+        "LaMelo Ball",
+        "Norman Powell",
+        "Ja Morant",
+        "Jayson Tatum",
+        "Pascal Siakam",
+        "Julius Randle",
+        "Rudy Gobert",
+        "P.J. Washington",
+        "Kevin Porter Jr.",
+        "Keegan Murray",
+        "Collin Sexton",
+        "Keaton Wagler",
+        "Andre Drummond"
+      ]
+    },
+    {
+      "team_id": "team_02",
+      "label": "第2隊",
+      "is_owner": true,
+      "players": [
+        "Stephon Castle",
+        "Andrew Wiggins",
+        "De'Aaron Fox",
+        "Scottie Barnes",
+        "Alperen Sengun",
+        "Herbert Jones",
+        "Aaron Gordon",
+        "Walker Kessler",
+        "RJ Barrett",
+        "Jrue Holiday",
+        "Max Christie",
+        "Zaccharie Risacher",
+        "Pelle Larsson"
+      ]
+    },
+    {
+      "team_id": "team_03",
+      "label": "第3隊",
+      "is_owner": false,
+      "players": [
+        "Darryn Peterson",
+        "Mikel Brown Jr.",
+        "AJ Dybantsa",
+        "Cameron Boozer",
+        "Kawhi Leonard",
+        "Kel'el Ware",
+        "Luke Kornet",
+        "Ausar Thompson",
+        "Fred VanVleet",
+        "Kyshawn George",
+        "Cade Cunningham",
+        "Klay Thompson",
+        "Naji Marshall"
+      ]
+    },
+    {
+      "team_id": "team_04",
+      "label": "第4隊",
+      "is_owner": false,
+      "players": [
+        "James Harden",
+        "Dyson Daniels",
+        "Tyler Herro",
+        "Saddiq Bey",
+        "Giannis Antetokounmpo",
+        "Paolo Banchero",
+        "Sandro Mamukelashvili",
+        "Daniel Gafford",
+        "Coby White",
+        "Miles Bridges",
+        "Tyus Jones",
+        "Jonathan Kuminga",
+        "Jalen Smith"
+      ]
+    },
+    {
+      "team_id": "team_05",
+      "label": "第5隊",
+      "is_owner": false,
+      "players": [
+        "Dejounte Murray",
+        "Jaylen Brown",
+        "Brandon Ingram",
+        "Lauri Markkanen",
+        "Jabari Smith Jr.",
+        "Toumani Camara",
+        "Victor Wembanyama",
+        "Deandre Ayton",
+        "Reed Sheppard",
+        "Ace Bailey",
+        "Morez Johnson Jr.",
+        "Max Strus",
+        "T.J. McConnell"
+      ]
+    },
+    {
+      "team_id": "team_06",
+      "label": "第6隊",
+      "is_owner": false,
+      "players": [
+        "Tyrese Maxey",
+        "Amen Thompson",
+        "Darius Garland",
+        "Christian Braun",
+        "Anthony Davis",
+        "Caleb Wilson",
+        "Jalen Duren",
+        "Derik Queen",
+        "Davion Mitchell",
+        "Khaman Maluach",
+        "Daniss Jenkins",
+        "Isaiah Stewart",
+        "De'Andre Hunter"
+      ]
+    },
+    {
+      "team_id": "team_07",
+      "label": "第7隊",
+      "is_owner": false,
+      "players": [
+        "Anthony Edwards",
+        "Cedric Coward",
+        "Zach LaVine",
+        "Michael Porter Jr.",
+        "Bam Adebayo",
+        "Matas Buzelis",
+        "Joel Embiid",
+        "Dereck Lively II",
+        "Ty Jerome",
+        "Anthony Black",
+        "Collin Gillespie",
+        "Santi Aldama",
+        "Noah Clowney"
+      ]
+    },
+    {
+      "team_id": "team_08",
+      "label": "第8隊",
+      "is_owner": false,
+      "players": [
+        "Donovan Mitchell",
+        "Ryan Rollins",
+        "Trae Young",
+        "Jalen Williams",
+        "Jaren Jackson Jr.",
+        "Mikal Bridges",
+        "Kristaps Porzingis",
+        "Neemias Queta",
+        "CJ McCollum",
+        "Draymond Green",
+        "Kelly Oubre Jr.",
+        "Brook Lopez",
+        "Anfernee Simons"
+      ]
+    },
+    {
+      "team_id": "team_09",
+      "label": "第9隊",
+      "is_owner": false,
+      "players": [
+        "Stephen Curry",
+        "Deni Avdija",
+        "Andrew Nembhard",
+        "Jalen Johnson",
+        "Tobias Harris",
+        "Rui Hachimura",
+        "Onyeka Okongwu",
+        "Alex Sarr",
+        "Ajay Mitchell",
+        "Darius Acuff Jr.",
+        "Mitchell Robinson",
+        "Yves Missi",
+        "DeMar DeRozan"
+      ]
+    },
+    {
+      "team_id": "team_10",
+      "label": "第10隊",
+      "is_owner": false,
+      "players": [
+        "Shai Gilgeous-Alexander",
+        "Trey Murphy III",
+        "Desmond Bane",
+        "Jaden McDaniels",
+        "Domantas Sabonis",
+        "Cason Wallace",
+        "Jusuf Nurkic",
+        "Bobby Portis Jr.",
+        "Damian Lillard",
+        "Quentin Grimes",
+        "Cameron Johnson",
+        "Brayden Burries",
+        "Obi Toppin"
+      ]
+    },
+    {
+      "team_id": "team_11",
+      "label": "第11隊",
+      "is_owner": false,
+      "players": [
+        "Luka Doncic",
+        "Devin Booker",
+        "Nickeil Alexander-Walker",
+        "Franz Wagner",
+        "Chet Holmgren",
+        "Zion Williamson",
+        "Day'Ron Sharpe",
+        "Collin Murray-Boyles",
+        "Jakob Poeltl",
+        "Nikola Vucevic",
+        "Aaron Nesmith",
+        "Jordan Poole",
+        "Kyle Filipowski"
+      ]
+    },
+    {
+      "team_id": "team_12",
+      "label": "第12隊",
+      "is_owner": false,
+      "players": [
+        "Dylan Harper",
+        "Cooper Flagg",
+        "Ayo Dosunmu",
+        "LeBron James",
+        "Evan Mobley",
+        "Devin Vassell",
+        "Zach Edey",
+        "Myles Turner",
+        "Tari Eason",
+        "Scoot Henderson",
+        "Julian Champagnie",
+        "Jared McCain",
+        "Jaylon Tyson"
+      ]
+    },
+    {
+      "team_id": "team_13",
+      "label": "第13隊",
+      "is_owner": false,
+      "players": [
+        "Jalen Brunson",
+        "Josh Hart",
+        "Kyrie Irving",
+        "Jaime Jaquez Jr.",
+        "Naz Reid",
+        "Yaxel Lendeborg",
+        "Nikola Jokic",
+        "Jarrett Allen",
+        "John Collins",
+        "Egor Demin",
+        "Jeremiah Fears",
+        "Scotty Pippen Jr.",
+        "Kyle Kuzma"
+      ]
+    },
+    {
+      "team_id": "team_14",
+      "label": "第14隊",
+      "is_owner": false,
+      "players": [
+        "Tyrese Haliburton",
+        "Kevin Durant",
+        "Derrick White",
+        "Paul George",
+        "Jerami Grant",
+        "Grayson Allen",
+        "Donovan Clingan",
+        "Isaiah Hartenstein",
+        "Payton Pritchard",
+        "Jalen Suggs",
+        "Maxime Raynaud",
+        "Jaylen Wells",
+        "Jimmy Butler III"
+      ]
+    },
+    {
+      "team_id": "team_15",
+      "label": "第15隊",
+      "is_owner": false,
+      "players": [
+        "Jamal Murray",
+        "Keyonte George",
+        "Kon Knueppel",
+        "OG Anunoby",
+        "Karl-Anthony Towns",
+        "Paul Reed",
+        "Wendell Carter Jr.",
+        "Mark Williams",
+        "Immanuel Quickley",
+        "Peyton Watson",
+        "Brandin Podziemski",
+        "Sam Hauser",
+        "Duncan Robinson"
+      ]
+    },
+    {
+      "team_id": "team_16",
+      "label": "第16隊",
+      "is_owner": false,
+      "players": [
+        "Josh Giddey",
+        "Austin Reaves",
+        "VJ Edgecombe",
+        "Brandon Miller",
+        "Dillon Brooks",
+        "Jalen Green",
+        "Ivica Zubac",
+        "Nic Claxton",
+        "Moussa Diabate",
+        "Bennedict Mathurin",
+        "Oso Ighodaro",
+        "Gui Santos",
+        "Precious Achiuwa"
+      ]
+    }
+  ],
+  "last_manual_change": {
+    "date": "2026-10-04",
+    "team_id": "team_02",
+    "out": "Marcus Smart",
+    "in": "Pelle Larsson",
+    "authority": "owner_confirmed"
+  }
+}
