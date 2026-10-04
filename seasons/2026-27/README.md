@@ -22,3 +22,14 @@ This directory contains the owner-specific league state and scoring configuratio
 - Players per team: **13**
 - Total rostered players: **208**
 - Duplicate rostered players in the imported snapshot: **0**
+
+
+## Validation
+
+Run the season integrity check after roster or scoring edits:
+
+```bash
+python scripts/validate_season_state.py seasons/2026-27
+```
+
+The validator checks team count, roster size, unique rostered players, exactly one owner team, season alignment, and scoring presence.
