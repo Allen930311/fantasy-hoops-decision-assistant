@@ -1,25 +1,34 @@
 # STATUS
 
 **Project:** Fantasy Hoops Decision Assistant  
-**Status:** API access application pending  
+**Status:** Yahoo Fantasy API access submitted — awaiting review  
 **Lifecycle:** Active  
 **Repository:** `Allen930311/fantasy-hoops-decision-assistant`
 
 ## Current objective
 
-Obtain Yahoo Fantasy Sports API access and validate a read-only R0 against the owner's Fantasy Basketball league.
+Wait for Yahoo Fantasy Sports API approval, then validate a read-only R0 against the owner's Fantasy Basketball league and reconcile it against the season-scoped bootstrap snapshot.
+
+## API access state
+
+Yahoo Fantasy Sports API access application was successfully submitted on 2026-10-04.
+
+Yahoo currently provides read access only. Write access is not available at this time.
+
+The application is now waiting for review by the Yahoo Fantasy Sports team.
 
 ## Available bootstrap state
 
-The repository now contains a season-scoped **2026–2027** bootstrap league snapshot under `seasons/2026-27/`:
+The repository contains a season-scoped **2026–2027** bootstrap league snapshot under `seasons/2026-27/`:
 
 - 16 teams;
 - 13 rostered players per team;
 - 208 unique rostered players;
-- `team_02` marked as the owner's team;
-- owner-defined 2026–2027 scoring rules stored separately from roster state.
+- `team_02` is the owner's team;
+- owner-defined 2026–2027 scoring rules are stored separately from roster state;
+- latest owner-confirmed roster change: Marcus Smart out, Pelle Larsson in on 2026-10-04.
 
-The roster file is intentionally mutable so adds, drops, and trades can be reflected without changing the scoring configuration. Future seasons must use a separate season directory because both roster composition and league scoring may change.
+The roster file is intentionally mutable so confirmed adds, drops, and trades can be reflected without changing the scoring configuration. Future seasons must use a separate season directory because both roster composition and league scoring may change.
 
 This bootstrap state does **not** replace the planned Yahoo source-of-truth integration.
 
@@ -42,6 +51,6 @@ Until R0 reconciliation is complete, `seasons/2026-27/rosters.json` is a manual 
 
 ## Next action
 
-Submit / complete Yahoo Fantasy API access approval, then begin OAuth and live league-read validation and reconcile Yahoo state against the 2026–2027 bootstrap snapshot.
+Wait for Yahoo's approval response. Once credentials / access are granted, configure OAuth locally without committing secrets, begin live league-read validation, and reconcile Yahoo state against the 2026–2027 bootstrap snapshot.
 
 _Last reviewed: 2026-10-04_
