@@ -64,3 +64,10 @@ See [STATUS.md](STATUS.md) for current operational state.
 ## Security
 
 Do not commit Yahoo OAuth client secrets, refresh tokens, access tokens, cookies, or personal league credentials to this repository. Local secrets must stay outside version control.
+
+
+## Scheduled monitor
+
+The recurring Fantasy monitor is repository-driven. Its stable bootstrap is [SCHEDULED-RUN.md](SCHEDULED-RUN.md).
+
+The schedule itself must not contain a hard-coded roster or scoring model. Update the repository's current season state instead, and the next run will read the new truth.
