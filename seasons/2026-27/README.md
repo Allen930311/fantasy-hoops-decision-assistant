@@ -6,6 +6,15 @@ This directory contains the owner-specific league state and scoring configuratio
 
 - `league.json` — season metadata and the owner-defined scoring system.
 - `rosters.json` — mutable 16-team roster snapshot.
+- `report/2026-10-05-preseason-model-v1.md` — frozen 16-team preseason power-ranking baseline, including model methodology, scoring formula, team ranking, owner-team interpretation, and limitations.
+
+## Reports
+
+Reports under `report/` are dated analytical snapshots. They should **not** be silently rewritten when projections change; create a new dated report/model version so later season states can be compared against the earlier baseline.
+
+Current baseline:
+
+- [2026-10-05 Preseason Model V1](report/2026-10-05-preseason-model-v1.md)
 
 ## Update policy
 
@@ -22,7 +31,6 @@ This directory contains the owner-specific league state and scoring configuratio
 - Players per team: **13**
 - Total rostered players: **208**
 - Duplicate rostered players in the imported snapshot: **0**
-
 
 ## Validation
 
