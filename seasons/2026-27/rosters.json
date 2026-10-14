@@ -333,12 +333,14 @@
     "in": "Jarace Walker",
     "authority": "yahoo_fantasy_transaction_screenshot"
   },
-  "pending_reconciliation": [
+  "transaction_notes": [
     {
       "date": "2026-10-09",
+      "team_id": "team_09",
       "out": "Steven Adams",
       "in": "Yves Missi",
-      "reason": "Screenshot confirms transaction but repo already lists Yves Missi on team_09 and Steven Adams is absent from all 16 teams; cannot map transaction uniquely."
+      "authority": "owner_confirmed_yahoo_transaction",
+      "note": "Owner confirms team_09 previously dropped Yves Missi and later re-added him. Current repo already reflects Yves Missi, so no roster change needed."
     }
   ]
 }
