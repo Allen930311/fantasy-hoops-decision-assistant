@@ -1,0 +1,597 @@
+﻿fantasy_team_id,player_name,player_id,game_id,nba_team,status,minutes,PTS,3PTM,FTA,OREB,DREB,AST,STL,BLK,TO,PF,TECH,EJCT,FF,DD,TD,custom_fp,dnp_comment
+team_03,Klay Thompson,202691,0012600001,MIA,played,14.083,5,1,0,0,1,3,1,3,0,2,0,0,0,0,0,24.5,
+team_04,Giannis Antetokounmpo,203507,0012600001,MIA,played,17.867,18,0,5,2,2,4,1,0,2,2,0,0,0,0,0,29.75,
+team_02,Andrew Wiggins,203952,0012600001,MIA,played,15.183,13,1,5,1,1,0,1,0,0,3,0,0,0,0,0,17.75,
+team_10,Bobby Portis Jr.,1626171,0012600001,MIA,played,19.967,11,1,3,3,3,2,2,1,2,0,0,0,0,0,0,33.25,
+team_05,Dejounte Murray,1627749,0012600001,NOP,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Bam Adebayo,1628389,0012600001,MIA,played,16.05,9,1,3,1,3,2,1,0,0,0,0,0,0,0,0,24.25,
+team_11,Zion Williamson,1629627,0012600001,NOP,played,16.333,8,0,2,0,1,1,1,0,1,2,0,0,0,0,0,10.0,
+team_11,Jordan Poole,1629673,0012600001,NOP,played,13.15,14,3,4,0,1,2,0,0,1,0,0,0,0,0,0,22.5,
+team_04,Saddiq Bey,1630180,0012600001,NOP,played,16.933,12,2,4,1,4,0,0,0,1,2,0,0,0,0,0,19.5,
+team_02,Herbert Jones,1630529,0012600001,NOP,played,10.433,0,0,0,1,2,2,2,0,0,4,0,0,0,0,0,11.5,
+team_10,Trey Murphy III,1630530,0012600001,NOP,played,13.85,11,2,4,1,0,2,1,0,1,0,0,0,0,0,0,21.5,
+team_06,Davion Mitchell,1630558,0012600001,MIA,played,20.3,9,1,0,0,1,7,0,0,1,0,0,0,0,0,0,24.5,
+team_16,Bennedict Mathurin,1631097,0012600001,NOP,played,14.45,8,1,2,2,2,1,0,0,2,3,0,0,0,0,0,12.5,
+team_02,Pelle Larsson,1641796,0012600001,MIA,did_not_play,,,,,,,,,,,,,,,,,,DND - Injury/Illness
+team_09,Yves Missi,1642274,0012600001,NOP,played,19.283,11,0,5,4,5,0,0,0,0,2,0,0,0,0,0,25.25,
+team_13,Jeremiah Fears,1642847,0012600001,NOP,played,19.267,11,2,1,0,2,2,0,0,3,2,0,0,0,0,0,13.75,
+team_06,Derik Queen,1642852,0012600001,NOP,played,15.6,5,0,2,1,7,1,0,1,5,2,0,0,0,0,0,10.5,
+team_03,Klay Thompson,202691,0012600002,MIA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_01,Rudy Gobert,203497,0012600002,MIN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_04,Giannis Antetokounmpo,203507,0012600002,MIA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,Andrew Wiggins,203952,0012600002,MIA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Bobby Portis Jr.,1626171,0012600002,MIA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Bam Adebayo,1628389,0012600002,MIA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Anthony Edwards,1630162,0012600002,MIN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_01,LaMelo Ball,1630163,0012600002,MIN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Jaden McDaniels,1630183,0012600002,MIN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_04,Jonathan Kuminga,1630228,0012600002,MIN,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Ayo Dosunmu,1630245,0012600002,MIN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_06,Davion Mitchell,1630558,0012600002,MIA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,Pelle Larsson,1641796,0012600002,MIA,played,24.9,14,0,7,1,2,5,0,0,4,1,0,0,0,0,0,18.75,
+team_08,CJ McCollum,203468,0012600004,ATL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_14,Jerami Grant,203924,0012600004,MEM,played,14.033,10,1,6,0,4,2,0,0,0,2,0,0,0,0,0,18.5,
+team_11,Nickeil Alexander-Walker,1629638,0012600004,ATL,played,15.733,14,1,1,0,1,0,1,0,0,1,0,0,0,0,0,19.25,
+team_07,Ty Jerome,1629660,0012600004,MEM,played,15.117,12,1,3,0,0,5,0,1,3,2,0,0,0,0,0,18.25,
+team_09,Onyeka Okongwu,1630168,0012600004,ATL,played,14.483,8,1,2,1,3,2,0,1,1,2,0,0,0,0,0,19.5,
+team_06,Isaiah Stewart,1630191,0012600004,MEM,played,2.117,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1.5,
+team_09,Jalen Johnson,1630552,0012600004,ATL,played,17.85,8,0,6,1,4,3,1,0,2,1,0,0,0,0,0,19.0,
+team_13,Scotty Pippen Jr.,1630590,0012600004,MEM,played,15.617,10,2,2,0,0,4,1,0,2,3,0,0,0,0,0,17.5,
+team_04,Dyson Daniels,1630700,0012600004,ATL,played,17.85,6,0,5,1,3,2,0,0,1,0,0,0,0,0,0,13.75,
+team_12,Zach Edey,1641744,0012600004,MEM,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_14,Jaylen Wells,1642377,0012600004,MEM,played,16.8,12,4,0,0,0,0,1,0,0,0,0,0,0,0,0,23.0,
+team_07,Cedric Coward,1642907,0012600004,MEM,played,18.25,9,1,2,1,4,4,1,0,2,2,0,0,0,0,0,24.0,
+team_03,Cameron Boozer,1643409,0012600004,MEM,played,18.25,11,0,3,3,2,4,2,0,1,2,0,0,0,0,0,30.75,
+team_09,Tobias Harris,202699,0012600005,SAS,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_08,CJ McCollum,203468,0012600005,ATL,played,19.367,14,4,0,3,2,4,0,0,1,1,0,0,0,0,0,37.5,
+team_02,De'Aaron Fox,1628368,0012600005,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_03,Luke Kornet,1628436,0012600005,SAS,played,14.733,6,0,2,2,2,2,0,1,0,0,0,0,0,0,0,20.5,
+team_11,Nickeil Alexander-Walker,1629638,0012600005,ATL,played,23.383,7,1,2,1,2,2,0,0,1,3,0,0,0,0,0,13.0,
+team_09,Onyeka Okongwu,1630168,0012600005,ATL,played,21.617,13,2,2,2,2,5,0,0,1,2,0,0,0,0,0,30.5,
+team_12,Devin Vassell,1630170,0012600005,SAS,played,17.883,12,2,2,0,3,1,1,1,0,1,0,0,0,0,0,27.0,
+team_09,Jalen Johnson,1630552,0012600005,ATL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Julian Champagnie,1630577,0012600005,SAS,played,18.467,10,2,0,0,0,1,0,0,2,0,0,0,0,0,0,12.0,
+team_04,Dyson Daniels,1630700,0012600005,ATL,played,21.15,13,1,0,6,5,1,1,0,0,2,0,0,0,1,0,47.5,
+team_05,Victor Wembanyama,1641705,0012600005,SAS,played,17.0,9,1,4,1,5,1,0,1,2,0,0,0,0,0,0,21.0,
+team_02,Stephon Castle,1642264,0012600005,SAS,played,17.883,14,1,4,1,3,3,1,1,2,2,0,0,0,0,0,28.0,
+team_12,Dylan Harper,1642844,0012600005,SAS,played,19.017,16,3,4,1,3,4,1,0,0,2,0,0,0,0,0,37.0,
+team_08,CJ McCollum,203468,0012600006,ATL,played,18.533,12,1,7,0,5,0,0,0,2,1,0,0,0,0,0,14.75,
+team_05,T.J. McConnell,204456,0012600006,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Kelly Oubre Jr.,1626162,0012600006,IND,played,20.283,13,3,0,0,1,0,0,0,2,3,0,0,0,0,0,13.5,
+team_01,Pascal Siakam,1627783,0012600006,IND,played,22.4,13,1,6,0,2,4,0,1,0,2,0,0,0,0,0,25.5,
+team_16,Ivica Zubac,1627826,0012600006,IND,played,20.75,11,0,6,0,5,2,1,1,1,3,0,0,0,0,0,22.0,
+team_09,Andrew Nembhard,1629614,0012600006,IND,played,22.4,10,2,2,0,1,3,0,1,2,1,0,0,0,0,0,19.0,
+team_11,Nickeil Alexander-Walker,1629638,0012600006,ATL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Obi Toppin,1630167,0012600006,IND,played,14.767,11,1,0,0,3,1,1,0,2,0,0,0,0,0,0,18.5,
+team_09,Onyeka Okongwu,1630168,0012600006,ATL,played,22.85,18,2,6,0,3,3,0,0,1,2,0,0,0,0,0,27.0,
+team_14,Tyrese Haliburton,1630169,0012600006,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Aaron Nesmith,1630174,0012600006,IND,played,20.283,7,1,2,0,1,5,1,0,1,3,0,0,0,0,0,18.0,
+team_09,Jalen Johnson,1630552,0012600006,ATL,played,24.55,20,2,3,0,7,3,0,0,3,1,0,0,0,0,0,32.75,
+team_04,Dyson Daniels,1630700,0012600006,ATL,played,24.333,7,1,0,2,2,4,2,0,3,2,0,0,0,0,0,23.0,
+team_01,Jarace Walker,1641716,0012600006,IND,played,20.1,10,2,2,0,7,3,0,0,2,1,0,0,0,0,0,25.0,
+team_08,CJ McCollum,203468,0012600007,ATL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Rest
+team_14,Isaiah Hartenstein,1628392,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Shai Gilgeous-Alexander,1628983,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Nickeil Alexander-Walker,1629638,0012600007,ATL,played,25.3,16,4,4,0,6,5,1,0,3,0,0,0,0,0,0,39.0,
+team_09,Onyeka Okongwu,1630168,0012600007,ATL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Rest
+team_09,Jalen Johnson,1630552,0012600007,ATL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Rest
+team_04,Dyson Daniels,1630700,0012600007,ATL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Rest
+team_11,Chet Holmgren,1631096,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Jalen Williams,1631114,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Cason Wallace,1641717,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_12,Jared McCain,1642272,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_09,Ajay Mitchell,1642349,0012600007,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_16,Aday Mara,1643530,0012600007,OKC,played,33.183,17,0,12,2,8,6,0,4,5,1,0,0,0,1,0,51.0,
+team_03,Klay Thompson,202691,0012600009,MIA,played,12.783,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,2.0,
+team_03,Kawhi Leonard,202695,0012600009,TOR,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_04,Giannis Antetokounmpo,203507,0012600009,MIA,played,14.117,9,0,4,0,4,7,0,0,2,1,0,0,0,0,0,23.0,
+team_02,Andrew Wiggins,203952,0012600009,MIA,played,12.783,12,4,0,0,1,0,1,0,0,2,0,0,0,0,0,22.5,
+team_10,Bobby Portis Jr.,1626171,0012600009,MIA,played,11.217,4,1,2,1,2,2,0,0,1,2,0,0,0,0,0,11.0,
+team_11,Jakob Poeltl,1627751,0012600009,TOR,played,17.7,9,0,4,0,1,1,2,1,1,3,0,0,0,0,0,15.5,
+team_07,Bam Adebayo,1628389,0012600009,MIA,played,12.783,10,1,6,2,4,0,0,0,2,3,0,0,0,0,0,14.5,
+team_02,RJ Barrett,1629628,0012600009,TOR,played,17.417,15,2,8,0,3,1,1,0,1,1,0,0,0,0,0,23.5,
+team_15,Immanuel Quickley,1630193,0012600009,TOR,played,11.967,5,1,0,1,1,3,1,0,1,2,0,0,0,0,0,16.0,
+team_06,Davion Mitchell,1630558,0012600009,MIA,played,12.783,3,1,0,1,0,4,1,0,2,0,0,0,0,0,0,14.5,
+team_02,Scottie Barnes,1630567,0012600009,TOR,played,12.217,11,0,2,2,0,2,3,0,3,3,0,0,0,0,0,19.5,
+team_02,Pelle Larsson,1641796,0012600009,MIA,played,11.217,13,0,7,0,2,2,2,0,1,0,0,0,0,0,0,22.25,
+team_11,Collin Murray-Boyles,1642867,0012600009,TOR,played,20.083,6,0,1,4,5,1,0,0,0,2,0,0,0,0,0,23.25,
+team_09,Stephen Curry,201939,0012600010,GSW,played,14.317,16,3,6,0,2,5,0,0,0,2,0,0,0,0,0,31.5,
+team_14,Jimmy Butler III,202710,0012600010,GSW,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_08,Draymond Green,203110,0012600010,GSW,played,14.867,3,1,0,0,2,8,1,0,2,3,0,0,0,0,0,20.0,
+team_08,Kristaps Porzingis,204001,0012600010,GSW,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_11,Luka Doncic,1629029,0012600010,LAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_10,Quentin Grimes,1629656,0012600010,LAL,played,23.083,12,2,5,0,1,3,1,0,3,3,0,0,0,0,0,16.25,
+team_16,Austin Reaves,1630559,0012600010,LAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_04,Sandro Mamukelashvili,1630572,0012600010,LAL,played,18.133,15,3,0,1,1,2,0,1,1,1,0,0,0,0,0,29.0,
+team_16,Gui Santos,1630611,0012600010,GSW,played,21.333,7,0,4,0,3,2,1,1,1,0,0,0,0,0,0,18.5,
+team_02,Walker Kessler,1631117,0012600010,LAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_15,Brandin Podziemski,1641764,0012600010,GSW,played,19.45,16,1,2,0,2,1,1,1,2,1,0,0,0,0,0,23.5,
+team_13,Yaxel Lendeborg,1642865,0012600010,GSW,played,21.45,17,2,2,2,7,2,0,1,2,1,0,0,0,0,0,38.0,
+team_04,James Harden,201935,0012600011,CLE,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_14,Paul George,202331,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_01,Jayson Tatum,1628369,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_08,Donovan Mitchell,1628378,0012600011,CLE,played,16.9,11,0,3,0,0,3,0,0,2,2,0,0,0,0,0,10.25,
+team_13,Jarrett Allen,1628386,0012600011,CLE,played,16.9,6,0,0,0,4,0,2,0,1,1,0,0,0,0,0,15.0,
+team_14,Derrick White,1628401,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_09,Mitchell Robinson,1629011,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_08,Neemias Queta,1629674,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_14,Payton Pritchard,1630202,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_15,Sam Hauser,1630573,0012600011,BOS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Evan Mobley,1630596,0012600011,CLE,played,16.783,8,0,3,0,1,1,0,0,2,2,0,0,0,0,0,4.75,
+team_15,Peyton Watson,1631212,0012600011,CLE,played,16.783,7,1,2,1,3,4,0,2,1,3,0,0,0,0,0,24.5,
+team_12,Jaylon Tyson,1642281,0012600011,CLE,played,16.783,14,1,1,0,3,2,0,0,0,2,0,0,0,0,0,22.25,
+team_14,Kevin Durant,201142,0012600012,HOU,played,23.2,15,1,1,0,0,2,0,1,1,0,0,0,0,0,0,21.75,
+team_13,Kyrie Irving,202681,0012600012,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_03,Fred VanVleet,1627832,0012600012,HOU,played,24.383,17,5,3,0,2,7,2,0,1,1,0,0,0,0,0,46.25,
+team_01,P.J. Washington,1629023,0012600012,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_04,Daniel Gafford,1629655,0012600012,DAL,played,8.367,7,1,0,0,3,0,1,0,1,2,0,0,0,0,0,12.5,
+team_03,Naji Marshall,1630230,0012600012,DAL,played,24.15,16,1,2,1,1,3,0,0,2,0,0,0,0,0,0,23.5,
+team_02,Alperen Sengun,1630578,0012600012,HOU,played,21.783,16,0,5,4,6,10,1,0,3,3,0,0,0,1,1,60.75,
+team_07,Santi Aldama,1630583,0012600012,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Jabari Smith Jr.,1631095,0012600012,HOU,played,21.933,12,2,4,2,2,1,1,0,0,1,0,0,0,0,0,27.0,
+team_12,Tari Eason,1631106,0012600012,HOU,played,23.933,20,2,7,3,6,2,2,0,0,3,0,0,0,0,0,45.75,
+team_02,Max Christie,1631108,0012600012,DAL,played,24.167,14,4,0,1,1,2,1,0,0,1,0,0,0,0,0,32.0,
+team_06,Amen Thompson,1641708,0012600012,HOU,played,23.85,8,0,0,3,4,2,1,1,6,2,0,0,0,0,0,17.5,
+team_07,Dereck Lively II,1641726,0012600012,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_02,Zaccharie Risacher,1642258,0012600012,DAL,played,23.667,9,1,0,3,5,1,1,0,1,1,0,0,0,0,0,28.0,
+team_05,Reed Sheppard,1642263,0012600012,HOU,played,18.683,16,4,0,0,1,1,1,0,1,1,0,0,0,0,0,27.5,
+team_12,Cooper Flagg,1642843,0012600012,DAL,played,19.033,19,1,4,2,4,3,1,1,2,4,0,0,0,0,0,35.0,
+team_05,Morez Johnson Jr.,1643516,0012600012,DAL,played,12.233,4,1,2,1,1,1,1,0,0,1,0,0,0,0,0,13.5,
+team_12,LeBron James,2544,0012600013,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_14,Paul George,202331,0012600013,BOS,played,24.783,13,2,6,1,4,4,5,0,3,3,0,0,0,0,0,38.0,
+team_07,Joel Embiid,203954,0012600013,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Jaylen Brown,1627759,0012600013,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_01,Jayson Tatum,1628369,0012600013,BOS,played,26.9,23,4,1,0,5,4,1,0,1,0,0,0,0,0,0,47.25,
+team_14,Derrick White,1628401,0012600013,BOS,played,26.067,15,1,4,0,4,2,1,0,2,1,0,0,0,0,0,24.0,
+team_09,Mitchell Robinson,1629011,0012600013,BOS,played,13.767,6,0,3,2,3,1,0,0,0,2,0,0,0,0,0,14.75,
+team_08,Anfernee Simons,1629014,0012600013,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_08,Neemias Queta,1629674,0012600013,BOS,played,19.25,6,0,4,2,8,1,0,0,1,2,0,0,0,0,0,20.0,
+team_06,Tyrese Maxey,1630178,0012600013,PHI,played,18.133,8,1,3,0,3,4,1,1,2,3,0,0,0,0,0,20.75,
+team_14,Payton Pritchard,1630202,0012600013,BOS,played,24.483,25,5,6,1,3,7,0,0,4,2,0,0,0,0,0,44.5,
+team_15,Sam Hauser,1630573,0012600013,BOS,played,20.65,11,3,0,0,1,2,1,0,0,2,0,0,0,0,0,23.5,
+team_16,VJ Edgecombe,1642845,0012600013,PHI,played,26.017,19,2,6,0,3,4,4,0,3,3,0,0,0,0,0,37.0,
+team_09,Stephen Curry,201939,0012600014,GSW,played,14.317,8,2,0,0,0,2,0,0,1,0,0,0,0,0,0,14.0,
+team_14,Jimmy Butler III,202710,0012600014,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_08,Draymond Green,203110,0012600014,GSW,played,23.067,3,0,3,1,6,5,1,0,1,2,0,0,0,0,0,22.75,
+team_07,Zach LaVine,203897,0012600014,SAC,played,23.283,11,1,0,0,1,2,3,0,0,3,0,0,0,0,0,24.5,
+team_08,Kristaps Porzingis,204001,0012600014,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_10,Domantas Sabonis,1627734,0012600014,SAC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_06,De'Andre Hunter,1629631,0012600014,SAC,played,18.517,4,0,0,1,2,1,0,0,2,2,0,0,0,0,0,5.5,
+team_16,Gui Santos,1630611,0012600014,GSW,played,24.35,15,0,4,0,6,1,0,0,5,1,0,0,0,0,0,14.0,
+team_01,Keegan Murray,1631099,0012600014,SAC,played,7.767,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,4.5,
+team_15,Brandin Podziemski,1641764,0012600014,GSW,played,26.2,14,3,4,1,6,4,1,0,1,2,0,0,0,0,0,37.5,
+team_13,Yaxel Lendeborg,1642865,0012600014,GSW,played,23.983,23,1,2,1,9,6,2,1,2,3,0,0,0,1,0,61.5,
+team_14,Maxime Raynaud,1642875,0012600014,SAC,played,8.8,10,1,4,1,4,1,0,1,0,1,0,0,0,0,0,23.5,
+team_09,Darius Acuff Jr.,1643411,0012600014,SAC,played,27.217,25,4,5,0,4,8,0,0,4,1,0,0,0,0,0,44.75,
+team_08,Brook Lopez,201572,0012600015,LAC,played,15.25,6,0,0,1,6,1,0,1,0,2,0,0,0,0,0,20.5,
+team_03,Kawhi Leonard,202695,0012600015,TOR,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_05,Brandon Ingram,1627742,0012600015,LAC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Jakob Poeltl,1627751,0012600015,TOR,played,21.533,9,0,6,2,2,1,2,0,1,3,0,0,0,0,0,18.5,
+team_09,Rui Hachimura,1629060,0012600015,LAC,played,18.517,14,1,7,1,2,1,1,0,3,1,0,0,0,0,0,17.75,
+team_05,Max Strus,1629622,0012600015,LAC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,RJ Barrett,1629628,0012600015,TOR,played,23.1,20,3,5,1,4,5,1,0,1,2,0,0,0,0,0,42.25,
+team_06,Darius Garland,1629636,0012600015,LAC,played,19.483,11,1,2,0,0,4,0,0,1,0,1,0,0,0,0,17.5,
+team_15,Immanuel Quickley,1630193,0012600015,TOR,played,19.15,18,5,2,0,4,4,1,0,0,1,0,0,0,0,0,43.5,
+team_02,Scottie Barnes,1630567,0012600015,TOR,played,21.967,12,1,4,6,4,3,0,0,2,4,0,0,0,1,0,39.0,
+team_11,Collin Murray-Boyles,1642867,0012600015,TOR,played,21.95,13,0,7,1,8,3,0,2,4,4,0,0,0,0,0,25.75,
+team_01,Keaton Wagler,1643413,0012600015,LAC,played,23.117,9,2,2,1,0,2,0,0,1,3,0,0,0,0,0,14.0,
+team_14,Kevin Durant,201142,0012600016,HOU,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_13,Kyrie Irving,202681,0012600016,DAL,played,21.933,17,2,3,0,2,3,0,0,0,0,0,0,0,0,0,29.25,
+team_03,Fred VanVleet,1627832,0012600016,HOU,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_01,P.J. Washington,1629023,0012600016,DAL,played,16.3,10,2,2,0,2,1,0,2,1,2,0,0,0,0,0,20.5,
+team_04,Daniel Gafford,1629655,0012600016,DAL,played,14.65,9,0,3,2,2,0,0,0,1,2,0,0,0,0,0,12.25,
+team_03,Naji Marshall,1630230,0012600016,DAL,played,18.1,14,1,6,0,2,0,3,2,1,2,1,0,0,0,0,27.5,
+team_02,Alperen Sengun,1630578,0012600016,HOU,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Santi Aldama,1630583,0012600016,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Jabari Smith Jr.,1631095,0012600016,HOU,played,28.3,14,2,0,4,5,4,1,0,2,3,0,0,0,0,0,39.5,
+team_12,Tari Eason,1631106,0012600016,HOU,played,22.083,9,0,3,2,4,0,1,1,1,1,0,0,0,0,0,22.25,
+team_02,Max Christie,1631108,0012600016,DAL,played,21.633,14,2,4,0,4,1,1,0,2,0,0,0,0,0,0,24.0,
+team_06,Amen Thompson,1641708,0012600016,HOU,played,29.617,14,1,6,6,1,6,1,1,2,2,0,0,0,0,0,43.0,
+team_07,Dereck Lively II,1641726,0012600016,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_02,Zaccharie Risacher,1642258,0012600016,DAL,played,23.5,16,2,0,2,1,2,1,1,3,2,0,0,0,0,0,28.5,
+team_05,Reed Sheppard,1642263,0012600016,HOU,played,24.55,17,4,4,0,1,1,1,2,5,2,0,0,0,0,0,24.5,
+team_12,Cooper Flagg,1642843,0012600016,DAL,played,25.117,14,1,8,1,3,7,2,1,2,2,0,0,0,0,0,38.0,
+team_05,Morez Johnson Jr.,1643516,0012600016,DAL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_11,Devin Booker,1626164,0012600022,PHX,played,15.75,13,1,4,0,3,3,0,0,2,0,0,0,0,0,0,20.5,
+team_13,John Collins,1628381,0012600022,DET,played,16.7,10,0,0,3,0,0,2,0,2,4,0,0,0,0,0,15.5,
+team_16,Dillon Brooks,1628415,0012600022,PHX,played,15.75,11,2,2,1,1,0,0,0,0,4,1,0,0,0,0,13.5,
+team_04,Miles Bridges,1628970,0012600022,PHX,played,14.15,8,1,1,2,3,4,1,0,1,0,0,0,0,0,0,28.25,
+team_15,Duncan Robinson,1629130,0012600022,DET,played,13.167,9,3,0,0,0,1,0,0,3,3,0,0,0,0,0,8.0,
+team_15,Paul Reed,1630194,0012600022,DET,played,20.667,10,0,6,3,4,3,1,1,1,2,0,0,0,0,0,30.0,
+team_16,Jalen Green,1630224,0012600022,PHX,played,15.317,11,1,6,0,2,1,0,0,1,0,0,0,0,0,0,14.5,
+team_03,Cade Cunningham,1630595,0012600022,DET,played,16.367,10,2,3,0,2,1,1,0,1,0,0,0,0,0,0,19.25,
+team_06,Jalen Duren,1631105,0012600022,DET,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_15,Mark Williams,1631109,0012600022,PHX,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Collin Gillespie,1631221,0012600022,PHX,played,16.717,8,2,0,0,1,1,1,1,3,0,0,0,0,0,0,15.5,
+team_03,Ausar Thompson,1641709,0012600022,DET,played,18.3,10,0,1,1,1,2,3,1,1,1,0,0,0,0,0,26.75,
+team_16,Oso Ighodaro,1642345,0012600022,PHX,played,14.15,3,0,2,1,4,2,1,0,1,2,0,0,0,0,0,14.0,
+team_06,Daniss Jenkins,1642450,0012600022,DET,played,18.183,5,1,0,0,2,4,0,0,1,1,0,0,0,0,0,15.0,
+team_06,Khaman Maluach,1642863,0012600022,PHX,played,16.783,6,0,3,0,2,0,0,1,0,3,0,0,0,0,0,8.25,
+team_12,LeBron James,2544,0012600023,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_01,Andre Drummond,203083,0012600023,NYK,played,11.967,6,0,5,1,4,1,0,3,0,3,0,0,0,0,0,21.25,
+team_07,Joel Embiid,203954,0012600023,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_15,Karl-Anthony Towns,1626157,0012600023,NYK,played,14.85,5,1,0,0,5,2,0,0,2,2,0,0,0,0,0,12.5,
+team_05,Jaylen Brown,1627759,0012600023,PHI,played,16.85,22,3,5,1,1,2,0,1,0,2,0,0,0,0,0,35.75,
+team_15,OG Anunoby,1628384,0012600023,NYK,played,14.467,12,0,6,3,3,0,0,0,0,1,0,0,0,0,0,21.5,
+team_13,Josh Hart,1628404,0012600023,NYK,played,13.483,2,0,0,0,1,0,0,0,1,2,0,0,0,0,0,-0.5,
+team_08,Mikal Bridges,1628969,0012600023,NYK,played,15.067,3,0,2,2,1,3,0,0,0,0,0,0,0,0,0,15.0,
+team_13,Jalen Brunson,1628973,0012600023,NYK,played,14.85,12,2,2,0,4,3,0,0,0,1,0,0,0,0,0,26.5,
+team_08,Anfernee Simons,1629014,0012600023,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_06,Tyrese Maxey,1630178,0012600023,PHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_16,VJ Edgecombe,1642845,0012600023,PHI,played,19.517,12,0,5,0,4,7,0,0,0,1,0,0,0,0,0,29.75,
+team_01,Rudy Gobert,203497,0012600024,MIN,played,16.633,6,0,0,1,6,0,0,0,1,1,0,0,0,0,0,14.5,
+team_12,Myles Turner,1626167,0012600024,MIL,played,19.117,7,1,4,0,5,1,1,1,1,1,0,0,0,0,0,20.5,
+team_13,Kyle Kuzma,1628398,0012600024,MIL,played,20.033,1,0,2,0,5,1,0,0,0,2,0,0,0,0,0,8.0,
+team_04,Tyler Herro,1629639,0012600024,MIL,played,19.35,11,2,3,0,3,3,0,0,4,0,0,0,0,0,0,16.75,
+team_01,Kevin Porter Jr.,1629645,0012600024,MIL,played,18.683,7,0,9,2,1,2,0,0,1,3,0,0,0,0,0,10.25,
+team_07,Anthony Edwards,1630162,0012600024,MIN,played,18.083,14,1,5,0,4,2,0,2,2,3,0,0,0,0,0,23.75,
+team_01,LaMelo Ball,1630163,0012600024,MIN,played,16.833,11,2,3,0,4,3,1,0,1,1,0,0,0,0,0,26.25,
+team_10,Jaden McDaniels,1630183,0012600024,MIN,played,14.733,9,1,0,0,3,1,0,0,0,0,0,0,0,0,0,17.5,
+team_04,Jonathan Kuminga,1630228,0012600024,MIN,played,14.117,8,0,4,0,2,0,0,0,0,2,0,0,0,0,0,8.0,
+team_12,Ayo Dosunmu,1630245,0012600024,MIN,played,12.85,5,1,0,0,3,0,0,0,0,0,0,0,0,0,0,11.5,
+team_08,Ryan Rollins,1631157,0012600024,MIL,played,14.233,15,2,1,2,2,1,1,1,0,6,0,0,0,0,0,28.75,
+team_13,Jaime Jaquez Jr.,1631170,0012600024,MIL,played,18.35,5,1,0,1,0,1,0,0,2,2,0,0,0,0,0,5.5,
+team_03,Kel'el Ware,1642276,0012600024,MIL,played,23.55,14,2,2,3,9,0,1,1,0,3,0,0,0,1,0,48.5,
+team_10,Brayden Burries,1643415,0012600024,MIL,played,16.15,7,1,0,2,0,5,2,0,3,4,0,0,0,0,0,20.0,
+team_01,Julius Randle,203944,0012600025,BKN,played,18.217,13,2,4,0,2,3,1,0,0,3,0,0,0,0,0,25.0,
+team_14,Grayson Allen,1628960,0012600025,CHA,played,14.233,13,3,2,0,1,1,0,0,1,0,0,0,0,0,0,20.0,
+team_07,Michael Porter Jr.,1629008,0012600025,BKN,played,16.95,16,4,0,1,4,2,1,0,1,1,0,0,0,0,0,36.5,
+team_04,Coby White,1629632,0012600025,CHA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_13,Naz Reid,1629675,0012600025,CHA,played,16.017,13,1,7,1,3,0,0,0,4,2,0,0,0,0,0,10.25,
+team_11,Day'Ron Sharpe,1630549,0012600025,BKN,played,17.933,8,0,0,2,5,3,0,2,1,1,0,0,0,0,0,29.5,
+team_16,Moussa Diabate,1631217,0012600025,CHA,played,19.567,4,0,4,3,1,1,3,2,3,3,0,0,0,0,0,20.0,
+team_16,Brandon Miller,1641706,0012600025,CHA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_07,Noah Clowney,1641730,0012600025,BKN,played,18.9,7,1,2,0,1,1,2,0,1,1,0,0,0,0,0,15.0,
+team_15,Kon Knueppel,1642851,0012600025,CHA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_13,Egor Demin,1642856,0012600025,BKN,played,18.433,6,2,0,0,1,5,0,0,2,4,0,0,0,0,0,13.5,
+team_03,Mikel Brown Jr.,1643414,0012600025,BKN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_05,Dejounte Murray,1627749,0012600026,NOP,played,18.7,6,1,2,2,2,6,0,0,1,0,0,0,0,0,0,25.5,
+team_14,Isaiah Hartenstein,1628392,0012600026,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Shai Gilgeous-Alexander,1628983,0012600026,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Zion Williamson,1629627,0012600026,NOP,played,16.233,11,1,3,3,1,1,0,0,1,1,0,0,0,0,0,20.25,
+team_11,Jordan Poole,1629673,0012600026,NOP,played,16.083,9,0,6,1,0,0,1,0,0,3,0,0,0,0,0,10.0,
+team_04,Saddiq Bey,1630180,0012600026,NOP,played,19.767,5,0,3,0,2,0,1,0,1,0,0,0,0,0,0,8.25,
+team_02,Herbert Jones,1630529,0012600026,NOP,played,19.917,7,1,1,1,1,1,0,0,0,2,0,0,0,0,0,12.75,
+team_10,Trey Murphy III,1630530,0012600026,NOP,played,19.4,11,2,2,0,3,2,2,0,0,0,0,0,0,0,0,29.0,
+team_11,Chet Holmgren,1631096,0012600026,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_16,Bennedict Mathurin,1631097,0012600026,NOP,played,16.6,13,2,5,1,1,5,0,0,1,0,0,0,0,0,0,27.75,
+team_08,Jalen Williams,1631114,0012600026,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Cason Wallace,1641717,0012600026,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_12,Jared McCain,1642272,0012600026,OKC,played,16.167,12,4,0,0,1,5,1,0,1,2,0,0,0,0,0,30.5,
+team_09,Yves Missi,1642274,0012600026,NOP,played,18.7,6,0,4,3,4,1,1,1,0,2,0,0,0,0,0,24.5,
+team_09,Ajay Mitchell,1642349,0012600026,OKC,played,17.567,11,1,6,0,1,4,0,0,2,3,0,0,0,0,0,14.0,
+team_13,Jeremiah Fears,1642847,0012600026,NOP,played,17.3,12,2,6,0,2,1,0,0,1,1,0,0,0,0,0,16.5,
+team_06,Derik Queen,1642852,0012600026,NOP,played,17.3,10,1,7,3,6,1,3,0,2,4,0,0,0,0,0,29.75,
+team_16,Aday Mara,1643530,0012600026,OKC,played,18.383,12,0,2,1,8,3,0,3,2,4,0,0,0,0,0,33.0,
+team_09,DeMar DeRozan,201942,0012600027,DEN,played,11.45,7,1,2,0,1,1,0,0,0,0,0,0,0,0,0,12.0,
+team_02,Aaron Gordon,203932,0012600027,DEN,played,15.333,18,2,7,0,5,0,0,0,0,1,0,0,0,0,0,26.75,
+team_10,Jusuf Nurkic,203994,0012600027,UTA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_13,Nikola Jokic,203999,0012600027,DEN,played,16.333,6,0,4,0,4,5,1,0,2,4,1,0,0,0,0,15.0,
+team_04,Tyus Jones,1626145,0012600027,DEN,played,14.5,2,0,0,0,2,6,2,0,1,1,0,0,0,0,0,20.0,
+team_15,Jamal Murray,1627750,0012600027,DEN,played,15.817,4,0,2,1,1,3,0,1,0,1,0,0,0,0,0,15.5,
+team_05,Lauri Markkanen,1628374,0012600027,UTA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_08,Jaren Jackson Jr.,1628991,0012600027,UTA,played,15.683,7,1,3,0,1,0,0,1,1,4,0,0,0,0,0,6.75,
+team_10,Cameron Johnson,1629661,0012600027,DEN,played,15.333,10,2,0,0,1,1,0,0,0,2,0,0,0,0,0,15.5,
+team_06,Christian Braun,1631128,0012600027,DEN,played,14.283,5,1,0,1,3,0,0,1,1,1,0,0,0,0,0,14.0,
+team_15,Keyonte George,1641718,0012600027,UTA,played,12.783,6,2,1,0,0,4,0,0,2,5,0,0,0,0,0,8.75,
+team_11,Kyle Filipowski,1642271,0012600027,UTA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Ace Bailey,1642846,0012600027,UTA,played,27.017,10,2,0,3,4,3,1,1,2,2,0,0,0,0,0,33.5,
+team_03,Darryn Peterson,1643408,0012600027,UTA,played,29.617,23,1,4,0,3,3,0,0,2,5,0,0,0,0,0,25.5,
+team_07,Zach LaVine,203897,0012600028,SAC,played,15.45,9,0,2,0,1,0,0,0,2,0,0,0,0,0,0,6.0,
+team_10,Domantas Sabonis,1627734,0012600028,SAC,played,10.133,4,0,2,1,2,3,0,0,3,5,0,0,0,0,0,4.0,
+team_11,Luka Doncic,1629029,0012600028,LAL,played,15.967,21,3,9,0,2,3,2,0,5,1,0,0,0,0,0,28.75,
+team_06,De'Andre Hunter,1629631,0012600028,SAC,played,13.45,3,0,3,0,0,0,0,0,0,2,0,0,0,0,0,0.25,
+team_10,Quentin Grimes,1629656,0012600028,LAL,played,19.283,16,2,4,0,0,1,0,0,0,2,0,0,0,0,0,19.0,
+team_16,Austin Reaves,1630559,0012600028,LAL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_04,Sandro Mamukelashvili,1630572,0012600028,LAL,played,19.133,8,2,0,0,1,5,2,0,3,2,0,0,0,0,0,21.5,
+team_01,Keegan Murray,1631099,0012600028,SAC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,Walker Kessler,1631117,0012600028,LAL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_14,Maxime Raynaud,1642875,0012600028,SAC,played,24.367,12,0,2,3,5,2,0,0,5,3,0,0,0,0,0,17.5,
+team_09,Darius Acuff Jr.,1643411,0012600028,SAC,played,27.417,19,1,2,0,2,4,1,1,5,2,0,0,0,0,0,25.5,
+team_01,Rudy Gobert,203497,0012600029,MIN,played,18.917,7,0,3,2,7,2,1,0,2,2,0,0,0,0,0,22.75,
+team_05,T.J. McConnell,204456,0012600029,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Kelly Oubre Jr.,1626162,0012600029,IND,played,10.05,5,1,2,1,0,2,2,0,2,1,0,0,0,0,0,14.0,
+team_01,Pascal Siakam,1627783,0012600029,IND,played,19.417,10,0,0,0,2,3,1,2,1,0,0,0,0,0,0,26.0,
+team_16,Ivica Zubac,1627826,0012600029,IND,played,17.6,6,0,0,0,3,2,1,0,3,2,0,0,0,0,0,9.5,
+team_09,Andrew Nembhard,1629614,0012600029,IND,played,16.317,4,0,0,0,1,2,1,0,1,3,0,0,0,0,0,7.5,
+team_07,Anthony Edwards,1630162,0012600029,MIN,played,19.717,19,4,6,0,1,1,0,0,0,1,0,0,0,0,0,28.0,
+team_01,LaMelo Ball,1630163,0012600029,MIN,played,20.35,14,4,0,1,3,7,0,0,5,3,0,0,0,0,0,30.0,
+team_10,Obi Toppin,1630167,0012600029,IND,played,10.983,10,1,1,0,2,1,1,1,2,1,0,0,0,0,0,17.75,
+team_14,Tyrese Haliburton,1630169,0012600029,IND,played,16.117,7,1,0,0,0,6,1,2,1,0,0,0,0,0,0,28.0,
+team_11,Aaron Nesmith,1630174,0012600029,IND,played,15.833,19,4,1,0,0,0,0,0,0,2,0,0,0,0,0,24.75,
+team_10,Jaden McDaniels,1630183,0012600029,MIN,played,21.167,16,4,0,1,2,0,1,1,1,0,0,0,0,0,0,33.5,
+team_04,Jonathan Kuminga,1630228,0012600029,MIN,played,18.867,2,0,0,1,0,3,1,0,0,0,0,0,0,0,0,13.5,
+team_12,Ayo Dosunmu,1630245,0012600029,MIN,played,17.233,10,1,4,1,0,3,1,0,1,0,0,0,0,0,0,20.5,
+team_01,Jarace Walker,1641716,0012600029,IND,played,28.133,7,1,1,1,4,10,0,0,1,1,0,0,0,0,0,34.25,
+team_11,Devin Booker,1626164,0012600030,PHX,played,22.7,11,0,6,0,0,1,0,0,2,3,0,0,0,0,0,4.5,
+team_01,Norman Powell,1626181,0012600030,CHI,played,14.417,14,3,6,0,0,1,1,0,2,1,0,0,0,0,0,18.5,
+team_16,Dillon Brooks,1628415,0012600030,PHX,played,22.7,24,3,8,0,4,1,1,1,5,5,0,0,0,0,0,27.0,
+team_04,Miles Bridges,1628970,0012600030,PHX,played,7.783,3,0,1,0,1,1,0,0,0,0,0,0,0,0,0,6.25,
+team_16,Nic Claxton,1629651,0012600030,CHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_04,Jalen Smith,1630188,0012600030,CHI,played,19.883,13,2,2,5,3,1,2,0,3,1,0,0,0,0,0,34.5,
+team_16,Jalen Green,1630224,0012600030,PHX,played,22.017,12,1,4,1,3,3,2,1,4,3,0,0,0,0,0,24.0,
+team_16,Josh Giddey,1630581,0012600030,CHI,played,23.333,7,1,4,0,3,7,0,1,2,2,0,0,0,0,0,23.5,
+team_15,Mark Williams,1631109,0012600030,PHX,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Collin Gillespie,1631221,0012600030,PHX,played,13.983,12,3,2,1,2,2,0,0,2,2,0,0,0,0,0,21.0,
+team_07,Matas Buzelis,1641824,0012600030,CHI,played,25.567,14,0,2,0,3,1,2,2,1,0,0,0,0,0,0,30.0,
+team_16,Oso Ighodaro,1642345,0012600030,PHX,played,17.533,8,0,2,1,1,2,1,0,2,4,0,0,0,0,0,10.5,
+team_06,Khaman Maluach,1642863,0012600030,PHX,played,25.333,8,0,5,1,6,4,0,0,2,1,0,0,0,0,0,21.25,
+team_06,Caleb Wilson,1643410,0012600030,CHI,played,29.1,15,0,3,1,3,2,1,0,2,5,0,0,0,0,0,19.25,
+team_11,Nikola Vucevic,202696,0012600031,ORL,played,12.067,9,3,0,0,3,1,1,1,0,3,0,0,0,0,0,24.5,
+team_14,Jerami Grant,203924,0012600031,MEM,played,19.7,3,1,0,1,2,1,0,0,0,1,0,0,0,0,0,11.5,
+team_15,Wendell Carter Jr.,1628976,0012600031,ORL,played,15.25,13,3,0,1,3,2,0,0,0,1,0,0,0,0,0,29.0,
+team_07,Ty Jerome,1629660,0012600031,MEM,played,19.417,17,1,2,0,1,4,0,0,0,2,0,0,0,0,0,26.0,
+team_06,Isaiah Stewart,1630191,0012600031,MEM,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_10,Desmond Bane,1630217,0012600031,ORL,played,13.117,9,3,0,0,1,1,0,0,1,2,0,0,0,0,0,14.5,
+team_11,Franz Wagner,1630532,0012600031,ORL,played,14.483,6,0,2,1,1,7,2,0,1,0,0,0,0,0,0,27.5,
+team_13,Scotty Pippen Jr.,1630590,0012600031,MEM,played,13.783,1,0,4,0,0,2,3,0,1,2,0,0,0,0,0,9.0,
+team_14,Jalen Suggs,1630591,0012600031,ORL,did_not_play,,,,,,,,,,,,,,,,,,DND - Injury/Illness
+team_04,Paolo Banchero,1631094,0012600031,ORL,played,15.067,11,0,10,0,1,5,0,0,2,2,0,0,0,0,0,14.0,
+team_07,Anthony Black,1641710,0012600031,ORL,did_not_play,,,,,,,,,,,,,,,,,,DND - Injury/Illness
+team_12,Zach Edey,1641744,0012600031,MEM,played,10.117,2,0,0,1,3,1,1,1,0,1,0,0,0,0,0,16.0,
+team_14,Jaylen Wells,1642377,0012600031,MEM,played,22.217,6,1,2,2,3,0,0,0,0,1,0,0,0,0,0,16.0,
+team_07,Cedric Coward,1642907,0012600031,MEM,played,22.217,8,2,0,3,1,3,0,0,0,2,0,0,0,0,0,25.0,
+team_03,Cameron Boozer,1643409,0012600031,MEM,played,22.217,16,2,7,2,4,2,0,0,2,1,0,0,0,0,0,28.25,
+team_12,Myles Turner,1626167,0012600032,MIL,played,21.7,19,2,8,3,2,0,1,2,1,2,0,0,0,0,0,36.5,
+team_14,Isaiah Hartenstein,1628392,0012600032,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_13,Kyle Kuzma,1628398,0012600032,MIL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Shai Gilgeous-Alexander,1628983,0012600032,OKC,played,18.117,17,3,4,0,3,5,0,1,0,2,0,0,0,0,0,37.5,
+team_04,Tyler Herro,1629639,0012600032,MIL,played,22.617,13,3,0,1,2,3,0,1,2,1,0,0,0,0,0,28.5,
+team_01,Kevin Porter Jr.,1629645,0012600032,MIL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Chet Holmgren,1631096,0012600032,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Jalen Williams,1631114,0012600032,OKC,played,18.983,16,0,0,0,3,6,2,0,1,2,0,0,0,0,0,34.5,
+team_08,Ryan Rollins,1631157,0012600032,MIL,played,20.9,12,2,1,1,2,7,1,1,1,2,0,0,0,0,0,37.25,
+team_13,Jaime Jaquez Jr.,1631170,0012600032,MIL,played,21.65,13,3,2,1,0,3,2,0,2,4,0,0,0,0,0,25.0,
+team_10,Cason Wallace,1641717,0012600032,OKC,played,18.383,7,1,2,2,1,6,1,1,0,1,0,0,0,0,0,32.0,
+team_12,Jared McCain,1642272,0012600032,OKC,played,16.783,11,3,0,0,1,2,0,0,1,0,0,0,0,0,0,20.5,
+team_03,Kel'el Ware,1642276,0012600032,MIL,played,24.5,18,0,6,2,10,1,0,1,1,3,0,0,0,1,0,43.5,
+team_09,Ajay Mitchell,1642349,0012600032,OKC,played,17.483,3,0,1,0,2,5,0,1,4,1,0,0,0,0,0,9.75,
+team_10,Brayden Burries,1643415,0012600032,MIL,played,21.433,16,0,8,2,3,1,2,0,1,2,0,0,0,0,0,27.5,
+team_16,Aday Mara,1643530,0012600032,OKC,played,25.017,22,0,3,0,6,2,0,1,0,1,0,0,0,0,0,36.25,
+team_09,Stephen Curry,201939,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,Jrue Holiday,201950,0012600033,POR,played,19.2,5,1,0,2,5,6,1,0,3,0,0,0,0,0,0,28.5,
+team_14,Jimmy Butler III,202710,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_10,Damian Lillard,203081,0012600033,POR,played,19.267,15,3,2,0,1,1,2,0,1,1,0,0,0,0,0,27.0,
+team_08,Draymond Green,203110,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Kristaps Porzingis,204001,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_01,Ja Morant,1629630,0012600033,POR,played,19.05,8,0,2,2,0,5,2,0,4,2,0,0,0,0,0,18.5,
+team_09,Deni Avdija,1630166,0012600033,POR,played,21.017,23,3,4,1,1,1,0,0,2,2,0,0,0,0,0,28.0,
+team_16,Gui Santos,1630611,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_12,Scoot Henderson,1630703,0012600033,POR,played,16.95,9,1,2,1,2,3,0,1,3,2,0,0,0,0,0,17.0,
+team_05,Toumani Camara,1641739,0012600033,POR,played,19.35,5,1,2,0,1,1,1,0,0,1,0,0,0,0,0,12.0,
+team_15,Brandin Podziemski,1641764,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_14,Donovan Clingan,1642270,0012600033,POR,played,19.667,3,0,1,2,8,2,1,1,0,1,0,0,0,0,0,28.75,
+team_13,Yaxel Lendeborg,1642865,0012600033,GSW,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_12,LeBron James,2544,0012600034,PHI,played,18.067,10,0,8,0,4,5,1,0,2,1,0,0,0,0,0,22.0,
+team_01,Julius Randle,203944,0012600034,BKN,played,21.617,14,0,7,0,6,2,2,0,1,4,0,0,0,0,0,25.25,
+team_07,Joel Embiid,203954,0012600034,PHI,played,23.7,6,0,4,0,3,3,1,1,8,1,1,0,0,0,0,3.5,
+team_05,Jaylen Brown,1627759,0012600034,PHI,played,23.833,18,1,7,0,2,2,0,0,0,1,0,0,0,0,0,24.25,
+team_07,Michael Porter Jr.,1629008,0012600034,BKN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_08,Anfernee Simons,1629014,0012600034,PHI,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_06,Tyrese Maxey,1630178,0012600034,PHI,played,18.85,14,2,2,0,2,2,1,0,2,2,0,0,0,0,0,21.5,
+team_11,Day'Ron Sharpe,1630549,0012600034,BKN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_07,Noah Clowney,1641730,0012600034,BKN,played,19.8,11,2,4,0,1,0,1,1,0,2,0,0,0,0,0,19.5,
+team_16,VJ Edgecombe,1642845,0012600034,PHI,played,22.7,11,0,6,0,5,1,0,1,1,2,1,0,0,0,0,17.0,
+team_13,Egor Demin,1642856,0012600034,BKN,played,21.6,13,1,3,0,1,5,0,0,1,2,0,0,0,0,0,21.75,
+team_03,Mikel Brown Jr.,1643414,0012600034,BKN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_06,Anthony Davis,203076,0012600035,WAS,played,16.767,16,2,2,2,5,2,0,1,2,0,0,0,0,0,0,35.0,
+team_01,Andre Drummond,203083,0012600035,NYK,played,20.4,8,0,6,5,4,4,2,0,2,1,0,0,0,0,0,34.0,
+team_15,Karl-Anthony Towns,1626157,0012600035,NYK,played,18.767,8,1,4,2,5,3,1,0,3,1,0,0,0,0,0,23.5,
+team_15,OG Anunoby,1628384,0012600035,NYK,played,18.767,10,0,5,2,3,1,1,1,1,2,0,0,0,0,0,22.25,
+team_13,Josh Hart,1628404,0012600035,NYK,played,20.95,13,1,2,0,6,3,1,1,0,3,0,0,0,0,0,32.5,
+team_08,Mikal Bridges,1628969,0012600035,NYK,played,20.15,2,0,0,1,0,3,0,1,1,1,0,0,0,0,0,10.5,
+team_13,Jalen Brunson,1628973,0012600035,NYK,played,20.15,13,1,1,0,0,3,1,0,2,1,0,0,0,0,0,18.75,
+team_08,Trae Young,1629027,0012600035,WAS,played,17.35,15,3,6,0,0,4,2,0,2,3,0,0,0,0,0,26.5,
+team_05,Deandre Ayton,1629028,0012600035,WAS,played,17.35,4,0,0,1,9,1,1,0,0,1,0,0,0,0,0,24.0,
+team_09,Alex Sarr,1642259,0012600035,WAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_03,Kyshawn George,1642273,0012600035,WAS,played,21.517,12,2,0,2,5,5,0,1,4,2,0,0,0,0,0,31.5,
+team_03,AJ Dybantsa,1643407,0012600035,WAS,played,23.083,11,0,3,1,1,2,4,0,0,2,0,0,0,0,0,28.25,
+team_07,Zach LaVine,203897,0012600036,SAC,played,22.967,11,0,5,0,1,4,4,0,0,1,0,0,0,0,0,30.25,
+team_10,Domantas Sabonis,1627734,0012600036,SAC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Luka Doncic,1629029,0012600036,LAL,played,25.05,23,2,9,1,2,3,1,0,5,3,1,0,0,0,0,25.25,
+team_06,De'Andre Hunter,1629631,0012600036,SAC,played,18.133,3,0,1,1,3,0,2,0,5,1,0,0,0,0,0,4.75,
+team_10,Quentin Grimes,1629656,0012600036,LAL,played,28.533,12,2,2,0,0,0,2,0,6,3,0,0,0,0,0,6.5,
+team_16,Austin Reaves,1630559,0012600036,LAL,played,24.817,8,0,4,0,5,8,1,0,3,2,0,0,0,0,0,25.5,
+team_04,Sandro Mamukelashvili,1630572,0012600036,LAL,played,21.017,19,3,2,2,1,4,1,1,2,2,0,0,0,0,0,39.0,
+team_01,Keegan Murray,1631099,0012600036,SAC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,Walker Kessler,1631117,0012600036,LAL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_14,Maxime Raynaud,1642875,0012600036,SAC,played,23.967,13,0,4,4,6,2,0,2,4,2,0,0,0,1,0,38.0,
+team_09,Darius Acuff Jr.,1643411,0012600036,SAC,played,23.383,12,2,2,0,0,1,2,1,3,3,0,0,0,0,0,17.5,
+team_14,Jerami Grant,203924,0012600037,MEM,played,11.95,9,0,8,0,1,0,0,0,0,1,0,0,0,0,0,7.5,
+team_01,Norman Powell,1626181,0012600037,CHI,played,19.117,17,1,12,0,3,2,1,0,0,1,0,0,0,0,0,26.5,
+team_16,Nic Claxton,1629651,0012600037,CHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_07,Ty Jerome,1629660,0012600037,MEM,played,14.2,16,4,2,0,1,4,0,0,0,1,0,0,0,0,0,32.0,
+team_04,Jalen Smith,1630188,0012600037,CHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_06,Isaiah Stewart,1630191,0012600037,MEM,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_16,Josh Giddey,1630581,0012600037,CHI,played,22.9,13,1,7,0,3,3,0,1,2,2,0,0,0,0,0,20.75,
+team_13,Scotty Pippen Jr.,1630590,0012600037,MEM,played,11.967,2,0,0,0,0,0,3,0,1,1,0,0,0,0,0,8.0,
+team_12,Zach Edey,1641744,0012600037,MEM,played,16.167,10,0,6,3,2,0,2,1,3,3,0,0,0,0,0,19.0,
+team_07,Matas Buzelis,1641824,0012600037,CHI,played,12.483,6,0,0,0,0,0,0,1,1,3,0,0,0,0,0,4.0,
+team_14,Jaylen Wells,1642377,0012600037,MEM,played,13.683,8,2,0,1,1,1,1,0,1,3,0,0,0,0,0,16.0,
+team_07,Cedric Coward,1642907,0012600037,MEM,played,12.333,2,0,0,0,2,0,0,0,0,2,0,0,0,0,0,3.0,
+team_03,Cameron Boozer,1643409,0012600037,MEM,played,12.367,10,0,4,1,3,3,0,0,0,0,0,0,0,0,0,22.0,
+team_06,Caleb Wilson,1643410,0012600037,CHI,played,31.617,21,5,6,1,3,0,1,0,4,3,0,0,0,0,0,28.5,
+team_06,Anthony Davis,203076,0012600038,WAS,played,22.467,10,0,6,2,9,4,1,2,5,2,0,0,0,1,0,39.0,
+team_13,John Collins,1628381,0012600038,DET,played,17.417,2,0,0,0,2,0,0,0,2,2,0,0,0,0,0,-1.0,
+team_08,Trae Young,1629027,0012600038,WAS,played,23.283,2,0,0,1,1,8,0,0,5,0,2,1,0,0,0,0.0,
+team_05,Deandre Ayton,1629028,0012600038,WAS,played,15.367,4,0,6,2,4,1,0,0,2,1,0,0,0,0,0,10.5,
+team_15,Duncan Robinson,1629130,0012600038,DET,played,19.35,12,2,3,2,0,4,0,0,1,0,0,0,0,0,0,26.25,
+team_15,Paul Reed,1630194,0012600038,DET,played,20.583,11,0,4,5,4,3,2,0,2,6,1,0,0,0,0,29.5,
+team_03,Cade Cunningham,1630595,0012600038,DET,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_06,Jalen Duren,1631105,0012600038,DET,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_03,Ausar Thompson,1641709,0012600038,DET,played,14.967,2,0,0,0,1,2,3,1,1,6,0,0,0,0,0,11.5,
+team_09,Alex Sarr,1642259,0012600038,WAS,played,19.533,8,1,2,1,0,0,0,1,2,4,0,0,0,0,0,7.0,
+team_03,Kyshawn George,1642273,0012600038,WAS,played,23.0,14,0,8,0,3,0,1,3,3,1,0,0,0,0,0,21.5,
+team_06,Daniss Jenkins,1642450,0012600038,DET,played,17.55,12,3,2,0,0,4,0,0,1,1,1,1,0,0,0,11.5,
+team_03,AJ Dybantsa,1643407,0012600038,WAS,played,23.383,14,0,10,0,7,2,1,0,0,1,0,0,0,0,0,28.0,
+team_09,Tobias Harris,202699,0012600039,SAS,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Devin Booker,1626164,0012600039,PHX,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,De'Aaron Fox,1628368,0012600039,SAS,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_16,Dillon Brooks,1628415,0012600039,PHX,played,24.45,15,1,7,1,1,2,1,0,2,4,0,0,0,0,0,18.25,
+team_03,Luke Kornet,1628436,0012600039,SAS,played,16.8,4,0,0,4,6,2,0,2,1,2,0,0,0,0,0,29.0,
+team_04,Miles Bridges,1628970,0012600039,PHX,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_12,Devin Vassell,1630170,0012600039,SAS,played,22.883,6,1,1,0,2,1,0,0,2,2,0,0,0,0,0,6.75,
+team_16,Jalen Green,1630224,0012600039,PHX,played,28.95,18,3,2,0,3,5,1,0,3,0,0,0,0,0,0,35.0,
+team_12,Julian Champagnie,1630577,0012600039,SAS,played,24.733,10,2,4,1,0,2,0,0,0,1,0,0,0,0,0,18.5,
+team_15,Mark Williams,1631109,0012600039,PHX,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_07,Collin Gillespie,1631221,0012600039,PHX,played,19.967,2,0,0,1,1,0,3,0,2,1,0,0,0,0,0,10.0,
+team_05,Victor Wembanyama,1641705,0012600039,SAS,played,22.067,13,0,2,0,7,6,1,2,2,1,0,0,0,0,0,39.0,
+team_02,Stephon Castle,1642264,0012600039,SAS,played,20.75,13,1,2,1,6,5,1,0,2,1,0,0,0,0,0,34.0,
+team_16,Oso Ighodaro,1642345,0012600039,PHX,played,20.783,8,0,0,1,4,5,2,2,0,2,0,0,0,0,0,36.5,
+team_12,Dylan Harper,1642844,0012600039,SAS,played,23.733,15,1,2,1,2,4,1,1,1,1,0,0,0,0,0,33.0,
+team_06,Khaman Maluach,1642863,0012600039,PHX,played,23.417,10,1,1,3,12,3,1,1,2,4,0,0,0,1,0,48.25,
+team_12,Myles Turner,1626167,0012600040,MIL,played,24.383,5,1,0,1,1,0,1,5,4,6,0,0,0,0,0,15.0,
+team_13,Kyle Kuzma,1628398,0012600040,MIL,played,22.117,12,2,4,1,3,2,2,0,2,0,0,0,0,0,0,28.0,
+team_14,Grayson Allen,1628960,0012600040,CHA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_04,Coby White,1629632,0012600040,CHA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_04,Tyler Herro,1629639,0012600040,MIL,played,22.7,18,3,3,1,6,2,0,0,1,1,0,0,0,0,0,35.75,
+team_01,Kevin Porter Jr.,1629645,0012600040,MIL,played,18.083,6,0,6,2,2,4,2,0,1,2,0,0,0,0,0,22.5,
+team_13,Naz Reid,1629675,0012600040,CHA,played,20.1,16,2,0,0,2,1,0,1,0,2,0,0,0,0,0,26.0,
+team_08,Ryan Rollins,1631157,0012600040,MIL,played,23.133,12,2,0,1,3,2,3,2,0,0,0,0,0,0,0,42.0,
+team_13,Jaime Jaquez Jr.,1631170,0012600040,MIL,played,19.583,9,2,2,3,4,4,0,0,0,0,0,0,0,0,0,34.0,
+team_16,Moussa Diabate,1631217,0012600040,CHA,played,20.433,8,0,4,5,6,2,1,2,1,2,0,0,0,0,0,37.5,
+team_16,Brandon Miller,1641706,0012600040,CHA,played,22.917,18,4,2,1,2,4,0,1,4,0,0,0,0,0,0,34.0,
+team_03,Kel'el Ware,1642276,0012600040,MIL,played,24.117,10,2,0,2,0,1,0,0,1,0,0,0,0,0,0,19.0,
+team_15,Kon Knueppel,1642851,0012600040,CHA,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_10,Brayden Burries,1643415,0012600040,MIL,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Injury/Illness
+team_04,James Harden,201935,0012600041,CLE,played,26.117,24,3,9,0,4,2,1,0,2,3,0,0,0,0,0,33.75,
+team_11,Nikola Vucevic,202696,0012600041,ORL,played,10.583,2,0,0,1,2,0,2,0,0,1,0,0,0,0,0,12.5,
+team_08,Donovan Mitchell,1628378,0012600041,CLE,played,25.667,11,1,5,1,4,6,1,0,3,2,0,0,0,0,0,27.25,
+team_13,Jarrett Allen,1628386,0012600041,CLE,played,25.133,7,1,0,0,7,1,0,2,0,1,0,0,0,0,0,26.5,
+team_15,Wendell Carter Jr.,1628976,0012600041,ORL,played,19.117,4,0,0,2,3,2,1,1,1,3,0,0,0,0,0,18.5,
+team_10,Desmond Bane,1630217,0012600041,ORL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_11,Franz Wagner,1630532,0012600041,ORL,played,14.767,10,1,1,1,4,3,0,0,4,1,0,0,0,0,0,17.25,
+team_14,Jalen Suggs,1630591,0012600041,ORL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Evan Mobley,1630596,0012600041,CLE,played,26.65,14,0,9,3,4,2,0,2,2,3,0,0,0,0,0,28.25,
+team_04,Paolo Banchero,1631094,0012600041,ORL,played,17.667,10,1,10,2,5,2,0,1,3,2,0,0,0,0,0,21.0,
+team_15,Peyton Watson,1631212,0012600041,CLE,played,21.833,6,0,0,0,4,1,2,0,1,0,0,0,0,0,0,18.0,
+team_07,Anthony Black,1641710,0012600041,ORL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Jaylon Tyson,1642281,0012600041,CLE,played,20.933,13,3,2,1,1,1,0,0,1,2,0,0,0,0,0,20.5,
+team_02,Jrue Holiday,201950,0012600042,POR,played,14.5,6,0,0,1,4,3,0,0,0,1,0,0,0,0,0,19.5,
+team_10,Damian Lillard,203081,0012600042,POR,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_01,Ja Morant,1629630,0012600042,POR,played,13.6,5,1,0,0,0,5,3,0,1,3,0,0,0,0,0,21.0,
+team_09,Deni Avdija,1630166,0012600042,POR,played,16.983,9,1,3,2,3,4,0,0,2,0,0,0,0,0,0,23.75,
+team_12,Scoot Henderson,1630703,0012600042,POR,played,16.35,14,4,3,0,0,3,2,0,1,0,0,0,0,0,0,31.25,
+team_05,Toumani Camara,1641739,0012600042,POR,played,15.25,14,2,4,1,1,3,1,0,1,1,0,0,0,0,0,27.0,
+team_14,Donovan Clingan,1642270,0012600042,POR,played,14.583,11,0,1,0,6,1,0,1,3,2,0,0,0,0,0,16.75,
+team_01,Andre Drummond,203083,0012600043,NYK,played,12.067,4,0,2,1,3,0,1,3,0,2,0,0,0,0,0,20.5,
+team_01,Rudy Gobert,203497,0012600043,MIN,played,22.067,2,0,0,1,2,3,1,1,1,1,0,0,0,0,0,16.5,
+team_15,Karl-Anthony Towns,1626157,0012600043,NYK,played,21.733,11,1,4,2,0,4,1,0,3,1,0,0,0,0,0,21.0,
+team_15,OG Anunoby,1628384,0012600043,NYK,played,21.517,15,1,6,1,1,1,3,0,0,4,0,0,0,0,0,26.5,
+team_13,Josh Hart,1628404,0012600043,NYK,played,21.7,2,0,0,1,2,3,1,0,2,0,1,0,0,0,0,11.5,
+team_08,Mikal Bridges,1628969,0012600043,NYK,played,21.7,9,1,2,0,2,2,0,0,1,2,0,0,0,0,0,13.5,
+team_13,Jalen Brunson,1628973,0012600043,NYK,played,21.7,20,1,8,0,5,3,3,0,2,1,1,0,0,0,0,36.5,
+team_07,Anthony Edwards,1630162,0012600043,MIN,played,24.9,26,5,7,0,3,3,1,0,2,3,1,0,0,0,0,39.75,
+team_01,LaMelo Ball,1630163,0012600043,MIN,played,22.15,10,1,3,1,2,7,0,1,5,2,0,0,0,0,0,21.75,
+team_10,Jaden McDaniels,1630183,0012600043,MIN,played,23.833,22,4,2,1,4,2,0,0,4,4,1,0,0,0,0,29.0,
+team_04,Jonathan Kuminga,1630228,0012600043,MIN,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Ayo Dosunmu,1630245,0012600043,MIN,played,19.617,11,3,2,0,4,2,3,1,2,2,0,0,0,0,0,32.5,
+team_09,Tobias Harris,202699,0012600044,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_10,Jusuf Nurkic,203994,0012600044,UTA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_02,De'Aaron Fox,1628368,0012600044,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Lauri Markkanen,1628374,0012600044,UTA,played,18.933,11,1,4,0,1,2,2,0,3,2,0,0,0,0,0,15.5,
+team_03,Luke Kornet,1628436,0012600044,SAS,played,22.083,0,0,0,0,3,1,0,1,3,5,0,0,0,0,0,-1.5,
+team_08,Jaren Jackson Jr.,1628991,0012600044,UTA,played,17.833,13,1,0,1,2,1,1,0,2,5,0,0,0,0,0,16.5,
+team_12,Devin Vassell,1630170,0012600044,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Julian Champagnie,1630577,0012600044,SAS,played,25.7,14,3,1,0,4,0,1,1,5,2,0,0,0,0,0,19.75,
+team_05,Victor Wembanyama,1641705,0012600044,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_15,Keyonte George,1641718,0012600044,UTA,played,16.333,13,0,4,0,2,1,3,0,0,3,0,0,0,0,0,23.0,
+team_02,Stephon Castle,1642264,0012600044,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_11,Kyle Filipowski,1642271,0012600044,UTA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Dylan Harper,1642844,0012600044,SAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Ace Bailey,1642846,0012600044,UTA,played,23.583,6,0,0,1,5,3,3,0,1,2,0,0,0,0,0,27.0,
+team_03,Darryn Peterson,1643408,0012600044,UTA,played,24.417,14,1,3,0,2,5,1,0,1,3,0,0,0,0,0,26.25,
+team_04,James Harden,201935,0012600045,CLE,played,26.7,13,1,6,0,0,2,1,0,3,2,0,0,0,0,0,12.5,
+team_11,Nikola Vucevic,202696,0012600045,ORL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_08,Donovan Mitchell,1628378,0012600045,CLE,played,24.883,15,1,1,0,2,8,0,0,2,4,0,0,0,0,0,27.75,
+team_13,Jarrett Allen,1628386,0012600045,CLE,played,24.883,9,0,6,1,5,0,1,1,0,0,0,0,0,0,0,23.5,
+team_15,Wendell Carter Jr.,1628976,0012600045,ORL,played,22.017,7,1,0,4,3,2,0,1,0,1,0,0,0,0,0,29.5,
+team_10,Desmond Bane,1630217,0012600045,ORL,played,25.65,8,2,1,0,2,3,1,0,1,5,0,0,0,0,0,16.75,
+team_11,Franz Wagner,1630532,0012600045,ORL,played,22.133,20,1,6,1,3,8,2,0,1,0,0,0,0,0,0,47.5,
+team_14,Jalen Suggs,1630591,0012600045,ORL,played,12.8,9,3,0,0,5,2,1,0,1,2,0,0,0,0,0,25.5,
+team_12,Evan Mobley,1630596,0012600045,CLE,played,26.7,14,2,2,2,3,0,1,2,1,2,0,0,0,0,0,32.0,
+team_04,Paolo Banchero,1631094,0012600045,ORL,played,27.717,24,2,2,1,7,3,1,0,3,0,0,0,0,0,0,43.5,
+team_15,Peyton Watson,1631212,0012600045,CLE,played,23.9,10,1,3,3,1,2,1,2,2,1,1,0,0,0,0,27.25,
+team_07,Anthony Black,1641710,0012600045,ORL,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_12,Jaylon Tyson,1642281,0012600045,CLE,played,24.85,12,1,2,0,3,1,0,0,1,1,0,0,0,0,0,17.0,
+team_03,Kawhi Leonard,202695,0012600046,TOR,played,16.667,21,4,7,1,4,0,2,0,0,2,0,0,0,0,0,39.75,
+team_01,Andre Drummond,203083,0012600046,NYK,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_15,Karl-Anthony Towns,1626157,0012600046,NYK,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Jakob Poeltl,1627751,0012600046,TOR,played,19.333,6,0,2,0,5,1,1,0,0,2,0,0,0,0,0,16.0,
+team_15,OG Anunoby,1628384,0012600046,NYK,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_13,Josh Hart,1628404,0012600046,NYK,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Mikal Bridges,1628969,0012600046,NYK,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_13,Jalen Brunson,1628973,0012600046,NYK,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_02,RJ Barrett,1629628,0012600046,TOR,played,22.883,17,1,5,2,2,3,0,0,0,4,0,0,0,0,0,27.75,
+team_15,Immanuel Quickley,1630193,0012600046,TOR,played,21.617,8,0,4,0,3,6,0,0,1,2,0,0,0,0,0,19.5,
+team_02,Scottie Barnes,1630567,0012600046,TOR,played,22.333,19,0,3,0,6,4,2,1,2,0,0,0,0,0,0,40.25,
+team_11,Collin Murray-Boyles,1642867,0012600046,TOR,played,16.167,19,2,4,2,7,2,1,0,0,3,0,0,0,0,0,41.5,
+team_05,T.J. McConnell,204456,0012600047,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Kelly Oubre Jr.,1626162,0012600047,IND,played,19.517,12,2,2,1,4,2,1,0,2,2,0,0,0,0,0,25.0,
+team_01,Pascal Siakam,1627783,0012600047,IND,played,20.567,6,0,2,0,1,4,0,0,2,1,0,0,0,0,0,10.0,
+team_16,Ivica Zubac,1627826,0012600047,IND,played,17.983,13,0,1,5,8,5,3,0,0,2,0,0,0,1,0,61.25,
+team_14,Isaiah Hartenstein,1628392,0012600047,OKC,played,12.833,0,0,0,0,1,2,0,0,1,1,0,0,0,0,0,2.5,
+team_10,Shai Gilgeous-Alexander,1628983,0012600047,OKC,played,23.3,15,1,5,0,0,6,1,1,1,1,0,0,0,0,0,30.75,
+team_09,Andrew Nembhard,1629614,0012600047,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Obi Toppin,1630167,0012600047,IND,played,16.467,8,0,0,1,4,0,0,0,2,4,0,0,0,0,0,8.5,
+team_14,Tyrese Haliburton,1630169,0012600047,IND,played,17.983,24,4,3,0,3,3,0,2,4,1,0,0,0,0,0,38.75,
+team_11,Aaron Nesmith,1630174,0012600047,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_11,Chet Holmgren,1631096,0012600047,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_08,Jalen Williams,1631114,0012600047,OKC,played,21.1,16,1,3,0,4,3,1,0,2,5,0,0,0,0,0,23.25,
+team_01,Jarace Walker,1641716,0012600047,IND,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_10,Cason Wallace,1641717,0012600047,OKC,played,20.35,7,1,0,0,3,1,2,1,3,0,0,0,0,0,0,18.5,
+team_12,Jared McCain,1642272,0012600047,OKC,played,18.817,20,6,2,0,2,2,1,0,0,4,0,0,0,0,0,37.5,
+team_09,Ajay Mitchell,1642349,0012600047,OKC,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_16,Aday Mara,1643530,0012600047,OKC,played,18.8,10,0,2,0,4,1,0,3,2,1,0,0,0,0,0,21.5,
+team_06,Anthony Davis,203076,0012600050,WAS,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_01,Julius Randle,203944,0012600050,BKN,played,23.467,14,2,4,0,4,9,1,0,3,1,0,0,0,0,0,37.0,
+team_07,Michael Porter Jr.,1629008,0012600050,BKN,played,23.883,22,2,5,0,4,0,2,1,3,1,0,0,0,0,0,32.75,
+team_08,Trae Young,1629027,0012600050,WAS,played,27.883,11,1,8,0,3,11,1,0,8,2,0,0,0,1,0,29.5,
+team_05,Deandre Ayton,1629028,0012600050,WAS,played,25.367,4,0,0,2,5,4,0,0,1,4,0,0,0,0,0,18.5,
+team_11,Day'Ron Sharpe,1630549,0012600050,BKN,played,21.117,4,1,4,1,1,3,3,1,1,3,0,0,0,0,0,22.0,
+team_07,Noah Clowney,1641730,0012600050,BKN,played,21.583,15,4,1,1,2,4,1,0,0,0,0,0,0,0,0,39.25,
+team_09,Alex Sarr,1642259,0012600050,WAS,played,23.0,6,0,0,1,8,0,0,0,3,5,0,0,0,0,0,9.5,
+team_03,Kyshawn George,1642273,0012600050,WAS,played,24.6,21,3,6,1,0,4,3,0,0,4,0,0,0,0,0,41.0,
+team_13,Egor Demin,1642856,0012600050,BKN,played,22.3,4,0,0,0,0,3,1,0,1,1,0,0,0,0,0,10.0,
+team_03,AJ Dybantsa,1643407,0012600050,WAS,played,25.2,14,1,4,4,0,3,1,1,3,2,0,0,0,0,0,29.0,
+team_03,Mikel Brown Jr.,1643414,0012600050,BKN,did_not_play,,,,,,,,,,,,,,,,,,Inactive - Coach's Decision
+team_09,DeMar DeRozan,201942,0012600065,DEN,played,9.417,2,0,2,0,2,2,0,0,0,0,0,0,0,0,0,8.5,
+team_02,Aaron Gordon,203932,0012600065,DEN,played,22.717,25,3,5,2,4,0,0,0,2,2,0,0,0,0,0,34.75,
+team_13,Nikola Jokic,203999,0012600065,DEN,played,26.483,22,1,7,4,7,10,0,1,4,2,0,0,0,1,1,68.75,
+team_04,Tyus Jones,1626145,0012600065,DEN,played,13.2,4,0,0,0,0,2,2,0,0,0,0,0,0,0,0,14.0,
+team_01,Norman Powell,1626181,0012600065,CHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_15,Jamal Murray,1627750,0012600065,DEN,played,25.967,13,1,4,1,2,5,0,0,2,1,0,0,0,0,0,24.5,
+team_16,Nic Claxton,1629651,0012600065,CHI,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_10,Cameron Johnson,1629661,0012600065,DEN,played,24.867,15,4,2,1,2,1,2,0,1,2,0,0,0,0,0,32.0,
+team_04,Jalen Smith,1630188,0012600065,CHI,played,14.217,11,3,0,0,3,0,1,0,1,2,0,0,0,0,0,20.5,
+team_16,Josh Giddey,1630581,0012600065,CHI,played,24.35,7,1,4,0,1,8,1,1,1,0,0,0,0,0,0,29.5,
+team_06,Christian Braun,1631128,0012600065,DEN,played,22.95,2,0,0,1,4,1,1,1,0,3,0,0,0,0,0,15.5,
+team_07,Matas Buzelis,1641824,0012600065,CHI,played,22.517,13,2,2,0,6,3,0,1,2,3,0,0,0,0,0,27.5,
+team_06,Caleb Wilson,1643410,0012600065,CHI,played,25.333,17,1,7,1,3,5,0,1,5,3,0,0,0,0,0,24.25,
+team_08,Brook Lopez,201572,0012600066,LAC,played,7.067,1,0,2,1,2,0,0,0,1,2,0,0,0,0,0,2.0,
+team_09,Stephen Curry,201939,0012600066,GSW,played,12.967,10,2,2,1,1,2,1,0,2,1,0,0,0,0,0,19.5,
+team_14,Jimmy Butler III,202710,0012600066,GSW,did_not_play,,,,,,,,,,,,,,,,,,DND - Injury/Illness
+team_08,Draymond Green,203110,0012600066,GSW,played,13.867,2,0,2,0,2,2,3,0,0,1,0,0,0,0,0,16.5,
+team_08,Kristaps Porzingis,204001,0012600066,GSW,did_not_play,,,,,,,,,,,,,,,,,,NWT - Not With Team
+team_05,Brandon Ingram,1627742,0012600066,LAC,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_09,Rui Hachimura,1629060,0012600066,LAC,played,15.2,21,4,2,0,5,0,0,1,2,2,0,0,0,0,0,33.0,
+team_05,Max Strus,1629622,0012600066,LAC,played,4.833,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1.5,
+team_06,Darius Garland,1629636,0012600066,LAC,played,15.35,15,3,5,1,2,6,0,0,1,0,0,0,0,0,0,35.25,
+team_16,Gui Santos,1630611,0012600066,GSW,played,17.267,9,1,2,1,3,0,0,0,2,2,0,0,0,0,0,11.5,
+team_15,Brandin Podziemski,1641764,0012600066,GSW,played,17.6,7,1,4,0,2,2,1,0,1,1,0,0,0,0,0,15.0,
+team_13,Yaxel Lendeborg,1642865,0012600066,GSW,played,18.733,4,1,2,1,8,3,0,1,0,3,0,0,0,0,0,26.0,
+team_01,Keaton Wagler,1643413,0012600066,LAC,played,30.083,15,1,9,1,5,3,2,1,0,2,0,0,0,0,0,37.75,
+team_09,DeMar DeRozan,201942,0012600067,DEN,played,9.883,5,0,1,0,1,1,0,1,0,0,0,0,0,0,0,11.25,
+team_02,Aaron Gordon,203932,0012600067,DEN,played,10.383,12,1,3,1,3,0,0,0,2,0,0,0,0,0,0,16.25,
+team_10,Jusuf Nurkic,203994,0012600067,UTA,played,11.433,4,0,2,0,5,4,1,1,0,2,0,0,0,0,0,23.0,
+team_13,Nikola Jokic,203999,0012600067,DEN,played,15.117,3,0,2,0,3,7,1,1,0,2,0,0,0,0,0,25.0,
+team_04,Tyus Jones,1626145,0012600067,DEN,played,18.633,8,2,0,0,2,6,0,0,2,1,0,0,0,0,0,22.0,
+team_15,Jamal Murray,1627750,0012600067,DEN,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Lauri Markkanen,1628374,0012600067,UTA,played,9.5,17,3,4,1,1,0,1,0,1,0,0,0,0,0,0,27.0,
+team_08,Jaren Jackson Jr.,1628991,0012600067,UTA,played,18.217,11,1,3,2,2,2,0,0,1,3,0,0,0,0,0,19.25,
+team_10,Cameron Johnson,1629661,0012600067,DEN,played,15.333,8,2,0,0,2,0,1,1,0,3,0,0,0,0,0,18.0,
+team_06,Christian Braun,1631128,0012600067,DEN,played,15.117,6,0,2,1,2,1,0,0,0,0,0,0,0,0,0,13.0,
+team_15,Keyonte George,1641718,0012600067,UTA,played,21.167,15,1,5,0,4,3,0,0,1,4,0,0,0,0,0,21.75,
+team_11,Kyle Filipowski,1642271,0012600067,UTA,did_not_play,,,,,,,,,,,,,,,,,,DNP - Coach's Decision
+team_05,Ace Bailey,1642846,0012600067,UTA,played,15.967,10,0,0,2,3,0,1,1,1,2,0,0,0,0,0,21.5,
+team_03,Darryn Peterson,1643408,0012600067,UTA,played,19.483,3,0,2,1,5,2,1,0,2,3,0,0,0,0,0,12.5,

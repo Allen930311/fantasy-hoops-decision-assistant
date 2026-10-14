@@ -7,6 +7,8 @@ This directory contains the owner-specific league state and scoring configuratio
 - `league.json` — season metadata and the owner-defined scoring system.
 - `rosters.json` — mutable 16-team roster snapshot.
 - `report/2026-10-05-preseason-model-v1.md` — frozen 16-team preseason power-ranking baseline, including model methodology, scoring formula, team ranking, owner-team interpretation, and limitations.
+- `report/2026-10-14-preseason-rankings.md` — post-validation actual preseason ranking and 2026–27 regular-season projection, with full-roster player detail and methodology.
+- `data/preseason-2026-10-14/` — frozen NBA Stats/ESPN source responses, retrieval timestamps, and SHA-256 manifest used for the October 14 ranking.
 
 ## Reports
 
@@ -15,6 +17,9 @@ Reports under `report/` are dated analytical snapshots. They should **not** be s
 Current baseline:
 
 - [2026-10-05 Preseason Model V1](report/2026-10-05-preseason-model-v1.md)
+- [2026-10-14 Validated Preseason Rankings](report/2026-10-14-preseason-rankings.md)
+
+The October 14 report is reproduced from its frozen source snapshot with `scripts/build_preseason_rankings.py` and checked with `scripts/validate_preseason_rankings.py`. Its signoff file records the independent sample recalculation.
 
 ## Update policy
 

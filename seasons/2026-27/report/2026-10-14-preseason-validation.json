@@ -1,0 +1,515 @@
+{
+  "source_qa": {
+    "completed_game_ids": [
+      "0012600001",
+      "0012600002",
+      "0012600004",
+      "0012600005",
+      "0012600006",
+      "0012600007",
+      "0012600009",
+      "0012600010",
+      "0012600011",
+      "0012600012",
+      "0012600013",
+      "0012600014",
+      "0012600015",
+      "0012600016",
+      "0012600022",
+      "0012600023",
+      "0012600024",
+      "0012600025",
+      "0012600026",
+      "0012600027",
+      "0012600028",
+      "0012600029",
+      "0012600030",
+      "0012600031",
+      "0012600032",
+      "0012600033",
+      "0012600034",
+      "0012600035",
+      "0012600036",
+      "0012600037",
+      "0012600038",
+      "0012600039",
+      "0012600040",
+      "0012600041",
+      "0012600042",
+      "0012600043",
+      "0012600044",
+      "0012600045",
+      "0012600046",
+      "0012600047",
+      "0012600050",
+      "0012600065",
+      "0012600066",
+      "0012600067"
+    ],
+    "completed_game_count": 44,
+    "nba_team_completed_game_counts": {
+      "ATL": 4,
+      "BKN": 3,
+      "BOS": 2,
+      "CHA": 2,
+      "CHI": 3,
+      "CLE": 3,
+      "DAL": 2,
+      "DEN": 3,
+      "DET": 2,
+      "GSW": 4,
+      "HOU": 2,
+      "IND": 3,
+      "LAC": 2,
+      "LAL": 3,
+      "LON": 1,
+      "MEM": 3,
+      "MIA": 3,
+      "MIL": 3,
+      "MIN": 4,
+      "NOP": 2,
+      "NYK": 4,
+      "OKC": 4,
+      "ORL": 3,
+      "PHI": 3,
+      "PHX": 3,
+      "POR": 2,
+      "SAC": 3,
+      "SAS": 3,
+      "TOR": 3,
+      "UTA": 3,
+      "WAS": 3
+    },
+    "player_game_rows": 433,
+    "rostered_boxscore_rows_including_dnp": 596,
+    "playergamelog_rows_for_completed_games": 433,
+    "boxscore_playergamelog_differences": [
+      {
+        "game_id": "0012600002",
+        "player_id": 1641796,
+        "field": "AST",
+        "boxscore": 5.0,
+        "playergamelog": 4.0
+      },
+      {
+        "game_id": "0012600002",
+        "player_id": 1641796,
+        "field": "MIN",
+        "boxscore": 24.9,
+        "playergamelog": 22.683333333333334
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 201950,
+        "field": "PTS",
+        "boxscore": 5.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 201950,
+        "field": "3PTM",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 201950,
+        "field": "OREB",
+        "boxscore": 2.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 201950,
+        "field": "DREB",
+        "boxscore": 5.0,
+        "playergamelog": 3.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 201950,
+        "field": "TO",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 201950,
+        "field": "MIN",
+        "boxscore": 19.2,
+        "playergamelog": 12.733333333333333
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "PTS",
+        "boxscore": 9.0,
+        "playergamelog": 7.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "FTA",
+        "boxscore": 2.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "OREB",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "DREB",
+        "boxscore": 2.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "TO",
+        "boxscore": 3.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "PF",
+        "boxscore": 2.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600033",
+        "player_id": 1630703,
+        "field": "MIN",
+        "boxscore": 16.95,
+        "playergamelog": 10.483333333333333
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1629661,
+        "field": "PTS",
+        "boxscore": 8.0,
+        "playergamelog": 6.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1629661,
+        "field": "STL",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1629661,
+        "field": "PF",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1629661,
+        "field": "MIN",
+        "boxscore": 15.333333333333334,
+        "playergamelog": 11.416666666666666
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "PTS",
+        "boxscore": 12.0,
+        "playergamelog": 5.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "3PTM",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "FTA",
+        "boxscore": 3.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "OREB",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "DREB",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "TO",
+        "boxscore": 2.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203932,
+        "field": "MIN",
+        "boxscore": 10.383333333333333,
+        "playergamelog": 6.466666666666667
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203999,
+        "field": "PTS",
+        "boxscore": 3.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203999,
+        "field": "FTA",
+        "boxscore": 2.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203999,
+        "field": "AST",
+        "boxscore": 7.0,
+        "playergamelog": 6.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203999,
+        "field": "PF",
+        "boxscore": 2.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203999,
+        "field": "MIN",
+        "boxscore": 15.116666666666667,
+        "playergamelog": 11.2
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1631128,
+        "field": "DREB",
+        "boxscore": 2.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1631128,
+        "field": "MIN",
+        "boxscore": 15.116666666666667,
+        "playergamelog": 11.2
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1626145,
+        "field": "PTS",
+        "boxscore": 8.0,
+        "playergamelog": 5.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1626145,
+        "field": "3PTM",
+        "boxscore": 2.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1626145,
+        "field": "AST",
+        "boxscore": 6.0,
+        "playergamelog": 3.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1626145,
+        "field": "MIN",
+        "boxscore": 18.633333333333333,
+        "playergamelog": 14.716666666666667
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628374,
+        "field": "PTS",
+        "boxscore": 17.0,
+        "playergamelog": 8.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628374,
+        "field": "3PTM",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628374,
+        "field": "FTA",
+        "boxscore": 4.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628374,
+        "field": "STL",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628374,
+        "field": "TO",
+        "boxscore": 1.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628991,
+        "field": "PTS",
+        "boxscore": 11.0,
+        "playergamelog": 6.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628991,
+        "field": "FTA",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628991,
+        "field": "OREB",
+        "boxscore": 2.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1628991,
+        "field": "MIN",
+        "boxscore": 18.216666666666665,
+        "playergamelog": 15.533333333333333
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203994,
+        "field": "PTS",
+        "boxscore": 4.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203994,
+        "field": "DREB",
+        "boxscore": 5.0,
+        "playergamelog": 4.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 203994,
+        "field": "MIN",
+        "boxscore": 11.433333333333334,
+        "playergamelog": 10.2
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1643408,
+        "field": "PTS",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1643408,
+        "field": "FTA",
+        "boxscore": 2.0,
+        "playergamelog": 0.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1643408,
+        "field": "TO",
+        "boxscore": 2.0,
+        "playergamelog": 1.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1643408,
+        "field": "MIN",
+        "boxscore": 19.483333333333334,
+        "playergamelog": 18.05
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1641718,
+        "field": "AST",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1641718,
+        "field": "MIN",
+        "boxscore": 21.166666666666668,
+        "playergamelog": 18.316666666666666
+      },
+      {
+        "game_id": "0012600067",
+        "player_id": 1642846,
+        "field": "DREB",
+        "boxscore": 3.0,
+        "playergamelog": 2.0
+      }
+    ],
+    "boxscore_playergamelog_difference_count": 56,
+    "canonical_preseason_stat_source": "NBA Stats boxscoretraditionalv3",
+    "nba_dd_td_definition_differences": [],
+    "roster_player_count": 208,
+    "current_nba_roster_matched": 208,
+    "actual_rankable_teams": 16,
+    "projected_rankable_teams": 16,
+    "incomplete_observations": 0,
+    "boxscore_playergamelog_examples": [
+      "Pelle Larsson 0012600002 AST: boxscore 5.0, PlayerGameLogs 4.0",
+      "Pelle Larsson 0012600002 MIN: boxscore 24.9, PlayerGameLogs 22.7",
+      "Jrue Holiday 0012600033 PTS: boxscore 5.0, PlayerGameLogs 0.0"
+    ],
+    "status": "ready_for_independent_validation",
+    "official_output_requested": true
+  },
+  "history_qa": {
+    "rookie_prior_players": 71,
+    "rookie_prior_source": "2025-26 rookie cohort median",
+    "current_rookie_count_in_fantasy_rosters": 11,
+    "espn_special_stat_name_matches_2025_26": 193,
+    "espn_special_stat_name_matches_2024_25": 184,
+    "espn_special_stat_suffix_alias_matches_2025_26": 1,
+    "espn_special_stat_suffix_alias_matches_2024_25": 1,
+    "espn_special_stat_ambiguous_suffix_matches_2025_26": 0,
+    "espn_special_stat_ambiguous_suffix_matches_2024_25": 0,
+    "espn_special_stat_records_2025_26": 578,
+    "espn_special_stat_records_2024_25": 560,
+    "dash_mismatches": [],
+    "rookie_prior_fp36": 33.30828812739224,
+    "rookie_prior_mpg": 19.514666666666663,
+    "rookie_prior_availability": 0.5487804878048781,
+    "league_prior_availability": 0.6888355277358084,
+    "league_prior_players": 452
+  }
+}
