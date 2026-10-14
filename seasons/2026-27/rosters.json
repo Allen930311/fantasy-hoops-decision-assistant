@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-04",
+  "as_of": "2026-10-14",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -20,7 +20,7 @@
         "P.J. Washington",
         "Kevin Porter Jr.",
         "Keegan Murray",
-        "Collin Sexton",
+        "Jarace Walker",
         "Keaton Wagler",
         "Andre Drummond"
       ]
@@ -322,15 +322,25 @@
         "Bennedict Mathurin",
         "Oso Ighodaro",
         "Gui Santos",
-        "Precious Achiuwa"
+        "Aday Mara"
       ]
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-04",
-    "team_id": "team_02",
-    "out": "Marcus Smart",
-    "in": "Pelle Larsson",
-    "authority": "owner_confirmed"
-  }
+    "date": "2026-10-14",
+    "team_id": "team_01",
+    "out": "Collin Sexton",
+    "in": "Jarace Walker",
+    "authority": "yahoo_fantasy_transaction_screenshot"
+  },
+  "transaction_notes": [
+    {
+      "date": "2026-10-09",
+      "team_id": "team_09",
+      "out": "Steven Adams",
+      "in": "Yves Missi",
+      "authority": "owner_confirmed_yahoo_transaction",
+      "note": "Owner confirms team_09 previously dropped Yves Missi and later re-added him. Current repo already reflects Yves Missi, so no roster change needed."
+    }
+  ]
 }
