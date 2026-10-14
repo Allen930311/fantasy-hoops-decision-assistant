@@ -1,0 +1,2300 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "cutoff_utc": "2026-10-14T04:32:24Z",
+  "collection_started_at_utc": "2026-10-14T04:32:27Z",
+  "collection_finished_at_utc": "2026-10-14T04:33:24Z",
+  "preseason_start_date": "2026-10-03",
+  "completed_game_count": 44,
+  "scheduled_or_in_progress_game_count_by_cutoff": 2,
+  "completed_game_ids": [
+    "0012600001",
+    "0012600002",
+    "0012600004",
+    "0012600005",
+    "0012600006",
+    "0012600007",
+    "0012600009",
+    "0012600010",
+    "0012600011",
+    "0012600012",
+    "0012600013",
+    "0012600014",
+    "0012600015",
+    "0012600016",
+    "0012600022",
+    "0012600023",
+    "0012600024",
+    "0012600025",
+    "0012600026",
+    "0012600027",
+    "0012600028",
+    "0012600029",
+    "0012600030",
+    "0012600031",
+    "0012600032",
+    "0012600033",
+    "0012600034",
+    "0012600035",
+    "0012600036",
+    "0012600037",
+    "0012600038",
+    "0012600039",
+    "0012600040",
+    "0012600041",
+    "0012600042",
+    "0012600043",
+    "0012600044",
+    "0012600045",
+    "0012600046",
+    "0012600047",
+    "0012600050",
+    "0012600065",
+    "0012600066",
+    "0012600067"
+  ],
+  "sources": [
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonallplayers?LeagueID=00&Season=2026-27&IsOnlyCurrentSeason=1",
+      "retrieved_at_utc": "2026-10-14T04:32:27Z",
+      "payload_file": "nba/commonallplayers_2026-27.json",
+      "sha256": "298f061a7a6829ba774aac700896baeb44faad11c7346cbcdbfead52ef235508",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonAllPlayers",
+          "row_count": 613,
+          "column_count": 16
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonallplayers?LeagueID=00&Season=2025-26&IsOnlyCurrentSeason=1",
+      "retrieved_at_utc": "2026-10-14T04:32:28Z",
+      "payload_file": "nba/commonallplayers_2025-26.json",
+      "sha256": "16efe8ffc3eacd5bd27b9d1719603418a42308847f42af1eea23df838a49388a",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonAllPlayers",
+          "row_count": 582,
+          "column_count": 16
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612737",
+      "retrieved_at_utc": "2026-10-14T04:32:28Z",
+      "payload_file": "nba/team_rosters/1610612737.json",
+      "sha256": "870cced6334f5f535205ee3752fa6e465c8ccd3279b1ddc1603351020167c131",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 13,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612738",
+      "retrieved_at_utc": "2026-10-14T04:32:28Z",
+      "payload_file": "nba/team_rosters/1610612738.json",
+      "sha256": "e03aebb71cfa26c005d3e6f824580b7d61a1cf58f0219ba0735bb5bc1f193298",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 7,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612739",
+      "retrieved_at_utc": "2026-10-14T04:32:28Z",
+      "payload_file": "nba/team_rosters/1610612739.json",
+      "sha256": "8d79062f3e209b52e9277518057cb66985b5881a5badfe29c4e0129034ef1282",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612740",
+      "retrieved_at_utc": "2026-10-14T04:32:29Z",
+      "payload_file": "nba/team_rosters/1610612740.json",
+      "sha256": "15dcc0ae88192d970e07c35e80e7f257d6b436b541a70622c838cb9fb8ded963",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 8,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612741",
+      "retrieved_at_utc": "2026-10-14T04:32:29Z",
+      "payload_file": "nba/team_rosters/1610612741.json",
+      "sha256": "366dc1bb6b916d17141115a290a66058b4d5cdcb433872bc37de661acf8ce685",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612742",
+      "retrieved_at_utc": "2026-10-14T04:32:29Z",
+      "payload_file": "nba/team_rosters/1610612742.json",
+      "sha256": "cfa805c2b29a31fd41aff0176ba91453ac1e3342c85bc7ba797317002b367e46",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 11,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612743",
+      "retrieved_at_utc": "2026-10-14T04:32:30Z",
+      "payload_file": "nba/team_rosters/1610612743.json",
+      "sha256": "6d3c471daac714d4ddf940aee9ee96c576c0294bf4d3104163ecb5dc45ed4ff2",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 7,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612744",
+      "retrieved_at_utc": "2026-10-14T04:32:30Z",
+      "payload_file": "nba/team_rosters/1610612744.json",
+      "sha256": "3653818daad20e70f3578ed3c48a1c3d9b9d5a65a5b36201c1e37815f37d8619",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 11,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612745",
+      "retrieved_at_utc": "2026-10-14T04:32:30Z",
+      "payload_file": "nba/team_rosters/1610612745.json",
+      "sha256": "d5d2bbec268adbbc48eb729e683ed398ff2f72d42bca4f28e13c8241b2b7c62d",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 18,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 10,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612746",
+      "retrieved_at_utc": "2026-10-14T04:32:31Z",
+      "payload_file": "nba/team_rosters/1610612746.json",
+      "sha256": "2788f863e93590315e2f4d7cec3aece64423b9f95dbee5b78192abb2800fbc56",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 12,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612747",
+      "retrieved_at_utc": "2026-10-14T04:32:31Z",
+      "payload_file": "nba/team_rosters/1610612747.json",
+      "sha256": "1c31e4acfa4a2d058b6e8681fecf6d81d944150ef4c850011ba4f5ea3c697716",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612748",
+      "retrieved_at_utc": "2026-10-14T04:32:31Z",
+      "payload_file": "nba/team_rosters/1610612748.json",
+      "sha256": "4ee30669694207834e774ac7ac3ea84a60143440ce94bf3610be6f25cdc55ecf",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612749",
+      "retrieved_at_utc": "2026-10-14T04:32:32Z",
+      "payload_file": "nba/team_rosters/1610612749.json",
+      "sha256": "357265cdd7266e1e66eb46485ca1d9a0e58a273ca01b5f1f4de8ee5fef4b2d2c",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 12,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612750",
+      "retrieved_at_utc": "2026-10-14T04:32:32Z",
+      "payload_file": "nba/team_rosters/1610612750.json",
+      "sha256": "656af331d4b34878eced362ed0c32882b43814241817882fbe78f7788d92bd31",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 8,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612751",
+      "retrieved_at_utc": "2026-10-14T04:32:32Z",
+      "payload_file": "nba/team_rosters/1610612751.json",
+      "sha256": "b47694f6fb98f971136d8dfd1bf6b0808d811019bf91dfa212672273b97c4d1c",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 19,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 11,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612752",
+      "retrieved_at_utc": "2026-10-14T04:32:32Z",
+      "payload_file": "nba/team_rosters/1610612752.json",
+      "sha256": "da3aa2e5b283c2e1d2926e2964439e0c721bee25ff171ec7523e7608faa27b9d",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 12,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612753",
+      "retrieved_at_utc": "2026-10-14T04:32:32Z",
+      "payload_file": "nba/team_rosters/1610612753.json",
+      "sha256": "51bf717f1abc00e3e4f49a3365fdd71f70cc4b9cfab66768c14d7f573c71d2f8",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 14,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612754",
+      "retrieved_at_utc": "2026-10-14T04:32:33Z",
+      "payload_file": "nba/team_rosters/1610612754.json",
+      "sha256": "1d194784c37ed4f81e3c7854c2bb05575964e8129fcf20c424fad5887faf00a3",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612755",
+      "retrieved_at_utc": "2026-10-14T04:32:33Z",
+      "payload_file": "nba/team_rosters/1610612755.json",
+      "sha256": "74a85e8ba052ac2a7df1db5dd43645bbc3221b1b89db91d5af23b7d572ec978c",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 8,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612756",
+      "retrieved_at_utc": "2026-10-14T04:32:33Z",
+      "payload_file": "nba/team_rosters/1610612756.json",
+      "sha256": "f688a0ad6045481f12073edd8a8fab9c1d2d0c02c4bcef2df136decb50722415",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612757",
+      "retrieved_at_utc": "2026-10-14T04:32:34Z",
+      "payload_file": "nba/team_rosters/1610612757.json",
+      "sha256": "3d63de253125242c6aaee5a4cd2403a9650f9458ccc39de338a1022f60c8d084",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 18,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 10,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612758",
+      "retrieved_at_utc": "2026-10-14T04:32:34Z",
+      "payload_file": "nba/team_rosters/1610612758.json",
+      "sha256": "6783a69eaab939c054704a128da04d9ab7effd8fde3a8fc086efe5c0ec646fb5",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 12,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612759",
+      "retrieved_at_utc": "2026-10-14T04:32:34Z",
+      "payload_file": "nba/team_rosters/1610612759.json",
+      "sha256": "88baefbbb6fe1184fd82f037325b4894a9114fedf4d6befe8a5a9e131900daa8",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 7,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612760",
+      "retrieved_at_utc": "2026-10-14T04:32:35Z",
+      "payload_file": "nba/team_rosters/1610612760.json",
+      "sha256": "ceda004a2624c308001c96ddcbb98713445fb94048c3fbd0ae1ce032d5a493ba",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612761",
+      "retrieved_at_utc": "2026-10-14T04:32:35Z",
+      "payload_file": "nba/team_rosters/1610612761.json",
+      "sha256": "817adc6995a6f8e0e95c16f3ee649053ea9a0af041e047554fdeff7f99d84118",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 11,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612762",
+      "retrieved_at_utc": "2026-10-14T04:32:35Z",
+      "payload_file": "nba/team_rosters/1610612762.json",
+      "sha256": "f8bde70d04816f3b40312dd17a06ba7aa489a074697b9b576fab606fc851305e",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612763",
+      "retrieved_at_utc": "2026-10-14T04:32:35Z",
+      "payload_file": "nba/team_rosters/1610612763.json",
+      "sha256": "3d7da74e1bd5a3dd8a56b361ec6f30ebff28a493dbcfaae8cbafbc39f76032a1",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 8,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612764",
+      "retrieved_at_utc": "2026-10-14T04:32:36Z",
+      "payload_file": "nba/team_rosters/1610612764.json",
+      "sha256": "b847ccb60102d797bece2bf88d8997d710be8974f7a113652506f4401cc235cd",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 9,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612765",
+      "retrieved_at_utc": "2026-10-14T04:32:36Z",
+      "payload_file": "nba/team_rosters/1610612765.json",
+      "sha256": "1816db8890cb22d81e9083f580a739c02a05beb20a6861a0a97f0da53c73706b",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 20,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 13,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/commonteamroster?LeagueID=00&Season=2026-27&TeamID=1610612766",
+      "retrieved_at_utc": "2026-10-14T04:32:36Z",
+      "payload_file": "nba/team_rosters/1610612766.json",
+      "sha256": "b1e294857ce17aea4a934318a95c9610b9ecf47f0726f41a36119538c9a08d81",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "CommonTeamRoster",
+          "row_count": 21,
+          "column_count": 17
+        },
+        {
+          "name": "Coaches",
+          "row_count": 12,
+          "column_count": 10
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playergamelogs?LeagueID=00&Season=2026-27&SeasonType=Pre+Season&PlayerID=0",
+      "retrieved_at_utc": "2026-10-14T04:32:37Z",
+      "payload_file": "nba/playergamelogs_2026-27_preseason.json",
+      "sha256": "d38e69875487e2100fd6b82179e1d58ef20b64ae9b61bedc626c4c5f5e5f1a52",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "PlayerGameLogs",
+          "row_count": 1328,
+          "column_count": 72
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playergamelogs?LeagueID=00&Season=2025-26&SeasonType=Regular+Season&PlayerID=0",
+      "retrieved_at_utc": "2026-10-14T04:32:43Z",
+      "payload_file": "nba/playergamelogs_2025-26_regular.json",
+      "sha256": "637e0f937bccf6331a98b9c18e633b7e2ae026b9e281bf17b4b5b4de926f0eaf",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "PlayerGameLogs",
+          "row_count": 26651,
+          "column_count": 72
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playergamelogs?LeagueID=00&Season=2024-25&SeasonType=Regular+Season&PlayerID=0",
+      "retrieved_at_utc": "2026-10-14T04:32:48Z",
+      "payload_file": "nba/playergamelogs_2024-25_regular.json",
+      "sha256": "9a5fe7b41294f8ab6f6fae286b8607b12384c77a486db1d620357f28a7baffb2",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "PlayerGameLogs",
+          "row_count": 26306,
+          "column_count": 72
+        }
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/leaguedashplayerstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&GameSegment=&Height=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&Season=2025-26&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StarterBench=&TeamID=0&VsConference=&VsDivision=",
+      "retrieved_at_utc": "2026-10-14T04:32:49Z",
+      "payload_file": "nba/leaguedashplayerstats_2025-26_regular.json",
+      "sha256": "1b1d3dca80a4f427080411344490004a8f0f9515e0fcd57167ae4197587f02cd",
+      "top_level_keys": [
+        "resource",
+        "parameters",
+        "resultSets"
+      ],
+      "result_sets": [
+        {
+          "name": "LeagueDashPlayerStats",
+          "row_count": 582,
+          "column_count": 69
+        }
+      ]
+    },
+    {
+      "provider": "ESPN stats",
+      "request_url": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=2026&seasontype=2&limit=500&page=1",
+      "retrieved_at_utc": "2026-10-14T04:32:50Z",
+      "payload_file": "espn/special_stats_2025-26_page1.json",
+      "sha256": "f3d73b8a53db69c44dd2c84e68f6602d8af6520ca65658ce071d92fa57acbd48",
+      "top_level_keys": [
+        "pagination",
+        "league",
+        "athletes",
+        "currentSeason",
+        "requestedSeason",
+        "glossary",
+        "categories"
+      ]
+    },
+    {
+      "provider": "ESPN stats",
+      "request_url": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=2026&seasontype=2&limit=500&page=2",
+      "retrieved_at_utc": "2026-10-14T04:32:50Z",
+      "payload_file": "espn/special_stats_2025-26_page2.json",
+      "sha256": "c3f1678c6b5c2d8f358c207c043c6d1c2da361d91be7d2685f02a302755946dd",
+      "top_level_keys": [
+        "pagination",
+        "league",
+        "athletes",
+        "currentSeason",
+        "requestedSeason",
+        "glossary",
+        "categories"
+      ]
+    },
+    {
+      "provider": "ESPN stats",
+      "request_url": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=2025&seasontype=2&limit=500&page=1",
+      "retrieved_at_utc": "2026-10-14T04:32:52Z",
+      "payload_file": "espn/special_stats_2024-25_page1.json",
+      "sha256": "f6b3ef7c9cfa3210ddda87ff275764695ec5dd9c4ef085c8ac7aa2a471e0d084",
+      "top_level_keys": [
+        "pagination",
+        "league",
+        "athletes",
+        "currentSeason",
+        "requestedSeason",
+        "glossary",
+        "categories"
+      ]
+    },
+    {
+      "provider": "ESPN stats",
+      "request_url": "https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/statistics/byathlete?region=us&lang=en&contentorigin=espn&season=2025&seasontype=2&limit=500&page=2",
+      "retrieved_at_utc": "2026-10-14T04:32:53Z",
+      "payload_file": "espn/special_stats_2024-25_page2.json",
+      "sha256": "529a1d899139eae39ccfa7d319de67df89c6be111006d014296fc3194a3c46d8",
+      "top_level_keys": [
+        "pagination",
+        "league",
+        "athletes",
+        "currentSeason",
+        "requestedSeason",
+        "glossary",
+        "categories"
+      ]
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F03%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:53Z",
+      "payload_file": "nba/scoreboards/2026-10-03.json",
+      "sha256": "055681398a703828689ad0be6f5f284403410725a219f7b92e1cadd272969ac2",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-10T15:20:38.2038Z",
+      "game_count": 1
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F04%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:53Z",
+      "payload_file": "nba/scoreboards/2026-10-04.json",
+      "sha256": "ebc7bb24d870a8183e87d664ccfaad3041c50dcef863b8f479faa61c32596fd9",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-11T19:00:40.04Z",
+      "game_count": 2
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F05%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:54Z",
+      "payload_file": "nba/scoreboards/2026-10-05.json",
+      "sha256": "45c90a698ad1603306921c416748fb8b72d48f9d43b7f5728086cc77915ac6c6",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-07T13:01:33.133Z",
+      "game_count": 5
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F06%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:54Z",
+      "payload_file": "nba/scoreboards/2026-10-06.json",
+      "sha256": "152ad5ca88cabfcca0b57c6441f5e3a2f7cf1e3bcd6f449e631095aef05a21bf",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-07T19:50:28.5028Z",
+      "game_count": 4
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F07%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:54Z",
+      "payload_file": "nba/scoreboards/2026-10-07.json",
+      "sha256": "c6d8f94272ca7c2553e6a6cd25361a4ac5b027917a0f2eff6f8b6e960bd9d31a",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-11T19:00:37.037Z",
+      "game_count": 5
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F08%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:54Z",
+      "payload_file": "nba/scoreboards/2026-10-08.json",
+      "sha256": "f38586d16990178c6cead394ce51e7a96eee791cff90c600a5648f8774933d4a",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-10T18:10:33.1033Z",
+      "game_count": 6
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F09%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:55Z",
+      "payload_file": "nba/scoreboards/2026-10-09.json",
+      "sha256": "f7fda68b619b339bb0c33285356d0708c616390bbd795af064b225834e1f09a2",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-11T19:00:35.035Z",
+      "game_count": 2
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F10%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:55Z",
+      "payload_file": "nba/scoreboards/2026-10-10.json",
+      "sha256": "8b00ce9468d42dc82961a0f03d816fb72b6b9151d7a7b0eb664054f2ad4d4dd4",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-13T16:10:38.1038Z",
+      "game_count": 7
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F11%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:55Z",
+      "payload_file": "nba/scoreboards/2026-10-11.json",
+      "sha256": "b39057c5fb3eb92d62ce3cbad953280c1f8a6edd662763413ac99c3413050a16",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-12T19:50:27.5027Z",
+      "game_count": 4
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F12%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:56Z",
+      "payload_file": "nba/scoreboards/2026-10-12.json",
+      "sha256": "a0be21485764e8f545cd8111889aaf53ba403f4bf2b083097b26b78aa2ef2cbb",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-13T19:50:37.5037Z",
+      "game_count": 5
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F13%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:56Z",
+      "payload_file": "nba/scoreboards/2026-10-13.json",
+      "sha256": "bdacffcfcb62136627a33a338b153ac4c022378fa94b720a54493e743d7f0e00",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-14T00:10:34.1034Z",
+      "game_count": 5
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/scoreboardv3?LeagueID=00&GameDate=10%2F14%2F2026",
+      "retrieved_at_utc": "2026-10-14T04:32:56Z",
+      "payload_file": "nba/scoreboards/2026-10-14.json",
+      "sha256": "d706729d8bc0748fb4b8ea4d12abe52fe789e98c5a6ec3d2516160fba27ac98e",
+      "top_level_keys": [
+        "meta",
+        "scoreboard"
+      ],
+      "source_meta_time": "2026-10-14T00:30:34.3034Z",
+      "game_count": 7
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600001",
+      "retrieved_at_utc": "2026-10-14T04:32:56Z",
+      "payload_file": "nba/boxscores/0012600001.json",
+      "sha256": "290e7fc84635071fbe5edf1785f31d4fad1346e90ef5cd022f849e34b9899613",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T15:40:44.4044Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600001&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:32:57Z",
+      "payload_file": "nba/playbyplay/0012600001.json",
+      "sha256": "6015a32f76cfd8bf4655d49a9ddf6b7ed8e979782fa4e64ce65967f5605a9260",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T15:40:53.4053Z",
+      "action_count": 537
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600002",
+      "retrieved_at_utc": "2026-10-14T04:32:57Z",
+      "payload_file": "nba/boxscores/0012600002.json",
+      "sha256": "0385fb55ba6b6386b2f88d463fe0c689efba590ed5e636f9aa67d8e5ebfb2d1e",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-11T01:40:44.4044Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600002&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:32:57Z",
+      "payload_file": "nba/playbyplay/0012600002.json",
+      "sha256": "056da3cd7c9d8d326b8ca2c09662223724318badf5ce02e3a331fdd9d66568cf",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-11T01:40:48.4048Z",
+      "action_count": 516
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600004",
+      "retrieved_at_utc": "2026-10-14T04:32:58Z",
+      "payload_file": "nba/boxscores/0012600004.json",
+      "sha256": "d1f8996f7c42ac4b32837d45daa4819b899734e6fcf24176b487b0f188e5758a",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-06T03:30:23.3023Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600004&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:32:58Z",
+      "payload_file": "nba/playbyplay/0012600004.json",
+      "sha256": "6d7c5a4dff379626cbdb270de6efd6d4bd28b7d99160a9146520b015a03b92f5",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-06T03:30:26.3026Z",
+      "action_count": 542
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600005",
+      "retrieved_at_utc": "2026-10-14T04:32:58Z",
+      "payload_file": "nba/boxscores/0012600005.json",
+      "sha256": "9ecf3500ee0d909a75bcb49733764566d385e820e9ff1544517d94338c71f354",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T14:20:36.2036Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600005&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:32:59Z",
+      "payload_file": "nba/playbyplay/0012600005.json",
+      "sha256": "f45ae2ba5d21db0940480657457b6d01c5ebd705dc85b3b5a2a24c58d53faad1",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T14:20:41.2041Z",
+      "action_count": 513
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600006",
+      "retrieved_at_utc": "2026-10-14T04:32:59Z",
+      "payload_file": "nba/boxscores/0012600006.json",
+      "sha256": "8143fb8fdd6d428e84e78f0bbf225e816b57410435545a94e32bc0a2425b5210",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-10T23:00:42.042Z",
+      "home_player_rows": 20,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600006&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:32:59Z",
+      "payload_file": "nba/playbyplay/0012600006.json",
+      "sha256": "7b648aa52985fd8908ed1388d7b9b733fa77a9e4938792a5067e24ec20939af4",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-10T23:00:55.055Z",
+      "action_count": 511
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600007",
+      "retrieved_at_utc": "2026-10-14T04:33:00Z",
+      "payload_file": "nba/boxscores/0012600007.json",
+      "sha256": "74177c0a152a6694e3de30d5ac7027902a2bff16e9ffca5d43e16b65a91b934e",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-13T03:00:27.027Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600007&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:00Z",
+      "payload_file": "nba/playbyplay/0012600007.json",
+      "sha256": "116a2a825bd2a4499df5d28dca3c116ec379be4536d627235054085611e0b2f1",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-13T03:00:33.033Z",
+      "action_count": 544
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600009",
+      "retrieved_at_utc": "2026-10-14T04:33:00Z",
+      "payload_file": "nba/boxscores/0012600009.json",
+      "sha256": "4b65a9d0cdb512127db6c5a528f591aa2a908bdb01709e0ef8bf9ee13f95884f",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-10T15:30:38.3038Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600009&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:01Z",
+      "payload_file": "nba/playbyplay/0012600009.json",
+      "sha256": "981acc17329fdbd09fdba3929bfe61a85d13af49a0af980003d80937e5625393",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-10T15:30:45.3045Z",
+      "action_count": 565
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600010",
+      "retrieved_at_utc": "2026-10-14T04:33:01Z",
+      "payload_file": "nba/boxscores/0012600010.json",
+      "sha256": "dc6f73156d48af86d3faf431a16fa8e71e18fe27a0f2605ccdc50dce49c92292",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-07T01:00:53.053Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600010&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:01Z",
+      "payload_file": "nba/playbyplay/0012600010.json",
+      "sha256": "807f29a0e0129610aeb81c6e8686723f5159157a43b74651ef5de7c640e36973",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-07T01:01:03.13Z",
+      "action_count": 528
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600011",
+      "retrieved_at_utc": "2026-10-14T04:33:01Z",
+      "payload_file": "nba/boxscores/0012600011.json",
+      "sha256": "1142594c3bea5ed12c6bfa9804a4394eb37151d1c39e6eebf3811e484cfd74d0",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T15:40:43.4043Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600011&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:02Z",
+      "payload_file": "nba/playbyplay/0012600011.json",
+      "sha256": "6eff8a391c2f205b536a95c12e997524e177c8fb58b5ae8c7fb6ae64ae50d2ad",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T15:40:51.4051Z",
+      "action_count": 535
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600012",
+      "retrieved_at_utc": "2026-10-14T04:33:02Z",
+      "payload_file": "nba/boxscores/0012600012.json",
+      "sha256": "cded8afc45f95a6711e4db348bf13ddd536f400a8ec956b88d4ade19bd10fdef",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T12:30:30.303Z",
+      "home_player_rows": 20,
+      "away_player_rows": 18
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600012&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:02Z",
+      "payload_file": "nba/playbyplay/0012600012.json",
+      "sha256": "dc149e7586695776d39af1f940d5c2f04d1283f80465184a9858de9546eeb078",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T12:30:35.3035Z",
+      "action_count": 528
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600013",
+      "retrieved_at_utc": "2026-10-14T04:33:03Z",
+      "payload_file": "nba/boxscores/0012600013.json",
+      "sha256": "a43f8f83b8aca50d02e3989e0c6f90190f99dad3d2adf5f0b80cb591ede6c875",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-10T23:10:37.1037Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600013&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:03Z",
+      "payload_file": "nba/playbyplay/0012600013.json",
+      "sha256": "2361ea413ce185809eaf17a5d1f501cac60d5449bed8c81e07bd8503010ad203",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-10T23:10:41.1041Z",
+      "action_count": 565
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600014",
+      "retrieved_at_utc": "2026-10-14T04:33:03Z",
+      "payload_file": "nba/boxscores/0012600014.json",
+      "sha256": "cc51b751ed822e266187cbc744e199abf400797ebd44d8559ed262207a7d61c6",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-11T01:30:29.3029Z",
+      "home_player_rows": 21,
+      "away_player_rows": 19
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600014&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:04Z",
+      "payload_file": "nba/playbyplay/0012600014.json",
+      "sha256": "a37dd8a983fc70ead2e1af0c42726675fc3a31d94f5b773aaa002cab7d3077b9",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-11T01:30:34.3034Z",
+      "action_count": 524
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600015",
+      "retrieved_at_utc": "2026-10-14T04:33:04Z",
+      "payload_file": "nba/boxscores/0012600015.json",
+      "sha256": "3d0ebc2fb8a54ebea43b7444c885c0a8c33a4b44e35fd5434437612b79e3d6fb",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-11T07:10:28.1028Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600015&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:04Z",
+      "payload_file": "nba/playbyplay/0012600015.json",
+      "sha256": "5b22b5051a795c84641e0419751f224e5a6b9bb80f50524800e097748f06183c",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-11T07:10:33.1033Z",
+      "action_count": 523
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600016",
+      "retrieved_at_utc": "2026-10-14T04:33:05Z",
+      "payload_file": "nba/boxscores/0012600016.json",
+      "sha256": "52c206b49c0dfe9075f5f98728ae27bf279f5f14bed488304f5063fba3314407",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-11T17:20:35.2035Z",
+      "home_player_rows": 18,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600016&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:05Z",
+      "payload_file": "nba/playbyplay/0012600016.json",
+      "sha256": "d8ee0f68f08f0a4d437ac9781dafbfad211f107198aa66d8c98c77957542985c",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-11T17:20:38.2038Z",
+      "action_count": 572
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600022",
+      "retrieved_at_utc": "2026-10-14T04:33:05Z",
+      "payload_file": "nba/boxscores/0012600022.json",
+      "sha256": "7d6957a2437d95da2771f0391af223a6e96d4e8667ac736f55cd8792223abc2a",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-06T02:10:27.1027Z",
+      "home_player_rows": 20,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600022&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:06Z",
+      "payload_file": "nba/playbyplay/0012600022.json",
+      "sha256": "d51a5a1a24aabaf16c209c8d553cb96e098c5351423037facb1643676fda6be6",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-06T02:10:34.1034Z",
+      "action_count": 573
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600023",
+      "retrieved_at_utc": "2026-10-14T04:33:06Z",
+      "payload_file": "nba/boxscores/0012600023.json",
+      "sha256": "c1c505b526d02e7806c6e9442558ac0ee642aed758a538552c08ac8d1134050d",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-06T00:50:28.5028Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600023&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:06Z",
+      "payload_file": "nba/playbyplay/0012600023.json",
+      "sha256": "073441b5f958fe9e3984c48b6ee942291e540ea611e209e651800c1df1effce4",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-06T00:50:32.5032Z",
+      "action_count": 551
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600024",
+      "retrieved_at_utc": "2026-10-14T04:33:06Z",
+      "payload_file": "nba/boxscores/0012600024.json",
+      "sha256": "5e0fb143dd12c0a46e97a2c8ac17be51bb979baf87e7ff7d49648c3a9844ccce",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-06T00:10:30.103Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600024&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:07Z",
+      "payload_file": "nba/playbyplay/0012600024.json",
+      "sha256": "5f252201205c978fe930028e4e3d20f872df7db69e66d52d6743304074b1859c",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-06T00:10:36.1036Z",
+      "action_count": 541
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600025",
+      "retrieved_at_utc": "2026-10-14T04:33:07Z",
+      "payload_file": "nba/boxscores/0012600025.json",
+      "sha256": "8c713fa2d988311340558fca76c8ab6fde6ec6294bcb9e269569a907ad2cc751",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-07T11:30:27.3027Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600025&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:07Z",
+      "payload_file": "nba/playbyplay/0012600025.json",
+      "sha256": "2c439c0018768bf387f3a7037f705ccfd44ee2403411b5906e5092fdf0df88dc",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-07T11:30:46.3046Z",
+      "action_count": 501
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600026",
+      "retrieved_at_utc": "2026-10-14T04:33:08Z",
+      "payload_file": "nba/boxscores/0012600026.json",
+      "sha256": "0dc3d555926199319fd15b42c112baaf5705482425a599751e8cec69c5cd449a",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-06T23:00:38.038Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600026&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:08Z",
+      "payload_file": "nba/playbyplay/0012600026.json",
+      "sha256": "62de2710eece8e975f0c4d320c17e8490c86538496ab26cfe3ebebf00e9c1c10",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-06T23:00:53.053Z",
+      "action_count": 536
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600027",
+      "retrieved_at_utc": "2026-10-14T04:33:08Z",
+      "payload_file": "nba/boxscores/0012600027.json",
+      "sha256": "72a0ddfeed2e803d0c7f5527e2496341b38b92077c78426fb473804d8f407433",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-07T00:20:25.2025Z",
+      "home_player_rows": 20,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600027&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:09Z",
+      "payload_file": "nba/playbyplay/0012600027.json",
+      "sha256": "7ec8a9d9fc9e1ca53f35d90b2b0086a26098f6d68ee3abb3e10d9cccab2c0146",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-07T00:20:30.203Z",
+      "action_count": 521
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600028",
+      "retrieved_at_utc": "2026-10-14T04:33:09Z",
+      "payload_file": "nba/boxscores/0012600028.json",
+      "sha256": "210e99d00b7b50c1ee1214ef2e87045f6048bd0bf506e4ffaaf6d55e29ed2357",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-06T01:20:29.2029Z",
+      "home_player_rows": 19,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600028&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:09Z",
+      "payload_file": "nba/playbyplay/0012600028.json",
+      "sha256": "9919e9be4a692a6e512c0132f0ddba94f5699238851ca1ef5dd6b1c79f4d2ef5",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-06T01:20:34.2034Z",
+      "action_count": 549
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600029",
+      "retrieved_at_utc": "2026-10-14T04:33:10Z",
+      "payload_file": "nba/boxscores/0012600029.json",
+      "sha256": "ee52d516888fcb116f38080ab16edbbd35ef260129a949d6629c7dcaa4ba0bd2",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-07T21:40:39.4039Z",
+      "home_player_rows": 20,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600029&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:10Z",
+      "payload_file": "nba/playbyplay/0012600029.json",
+      "sha256": "ca67997ccc7c1a3b025261d29610e94323495ed19e0ec560efc52f01d6b7a881",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-07T21:40:43.4043Z",
+      "action_count": 496
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600030",
+      "retrieved_at_utc": "2026-10-14T04:33:10Z",
+      "payload_file": "nba/boxscores/0012600030.json",
+      "sha256": "7e4a5df90c9caf937bf993a5b84eaee72c9d0772e039804419abdd8d664ccf90",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T12:50:32.5032Z",
+      "home_player_rows": 22,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600030&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:11Z",
+      "payload_file": "nba/playbyplay/0012600030.json",
+      "sha256": "31563c8fea73c2e3f4287dc18ae333d68c4c1dd0290b1f7241edaf4044b207df",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T12:50:40.504Z",
+      "action_count": 557
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600031",
+      "retrieved_at_utc": "2026-10-14T04:33:11Z",
+      "payload_file": "nba/boxscores/0012600031.json",
+      "sha256": "64bbf652354f97829f427e8555247e4c8784969e1c97f81afeedacdcc70970f8",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-07T23:40:28.4028Z",
+      "home_player_rows": 20,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600031&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:11Z",
+      "payload_file": "nba/playbyplay/0012600031.json",
+      "sha256": "75ad4eb3428eb14e5fd343baed2d606ca5dce270bdcee752ad499a07e09424a6",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-07T23:40:38.4038Z",
+      "action_count": 525
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600032",
+      "retrieved_at_utc": "2026-10-14T04:33:12Z",
+      "payload_file": "nba/boxscores/0012600032.json",
+      "sha256": "1e9e8aa879181194e2da566bd93e301e4a2e630f8c6afe76f21dfc12f9faa4e3",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-07T23:00:27.027Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600032&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:12Z",
+      "payload_file": "nba/playbyplay/0012600032.json",
+      "sha256": "637b74fd9f2d43d5d9e4fb0ff24f9ca8c7152044e8bfd80858dd6d4f8cdd68ab",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-07T23:00:33.033Z",
+      "action_count": 558
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600033",
+      "retrieved_at_utc": "2026-10-14T04:33:12Z",
+      "payload_file": "nba/boxscores/0012600033.json",
+      "sha256": "cf492c926c5edca13bf7fd205ea5096ad86d7cacaedc344e4dc6c85fa994f90c",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T15:40:44.4044Z",
+      "home_player_rows": 18,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600033&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:13Z",
+      "payload_file": "nba/playbyplay/0012600033.json",
+      "sha256": "f44802b2a101878ab8f71da10e75dfd8ac3c5bab9385dbc4a03b424ca3edabf4",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T15:40:49.4049Z",
+      "action_count": 557
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600034",
+      "retrieved_at_utc": "2026-10-14T04:33:13Z",
+      "payload_file": "nba/boxscores/0012600034.json",
+      "sha256": "a485e85c4465e9f2a7b09318e0b600071b35ff0da3563fe75112a361c4633467",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-10T18:20:28.2028Z",
+      "home_player_rows": 20,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600034&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:13Z",
+      "payload_file": "nba/playbyplay/0012600034.json",
+      "sha256": "756015f79d523069a6ab3265cdd17f0ee68a5961567593521b5b2f591c6fd6ad",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-10T18:20:37.2037Z",
+      "action_count": 539
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600035",
+      "retrieved_at_utc": "2026-10-14T04:33:14Z",
+      "payload_file": "nba/boxscores/0012600035.json",
+      "sha256": "eca160eaf8b55cf7387ee02d2d82cfdaeb1477e0ab4404de53b4e526ea240e8f",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T15:50:32.5032Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600035&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:14Z",
+      "payload_file": "nba/playbyplay/0012600035.json",
+      "sha256": "d00c4e900fc7a047061cb4473d1b650ac742f6deef228977f3848a902ace3d9c",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T15:50:38.5038Z",
+      "action_count": 530
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600036",
+      "retrieved_at_utc": "2026-10-14T04:33:14Z",
+      "payload_file": "nba/boxscores/0012600036.json",
+      "sha256": "845bb4304db8fa0b4c7f09e5d194151e2c8ad74f57bc511070bc7ea67ff3f151",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T15:50:32.5032Z",
+      "home_player_rows": 21,
+      "away_player_rows": 19
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600036&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:14Z",
+      "payload_file": "nba/playbyplay/0012600036.json",
+      "sha256": "2591a3f0e92a4010699e390fbcb3d8d2c79ab65c346d64f3d70442c3c2b5edac",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T15:50:37.5037Z",
+      "action_count": 570
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600037",
+      "retrieved_at_utc": "2026-10-14T04:33:15Z",
+      "payload_file": "nba/boxscores/0012600037.json",
+      "sha256": "6e669b12f1cc7b21a0c3e879c400d21c31f1e443eb4aacf382d4a93e24303b28",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-09T23:00:34.034Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600037&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:15Z",
+      "payload_file": "nba/playbyplay/0012600037.json",
+      "sha256": "4298340bf1ab1a3c8f5fd03ace70ec251cf04253da1fdf55455611ebd43e66bf",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-09T23:00:42.042Z",
+      "action_count": 536
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600038",
+      "retrieved_at_utc": "2026-10-14T04:33:16Z",
+      "payload_file": "nba/boxscores/0012600038.json",
+      "sha256": "4b832dd8a2fab50e5fd9a9fd9870f9d43a57ffe80fb40be6d1096dd1f3f175d1",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-12T09:50:30.503Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600038&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:16Z",
+      "payload_file": "nba/playbyplay/0012600038.json",
+      "sha256": "aceaf97ccde26adc1ca9b3f4b26b804cd0c5faf132d88914d17eca5abdd18ee4",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-12T09:50:35.5035Z",
+      "action_count": 620
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600039",
+      "retrieved_at_utc": "2026-10-14T04:33:16Z",
+      "payload_file": "nba/boxscores/0012600039.json",
+      "sha256": "77a4a92b359c41e63f315e74ba6e9962b55ddfd6f0971749123b6ecb693143fb",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-11T04:30:27.3027Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600039&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:17Z",
+      "payload_file": "nba/playbyplay/0012600039.json",
+      "sha256": "6d13612a29f2d421dae58ad84c4890f52d4cd08040c4b9c00d48cd84d6ade600",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-11T04:30:31.3031Z",
+      "action_count": 484
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600040",
+      "retrieved_at_utc": "2026-10-14T04:33:17Z",
+      "payload_file": "nba/boxscores/0012600040.json",
+      "sha256": "fdc4b096d36cf06c653a89410a4f538eab9c3404116231c04f80bb3ed0a09926",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-12T10:00:42.042Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600040&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:17Z",
+      "payload_file": "nba/playbyplay/0012600040.json",
+      "sha256": "e1d90c167e46fae0d265e70539e4f812f2fa0dad38cc964b55952a0cb024e1b9",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-12T10:00:50.05Z",
+      "action_count": 505
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600041",
+      "retrieved_at_utc": "2026-10-14T04:33:17Z",
+      "payload_file": "nba/boxscores/0012600041.json",
+      "sha256": "467a8e09f607278a80870539cf27adf5bcc1b0a8874fa2399c5ef63235106890",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-12T07:10:29.1029Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600041&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:18Z",
+      "payload_file": "nba/playbyplay/0012600041.json",
+      "sha256": "d320a68852f75f62ede8fe43206c64cc889c27f97946b9c07c96a0b211510bd8",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-12T07:10:34.1034Z",
+      "action_count": 530
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600042",
+      "retrieved_at_utc": "2026-10-14T04:33:18Z",
+      "payload_file": "nba/boxscores/0012600042.json",
+      "sha256": "dad4b8bfb87ef3f6972c0f7e7dec55f831cf6c77ac008a665126690e544f7c78",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-13T07:20:26.2026Z",
+      "home_player_rows": 18,
+      "away_player_rows": 14
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600042&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:18Z",
+      "payload_file": "nba/playbyplay/0012600042.json",
+      "sha256": "987feb12667169c23939c2bf84c9a92757fa984e5b7b75df216542555336be2b",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-13T07:20:30.203Z",
+      "action_count": 457
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600043",
+      "retrieved_at_utc": "2026-10-14T04:33:19Z",
+      "payload_file": "nba/boxscores/0012600043.json",
+      "sha256": "71cb751907fde560104836b09dd5f735e82a1342374351e90c107b55de508a30",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-13T08:30:29.3029Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600043&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:19Z",
+      "payload_file": "nba/playbyplay/0012600043.json",
+      "sha256": "7b5fa73d5240ee6d96d36ea6e13aaea617948edf21e4a7d5d0f4beffb494a1e7",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-13T08:30:32.3032Z",
+      "action_count": 498
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600044",
+      "retrieved_at_utc": "2026-10-14T04:33:19Z",
+      "payload_file": "nba/boxscores/0012600044.json",
+      "sha256": "272d426b1115c36484b95c989dc8ab5d7fd428a39d0a6098907800522c40f769",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-13T01:00:27.027Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600044&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:20Z",
+      "payload_file": "nba/playbyplay/0012600044.json",
+      "sha256": "3807a173773306336a49711c35bb6f5dac44fb069097b3e360abe0c12f19ded9",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-13T01:00:29.029Z",
+      "action_count": 552
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600045",
+      "retrieved_at_utc": "2026-10-14T04:33:20Z",
+      "payload_file": "nba/boxscores/0012600045.json",
+      "sha256": "f6c5da925174e0adcf3dbb508986a361637a1ff3702a1f8c4fcada5b2da99509",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-13T23:30:37.3037Z",
+      "home_player_rows": 20,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600045&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:20Z",
+      "payload_file": "nba/playbyplay/0012600045.json",
+      "sha256": "8edf08c5369b83d897dc4a35e98d1feda47e393968e9fa529101056dfde2a143",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-13T23:30:44.3044Z",
+      "action_count": 517
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600046",
+      "retrieved_at_utc": "2026-10-14T04:33:20Z",
+      "payload_file": "nba/boxscores/0012600046.json",
+      "sha256": "bd28a881cf4c0cff3b3322aa2f1d87140ad465fe1a3c44f4eeb4b588b4625916",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-13T23:00:27.027Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600046&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:20Z",
+      "payload_file": "nba/playbyplay/0012600046.json",
+      "sha256": "fd9031584dcf63b8e72aed78695147deeb84c221fdad56da7bce6a9c4b5f8eee",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-13T23:00:37.037Z",
+      "action_count": 537
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600047",
+      "retrieved_at_utc": "2026-10-14T04:33:21Z",
+      "payload_file": "nba/boxscores/0012600047.json",
+      "sha256": "bb12d571bcb055384cb8ab601e791156a4f588d0f5ff171e7bfded05253a4395",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-14T00:00:29.029Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600047&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:21Z",
+      "payload_file": "nba/playbyplay/0012600047.json",
+      "sha256": "71cbd7a1554947024e3cfe64eefa8fcec9165e08d42dca7162fe7faa87b33c32",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-14T00:00:39.039Z",
+      "action_count": 556
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600050",
+      "retrieved_at_utc": "2026-10-14T04:33:21Z",
+      "payload_file": "nba/boxscores/0012600050.json",
+      "sha256": "6fb3c7a44f6cd26da8e1e75e85912e54ea795c79032d09a1b59a658f19d9752a",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-12T22:00:28.028Z",
+      "home_player_rows": 21,
+      "away_player_rows": 19
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600050&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:22Z",
+      "payload_file": "nba/playbyplay/0012600050.json",
+      "sha256": "42a568a5afbfc84e9fed2f654482fcac44e5088b87aab7ef2272c2547135d214",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-12T22:00:36.036Z",
+      "action_count": 488
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600065",
+      "retrieved_at_utc": "2026-10-14T04:33:22Z",
+      "payload_file": "nba/boxscores/0012600065.json",
+      "sha256": "37116c8f1213e19d80ca8eeae1838dad1f4dd37e22fbd7db42933af6e1e0f050",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-12T00:40:30.403Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600065&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:22Z",
+      "payload_file": "nba/playbyplay/0012600065.json",
+      "sha256": "0606d6217a8ff2fb5542437399d28da933570bd5c68e3faeeb9e6afb1de5cc16",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-12T00:40:37.4037Z",
+      "action_count": 537
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600066",
+      "retrieved_at_utc": "2026-10-14T04:33:23Z",
+      "payload_file": "nba/boxscores/0012600066.json",
+      "sha256": "a3e85c908526518f6314c5c0cb4caa4b9b67f72e378843f8bf6cca5aafe8d035",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-04T22:00:38.038Z",
+      "home_player_rows": 21,
+      "away_player_rows": 21
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600066&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:23Z",
+      "payload_file": "nba/playbyplay/0012600066.json",
+      "sha256": "4f255f2efd2f065abcf924abdb4053eef6c5d57e4e2727a1e0c5987ac687fc94",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-04T22:00:43.043Z",
+      "action_count": 574
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/boxscoretraditionalv3?GameID=0012600067",
+      "retrieved_at_utc": "2026-10-14T04:33:23Z",
+      "payload_file": "nba/boxscores/0012600067.json",
+      "sha256": "ebcac6368eeecd3478f8b145a310ec54fb5fbe87107e2778c16164a4236c6989",
+      "top_level_keys": [
+        "meta",
+        "boxScoreTraditional"
+      ],
+      "source_meta_time": "2026-10-05T14:30:30.303Z",
+      "home_player_rows": 21,
+      "away_player_rows": 20
+    },
+    {
+      "provider": "NBA Stats API",
+      "request_url": "https://stats.nba.com/stats/playbyplayv3?GameID=0012600067&StartPeriod=1&EndPeriod=10",
+      "retrieved_at_utc": "2026-10-14T04:33:24Z",
+      "payload_file": "nba/playbyplay/0012600067.json",
+      "sha256": "aad12fb3b49c6e586058ba809233a5155b250454c12b1f5b68a8b4a04039b5df",
+      "top_level_keys": [
+        "meta",
+        "game"
+      ],
+      "source_meta_time": "2026-10-05T14:30:35.3035Z",
+      "action_count": 504
+    }
+  ]
+}
