@@ -40,7 +40,7 @@
         "Walker Kessler",
         "RJ Barrett",
         "Jrue Holiday",
-        "Max Christie",
+        "Isaiah Jackson",
         "Zaccharie Risacher",
         "Pelle Larsson"
       ]
@@ -328,9 +328,9 @@
   ],
   "last_manual_change": {
     "date": "2026-10-20",
-    "team_id": "team_01",
-    "out": "Jarace Walker",
-    "in": "Kasparas Jakučionis",
+    "team_id": "team_02",
+    "out": "Max Christie",
+    "in": "Isaiah Jackson",
     "authority": "yahoo_fantasy_transaction_screenshot"
   },
   "transaction_notes": [
@@ -349,6 +349,14 @@
       "in": "Kasparas Jakučionis",
       "authority": "yahoo_fantasy_transaction_screenshot",
       "note": "Yahoo Fantasy chat screenshot provided by owner on 2026-10-20 shows completed add/drop; exact transaction time not independently verified."
+    },
+    {
+      "date": "2026-10-20",
+      "team_id": "team_02",
+      "out": "Max Christie",
+      "in": "Isaiah Jackson",
+      "authority": "yahoo_fantasy_transaction_screenshot",
+      "note": "Owner-provided Yahoo Fantasy chat screenshot shows completed add/drop on Oct 20; displayed as 52m ago, precise execution timestamp not recorded."
     }
   ]
 }
