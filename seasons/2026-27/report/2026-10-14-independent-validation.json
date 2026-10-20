@@ -1,0 +1,1346 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-14T04:56:19Z",
+  "passed": true,
+  "review_scope": {
+    "snapshot": "seasons/2026-27/data/preseason-2026-10-14",
+    "scoring_source": "seasons/2026-27/league.json",
+    "draft_artifacts": [
+      "2026-10-14-preseason-player-games.csv",
+      "2026-10-14-preseason-player-model.csv",
+      "2026-10-14-preseason-team-rankings.csv",
+      "2026-10-14-preseason-validation.json"
+    ],
+    "sample_player_games": 20,
+    "sample_distinct_games": 16,
+    "projected_teams_checked": 16
+  },
+  "method": [
+    "Fresh calculation directly parsed frozen NBA Stats boxscoretraditionalv3 and playbyplayv3 JSON, the 2025-26 NBA player game logs/LeagueDash data, ESPN special-stat source payloads, league.json, and the CSV outputs. The ranking builder was not imported or executed.",
+    "For each sampled played player-game, raw boxscore counts were read by personId; player-attributed Foul actions supplied TECH/FF, Ejection actions supplied EJCT, and PTS/REB/AST/STL/BLK determined DD/TD. Free Throw actions were excluded from foul counts.",
+    "Custom FP was independently summed using all weights in league.json; DD means at least two of PTS/REB/AST/STL/BLK >= 10 and TD means at least three, with both bonuses cumulative.",
+    "Historical forecasts were recomputed from raw season player game logs plus named ESPN special-stat fields. Projection shrinkage, minute blending, availability, and expected FP/team-game were calculated from the report formula; the 2025-26 availability population was reconstructed by joining LeagueDash GP>=20 rows to ESPN special stats after removing common name suffixes and normalizing accents/punctuation.",
+    "Each team score was recomputed as the sum of the ten highest player projected expected FP/team-game values in player-model CSV, then ranked across all 16 teams and compared with the team-rankings CSV."
+  ],
+  "scoring_weights": {
+    "FTA": -0.25,
+    "3PTM": 2,
+    "PTS": 1,
+    "OREB": 2.5,
+    "DREB": 1.5,
+    "AST": 2,
+    "STL": 3,
+    "BLK": 3,
+    "TO": -2,
+    "PF": -1,
+    "TECH": -1,
+    "EJCT": -10,
+    "FF": -5,
+    "DD": 7,
+    "TD": 6
+  },
+  "checked_player_game_rows": [
+    {
+      "fantasy_team_id": "team_02",
+      "player_name": "Andrew Wiggins",
+      "player_id": "203952",
+      "game_id": "0012600001",
+      "minutes_raw": 15.183,
+      "stats": {
+        "PTS": 13,
+        "3PTM": 1,
+        "FTA": 5,
+        "OREB": 1,
+        "DREB": 1,
+        "AST": 0,
+        "STL": 1,
+        "BLK": 0,
+        "TO": 0,
+        "PF": 3,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 17.75,
+      "draft_custom_fp": 17.75
+    },
+    {
+      "fantasy_team_id": "team_02",
+      "player_name": "Pelle Larsson",
+      "player_id": "1641796",
+      "game_id": "0012600002",
+      "minutes_raw": 24.9,
+      "stats": {
+        "PTS": 14,
+        "3PTM": 0,
+        "FTA": 7,
+        "OREB": 1,
+        "DREB": 2,
+        "AST": 5,
+        "STL": 0,
+        "BLK": 0,
+        "TO": 4,
+        "PF": 1,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 18.75,
+      "draft_custom_fp": 18.75
+    },
+    {
+      "fantasy_team_id": "team_03",
+      "player_name": "Cameron Boozer",
+      "player_id": "1643409",
+      "game_id": "0012600004",
+      "minutes_raw": 18.25,
+      "stats": {
+        "PTS": 11,
+        "3PTM": 0,
+        "FTA": 3,
+        "OREB": 3,
+        "DREB": 2,
+        "AST": 4,
+        "STL": 2,
+        "BLK": 0,
+        "TO": 1,
+        "PF": 2,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 30.75,
+      "draft_custom_fp": 30.75
+    },
+    {
+      "fantasy_team_id": "team_02",
+      "player_name": "Stephon Castle",
+      "player_id": "1642264",
+      "game_id": "0012600005",
+      "minutes_raw": 17.883,
+      "stats": {
+        "PTS": 14,
+        "3PTM": 1,
+        "FTA": 4,
+        "OREB": 1,
+        "DREB": 3,
+        "AST": 3,
+        "STL": 1,
+        "BLK": 1,
+        "TO": 2,
+        "PF": 2,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 28.0,
+      "draft_custom_fp": 28.0
+    },
+    {
+      "fantasy_team_id": "team_01",
+      "player_name": "Pascal Siakam",
+      "player_id": "1627783",
+      "game_id": "0012600006",
+      "minutes_raw": 22.4,
+      "stats": {
+        "PTS": 13,
+        "3PTM": 1,
+        "FTA": 6,
+        "OREB": 0,
+        "DREB": 2,
+        "AST": 4,
+        "STL": 0,
+        "BLK": 1,
+        "TO": 0,
+        "PF": 2,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 25.5,
+      "draft_custom_fp": 25.5
+    },
+    {
+      "fantasy_team_id": "team_11",
+      "player_name": "Nickeil Alexander-Walker",
+      "player_id": "1629638",
+      "game_id": "0012600007",
+      "minutes_raw": 25.3,
+      "stats": {
+        "PTS": 16,
+        "3PTM": 4,
+        "FTA": 4,
+        "OREB": 0,
+        "DREB": 6,
+        "AST": 5,
+        "STL": 1,
+        "BLK": 0,
+        "TO": 3,
+        "PF": 0,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 39.0,
+      "draft_custom_fp": 39.0
+    },
+    {
+      "fantasy_team_id": "team_02",
+      "player_name": "Andrew Wiggins",
+      "player_id": "203952",
+      "game_id": "0012600009",
+      "minutes_raw": 12.783,
+      "stats": {
+        "PTS": 12,
+        "3PTM": 4,
+        "FTA": 0,
+        "OREB": 0,
+        "DREB": 1,
+        "AST": 0,
+        "STL": 1,
+        "BLK": 0,
+        "TO": 0,
+        "PF": 2,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 22.5,
+      "draft_custom_fp": 22.5
+    },
+    {
+      "fantasy_team_id": "team_04",
+      "player_name": "Sandro Mamukelashvili",
+      "player_id": "1630572",
+      "game_id": "0012600010",
+      "minutes_raw": 18.133,
+      "stats": {
+        "PTS": 15,
+        "3PTM": 3,
+        "FTA": 0,
+        "OREB": 1,
+        "DREB": 1,
+        "AST": 2,
+        "STL": 0,
+        "BLK": 1,
+        "TO": 1,
+        "PF": 1,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 29.0,
+      "draft_custom_fp": 29.0
+    },
+    {
+      "fantasy_team_id": "team_08",
+      "player_name": "Donovan Mitchell",
+      "player_id": "1628378",
+      "game_id": "0012600011",
+      "minutes_raw": 16.9,
+      "stats": {
+        "PTS": 11,
+        "3PTM": 0,
+        "FTA": 3,
+        "OREB": 0,
+        "DREB": 0,
+        "AST": 3,
+        "STL": 0,
+        "BLK": 0,
+        "TO": 2,
+        "PF": 2,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 10.25,
+      "draft_custom_fp": 10.25
+    },
+    {
+      "fantasy_team_id": "team_02",
+      "player_name": "Alperen Sengun",
+      "player_id": "1630578",
+      "game_id": "0012600012",
+      "minutes_raw": 21.783,
+      "stats": {
+        "PTS": 16,
+        "3PTM": 0,
+        "FTA": 5,
+        "OREB": 4,
+        "DREB": 6,
+        "AST": 10,
+        "STL": 1,
+        "BLK": 0,
+        "TO": 3,
+        "PF": 3,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 1,
+        "TD": 1
+      },
+      "custom_fp_recalculated": 60.75,
+      "draft_custom_fp": 60.75
+    },
+    {
+      "fantasy_team_id": "team_01",
+      "player_name": "Jayson Tatum",
+      "player_id": "1628369",
+      "game_id": "0012600013",
+      "minutes_raw": 26.9,
+      "stats": {
+        "PTS": 23,
+        "3PTM": 4,
+        "FTA": 1,
+        "OREB": 0,
+        "DREB": 5,
+        "AST": 4,
+        "STL": 1,
+        "BLK": 0,
+        "TO": 1,
+        "PF": 0,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 47.25,
+      "draft_custom_fp": 47.25
+    },
+    {
+      "fantasy_team_id": "team_01",
+      "player_name": "Keegan Murray",
+      "player_id": "1631099",
+      "game_id": "0012600014",
+      "minutes_raw": 7.767,
+      "stats": {
+        "PTS": 5,
+        "3PTM": 0,
+        "FTA": 2,
+        "OREB": 0,
+        "DREB": 0,
+        "AST": 0,
+        "STL": 0,
+        "BLK": 0,
+        "TO": 0,
+        "PF": 0,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 4.5,
+      "draft_custom_fp": 4.5
+    },
+    {
+      "fantasy_team_id": "team_01",
+      "player_name": "Keaton Wagler",
+      "player_id": "1643413",
+      "game_id": "0012600015",
+      "minutes_raw": 23.117,
+      "stats": {
+        "PTS": 9,
+        "3PTM": 2,
+        "FTA": 2,
+        "OREB": 1,
+        "DREB": 0,
+        "AST": 2,
+        "STL": 0,
+        "BLK": 0,
+        "TO": 1,
+        "PF": 3,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 14.0,
+      "draft_custom_fp": 14.0
+    },
+    {
+      "fantasy_team_id": "team_01",
+      "player_name": "Julius Randle",
+      "player_id": "203944",
+      "game_id": "0012600034",
+      "minutes_raw": 21.617,
+      "stats": {
+        "PTS": 14,
+        "3PTM": 0,
+        "FTA": 7,
+        "OREB": 0,
+        "DREB": 6,
+        "AST": 2,
+        "STL": 2,
+        "BLK": 0,
+        "TO": 1,
+        "PF": 4,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 25.25,
+      "draft_custom_fp": 25.25
+    },
+    {
+      "fantasy_team_id": "team_01",
+      "player_name": "Andre Drummond",
+      "player_id": "203083",
+      "game_id": "0012600043",
+      "minutes_raw": 12.067,
+      "stats": {
+        "PTS": 4,
+        "3PTM": 0,
+        "FTA": 2,
+        "OREB": 1,
+        "DREB": 3,
+        "AST": 0,
+        "STL": 1,
+        "BLK": 3,
+        "TO": 0,
+        "PF": 2,
+        "TECH": 0,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 20.5,
+      "draft_custom_fp": 20.5
+    },
+    {
+      "fantasy_team_id": "team_15",
+      "player_name": "Paul Reed",
+      "player_id": "1630194",
+      "game_id": "0012600038",
+      "minutes_raw": 20.583,
+      "stats": {
+        "PTS": 11,
+        "3PTM": 0,
+        "FTA": 4,
+        "OREB": 5,
+        "DREB": 4,
+        "AST": 3,
+        "STL": 2,
+        "BLK": 0,
+        "TO": 2,
+        "PF": 6,
+        "TECH": 1,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 29.5,
+      "draft_custom_fp": 29.5
+    },
+    {
+      "fantasy_team_id": "team_08",
+      "player_name": "Trae Young",
+      "player_id": "1629027",
+      "game_id": "0012600038",
+      "minutes_raw": 23.283,
+      "stats": {
+        "PTS": 2,
+        "3PTM": 0,
+        "FTA": 0,
+        "OREB": 1,
+        "DREB": 1,
+        "AST": 8,
+        "STL": 0,
+        "BLK": 0,
+        "TO": 5,
+        "PF": 0,
+        "TECH": 2,
+        "EJCT": 1,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 0.0,
+      "draft_custom_fp": 0.0
+    },
+    {
+      "fantasy_team_id": "team_06",
+      "player_name": "Daniss Jenkins",
+      "player_id": "1642450",
+      "game_id": "0012600038",
+      "minutes_raw": 17.55,
+      "stats": {
+        "PTS": 12,
+        "3PTM": 3,
+        "FTA": 2,
+        "OREB": 0,
+        "DREB": 0,
+        "AST": 4,
+        "STL": 0,
+        "BLK": 0,
+        "TO": 1,
+        "PF": 1,
+        "TECH": 1,
+        "EJCT": 1,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 11.5,
+      "draft_custom_fp": 11.5
+    },
+    {
+      "fantasy_team_id": "team_16",
+      "player_name": "VJ Edgecombe",
+      "player_id": "1642845",
+      "game_id": "0012600034",
+      "minutes_raw": 22.7,
+      "stats": {
+        "PTS": 11,
+        "3PTM": 0,
+        "FTA": 6,
+        "OREB": 0,
+        "DREB": 5,
+        "AST": 1,
+        "STL": 0,
+        "BLK": 1,
+        "TO": 1,
+        "PF": 2,
+        "TECH": 1,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 17.0,
+      "draft_custom_fp": 17.0
+    },
+    {
+      "fantasy_team_id": "team_13",
+      "player_name": "Jalen Brunson",
+      "player_id": "1628973",
+      "game_id": "0012600043",
+      "minutes_raw": 21.7,
+      "stats": {
+        "PTS": 20,
+        "3PTM": 1,
+        "FTA": 8,
+        "OREB": 0,
+        "DREB": 5,
+        "AST": 3,
+        "STL": 3,
+        "BLK": 0,
+        "TO": 2,
+        "PF": 1,
+        "TECH": 1,
+        "EJCT": 0,
+        "FF": 0,
+        "DD": 0,
+        "TD": 0
+      },
+      "custom_fp_recalculated": 36.5,
+      "draft_custom_fp": 36.5
+    }
+  ],
+  "special_event_checks": {
+    "game_id": "0012600038",
+    "raw_playbyplay_actions": [
+      {
+        "actionNumber": 294,
+        "personId": 1630194,
+        "actionType": "Foul",
+        "subType": "Double Technical",
+        "description": "Double Technical - Reed, George (B.Taylor)"
+      },
+      {
+        "actionNumber": 470,
+        "personId": 1629027,
+        "actionType": "Foul",
+        "subType": "Double Technical",
+        "description": "Double Technical"
+      },
+      {
+        "actionNumber": 472,
+        "personId": 1642450,
+        "actionType": "Foul",
+        "subType": "Double Technical",
+        "description": "Double Technical"
+      },
+      {
+        "actionNumber": 476,
+        "personId": 1629027,
+        "actionType": "Foul",
+        "subType": "Double Technical",
+        "description": "Double Technical"
+      },
+      {
+        "actionNumber": 834,
+        "personId": 1642450,
+        "actionType": "Ejection",
+        "subType": "Second Technical",
+        "description": "Jenkins Ejection:Second Technical"
+      },
+      {
+        "actionNumber": 500,
+        "personId": 1629027,
+        "actionType": "Ejection",
+        "subType": "Second Technical",
+        "description": "Young Ejection:Second Technical"
+      },
+      {
+        "actionNumber": 513,
+        "personId": 1642848,
+        "actionType": "Free Throw",
+        "subType": "Free Throw Technical",
+        "description": "Johnson Free Throw Technical (15 PTS)"
+      }
+    ],
+    "recomputed_and_draft_values": {
+      "Paul Reed": {
+        "player_id": "1630194",
+        "TECH": 1,
+        "EJCT": 0,
+        "custom_fp": 29.5,
+        "draft_custom_fp": 29.5
+      },
+      "Trae Young": {
+        "player_id": "1629027",
+        "TECH": 2,
+        "EJCT": 1,
+        "custom_fp": 0.0,
+        "draft_custom_fp": 0.0
+      },
+      "Daniss Jenkins": {
+        "player_id": "1642450",
+        "TECH": 1,
+        "EJCT": 1,
+        "custom_fp": 11.5,
+        "draft_custom_fp": 11.5
+      }
+    },
+    "technical_free_throw_events": [
+      {
+        "person_id": "1642848",
+        "actionNumber": 513,
+        "subType": "Free Throw Technical",
+        "description": "Johnson Free Throw Technical (15 PTS)"
+      }
+    ],
+    "technical_free_throw_counted_as_foul": false,
+    "flopping_technical_examples": [
+      {
+        "actionNumber": 390,
+        "personId": 1642845,
+        "actionType": "Foul",
+        "subType": "Flopping",
+        "description": "Edgecombe Non-Unsportsmanlike Tech Foul - Flopping (P2.T0) (J.Goble)"
+      },
+      {
+        "actionNumber": 42,
+        "personId": 1628973,
+        "actionType": "Foul",
+        "subType": "Flopping",
+        "description": "Brunson Non-Unsportsmanlike Tech Foul - Flopping (P0.T0) (J.Williams)"
+      }
+    ],
+    "flopping_technical_rows_match": true
+  },
+  "availability_population_check": {
+    "source": "NBA Stats LeagueDashPlayerStats 2025-26 plus ESPN special_stats_2025-26 pages 1-2",
+    "league_dash_players_GP_at_least_20": 452,
+    "matched_complete_players": 452,
+    "ambiguous_matches": 0,
+    "unmatched_names": [],
+    "recomputed_mean_GP_over_82": 0.6888355277358084,
+    "draft_validation_mean_GP_over_82": 0.6888355277358084,
+    "draft_validation_player_count": 452,
+    "matches_draft_metadata": true,
+    "unambiguous_suffix_alias_per_season": {
+      "2024-25": {
+        "unambiguous_suffix_aliases": [
+          {
+            "nba_name": "Bobby Portis Jr.",
+            "espn_name": "Bobby Portis"
+          }
+        ],
+        "ambiguous_aliases": []
+      },
+      "2025-26": {
+        "unambiguous_suffix_aliases": [
+          {
+            "nba_name": "Bobby Portis Jr.",
+            "espn_name": "Bobby Portis"
+          }
+        ],
+        "ambiguous_aliases": []
+      }
+    },
+    "alias_resolution_note": "The only suffix alias in each season is NBA/LeagueDash “Bobby Portis Jr.” (NBA ID 1626171) to ESPN “Bobby Portis” (ESPN ID 3064482). No ambiguous aliases were found in either 2024-25 or 2025-26."
+  },
+  "forecast_checks": {
+    "Bobby_Portis_Jr_historical_and_forecast": {
+      "historical_source": "2025-26 NBA player game logs + LeagueDash and ESPN athlete special stats",
+      "raw_stat_totals": {
+        "PTS": 915.0,
+        "3PTM": 135.0,
+        "FTA": 68.0,
+        "OREB": 89.0,
+        "DREB": 339.0,
+        "AST": 105.0,
+        "STL": 41.0,
+        "BLK": 12.0,
+        "TO": 66.0,
+        "PF": 110.0,
+        "DD": 11.0,
+        "TD": 0.0,
+        "TECH": 7.0,
+        "EJCT": 0.0,
+        "FF": 3.0
+      },
+      "special_stat_totals": {
+        "TECH": 7.0,
+        "EJCT": 0.0,
+        "FF": 3.0
+      },
+      "recomputed_custom_fp_total": 2081.0,
+      "recomputed_baseline_fpg": 31.05970149,
+      "recomputed_baseline_fp36": 46.26405431,
+      "recomputed_baseline_mpg": 24.16885572,
+      "preseason_raw_rows": [
+        {
+          "game_id": "0012600001",
+          "minutes": 19.966667,
+          "custom_fp": 33.25,
+          "stats": {
+            "PTS": 11,
+            "3PTM": 1,
+            "FTA": 3,
+            "OREB": 3,
+            "DREB": 3,
+            "AST": 2,
+            "STL": 2,
+            "BLK": 1,
+            "TO": 2,
+            "PF": 0,
+            "TECH": 0,
+            "EJCT": 0,
+            "FF": 0,
+            "DD": 0,
+            "TD": 0
+          }
+        },
+        {
+          "game_id": "0012600009",
+          "minutes": 11.216667,
+          "custom_fp": 11.0,
+          "stats": {
+            "PTS": 4,
+            "3PTM": 1,
+            "FTA": 2,
+            "OREB": 1,
+            "DREB": 2,
+            "AST": 2,
+            "STL": 0,
+            "BLK": 0,
+            "TO": 1,
+            "PF": 2,
+            "TECH": 0,
+            "EJCT": 0,
+            "FF": 0,
+            "DD": 0,
+            "TD": 0
+          }
+        }
+      ],
+      "recomputed_projection": {
+        "rate_shrink_weight": 0.041512281,
+        "role_shrink_weight": 0.079715393,
+        "projected_fp36": 46.46418198,
+        "projected_minutes_per_game": 23.48512172,
+        "projected_active_fpg": 30.31158249,
+        "availability_rate": 0.7919285349,
+        "expected_fp_per_team_game": 24.00460711
+      },
+      "draft_comparisons": {
+        "GP": {
+          "recalculated": 67,
+          "draft": 67,
+          "difference": 0
+        },
+        "baseline_minutes": {
+          "recalculated": 1619.313333,
+          "draft": 1619.31,
+          "difference": 0.003333
+        },
+        "baseline_mpg": {
+          "recalculated": 24.16885572,
+          "draft": 24.169,
+          "difference": -0.00014428
+        },
+        "baseline_custom_fpg": {
+          "recalculated": 31.05970149,
+          "draft": 31.06,
+          "difference": -0.00029851
+        },
+        "baseline_custom_fp36": {
+          "recalculated": 46.26405431,
+          "draft": 46.264,
+          "difference": 5.431e-05
+        },
+        "preseason_minutes": {
+          "recalculated": 31.183333,
+          "draft": 31.18,
+          "difference": 0.003333
+        },
+        "preseason_FP_total": {
+          "recalculated": 44.25,
+          "draft": 44.25,
+          "difference": 0.0
+        },
+        "projected_custom_fp36": {
+          "recalculated": 46.46418198,
+          "draft": 46.464,
+          "difference": 0.00018198
+        },
+        "projected_minutes_per_game": {
+          "recalculated": 23.48512172,
+          "draft": 23.485,
+          "difference": 0.00012172
+        },
+        "projected_active_fpg": {
+          "recalculated": 30.31158249,
+          "draft": 30.312,
+          "difference": -0.00041751
+        },
+        "availability_rate": {
+          "recalculated": 0.7919285349,
+          "draft": 0.7919,
+          "difference": 2.8535e-05
+        },
+        "expected_fp_per_team_game": {
+          "recalculated": 24.00460711,
+          "draft": 24.005,
+          "difference": -0.00039289
+        }
+      },
+      "all_values_match_after_report_rounding": true
+    },
+    "Andrew_Wiggins_independent_forecast": {
+      "historical_source_totals": {
+        "PTS": 1045.0,
+        "3PTM": 138.0,
+        "FTA": 162.0,
+        "OREB": 115.0,
+        "DREB": 214.0,
+        "AST": 182.0,
+        "STL": 76.0,
+        "BLK": 69.0,
+        "TO": 103.0,
+        "PF": 156.0,
+        "TECH": 0.0,
+        "EJCT": 0.0,
+        "FF": 0.0,
+        "DD": 2.0,
+        "TD": 0.0
+      },
+      "historical_GP": 68,
+      "historical_custom_fp_total": 2340.0,
+      "historical_custom_fpg": 34.411764705882355,
+      "historical_custom_fp36": 40.841689163910566,
+      "preseason_rows": [
+        {
+          "game_id": "0012600001",
+          "minutes": 15.183333333333334,
+          "fp": 17.75
+        },
+        {
+          "game_id": "0012600009",
+          "minutes": 12.783333333333333,
+          "fp": 22.5
+        }
+      ],
+      "preseason_dnp_game_ids": [
+        "0012600002"
+      ],
+      "preseason_minutes": 27.96666666666667,
+      "preseason_fp_total": 40.25,
+      "preseason_fp36": 51.81168057210965,
+      "rate_shrink_weight": 0.037390258032889166,
+      "role_shrink_weight": 0.07208523068992181,
+      "projected_fp36": 41.251859973281704,
+      "projected_minutes_per_game": 29.153807348181992,
+      "projected_active_fpg": 33.4069105115343,
+      "availability_prior_player_count": 452,
+      "availability_mean_GP_over_82": 0.6888355277358084,
+      "availability_rate": 0.801732456418786,
+      "expected_fp_per_team_game": 26.783404425774958,
+      "draft_comparisons": {
+        "historical_GP": {
+          "recalculated": 68,
+          "draft": 68,
+          "difference": 0
+        },
+        "historical_custom_fpg": {
+          "recalculated": 34.411764705882355,
+          "draft": 34.412,
+          "difference": -0.000235294
+        },
+        "historical_custom_fp36": {
+          "recalculated": 40.841689163910566,
+          "draft": 40.842,
+          "difference": -0.000310836
+        },
+        "preseason_minutes": {
+          "recalculated": 27.96666666666667,
+          "draft": 27.97,
+          "difference": -0.003333333
+        },
+        "preseason_custom_fp_total": {
+          "recalculated": 40.25,
+          "draft": 40.25,
+          "difference": 0.0
+        },
+        "projected_custom_fp36": {
+          "recalculated": 41.251859973281704,
+          "draft": 41.252,
+          "difference": -0.000140027
+        },
+        "projected_minutes_per_game": {
+          "recalculated": 29.153807348181992,
+          "draft": 29.154,
+          "difference": -0.000192652
+        },
+        "projected_active_fpg": {
+          "recalculated": 33.4069105115343,
+          "draft": 33.407,
+          "difference": -8.9488e-05
+        },
+        "availability_rate": {
+          "recalculated": 0.801732456418786,
+          "draft": 0.8017,
+          "difference": 3.2456e-05
+        },
+        "expected_fp_per_team_game": {
+          "recalculated": 26.783404425774958,
+          "draft": 26.783,
+          "difference": 0.000404426
+        }
+      },
+      "all_values_match_after_report_rounding": true
+    }
+  },
+  "projected_team_rank_check": {
+    "method": "sum the 10 greatest projected_expected_fpg_per_team_game values per team from the 208-row player-model CSV",
+    "top_four": [
+      {
+        "team_id": "team_15",
+        "top10_names": [
+          "Jamal Murray",
+          "Karl-Anthony Towns",
+          "Kon Knueppel",
+          "Immanuel Quickley",
+          "Brandin Podziemski",
+          "OG Anunoby",
+          "Wendell Carter Jr.",
+          "Keyonte George",
+          "Mark Williams",
+          "Duncan Robinson"
+        ],
+        "top10_sum_from_rounded_player_csv": 297.963,
+        "recomputed_rank": 1,
+        "draft_projected_sum": 297.963,
+        "draft_projected_rank": 1
+      },
+      {
+        "team_id": "team_05",
+        "top10_names": [
+          "Victor Wembanyama",
+          "Jaylen Brown",
+          "Brandon Ingram",
+          "Jabari Smith Jr.",
+          "Reed Sheppard",
+          "Toumani Camara",
+          "Lauri Markkanen",
+          "Deandre Ayton",
+          "Ace Bailey",
+          "T.J. McConnell"
+        ],
+        "top10_sum_from_rounded_player_csv": 295.029,
+        "recomputed_rank": 2,
+        "draft_projected_sum": 295.029,
+        "draft_projected_rank": 2
+      },
+      {
+        "team_id": "team_02",
+        "top10_names": [
+          "Alperen Sengun",
+          "Scottie Barnes",
+          "De'Aaron Fox",
+          "Stephon Castle",
+          "Andrew Wiggins",
+          "Jrue Holiday",
+          "RJ Barrett",
+          "Max Christie",
+          "Pelle Larsson",
+          "Zaccharie Risacher"
+        ],
+        "top10_sum_from_rounded_player_csv": 278.513,
+        "recomputed_rank": 3,
+        "draft_projected_sum": 278.513,
+        "draft_projected_rank": 3
+      },
+      {
+        "team_id": "team_13",
+        "top10_names": [
+          "Nikola Jokic",
+          "Jalen Brunson",
+          "Naz Reid",
+          "Jaime Jaquez Jr.",
+          "Josh Hart",
+          "Jeremiah Fears",
+          "Jarrett Allen",
+          "John Collins",
+          "Kyle Kuzma",
+          "Egor Demin"
+        ],
+        "top10_sum_from_rounded_player_csv": 278.437,
+        "recomputed_rank": 4,
+        "draft_projected_sum": 278.437,
+        "draft_projected_rank": 4
+      }
+    ],
+    "all_16_teams_rank_sums": [
+      {
+        "team_id": "team_15",
+        "top10_names": [
+          "Jamal Murray",
+          "Karl-Anthony Towns",
+          "Kon Knueppel",
+          "Immanuel Quickley",
+          "Brandin Podziemski",
+          "OG Anunoby",
+          "Wendell Carter Jr.",
+          "Keyonte George",
+          "Mark Williams",
+          "Duncan Robinson"
+        ],
+        "top10_sum_from_rounded_player_csv": 297.963,
+        "recomputed_rank": 1,
+        "draft_projected_sum": 297.963,
+        "draft_projected_rank": 1
+      },
+      {
+        "team_id": "team_05",
+        "top10_names": [
+          "Victor Wembanyama",
+          "Jaylen Brown",
+          "Brandon Ingram",
+          "Jabari Smith Jr.",
+          "Reed Sheppard",
+          "Toumani Camara",
+          "Lauri Markkanen",
+          "Deandre Ayton",
+          "Ace Bailey",
+          "T.J. McConnell"
+        ],
+        "top10_sum_from_rounded_player_csv": 295.029,
+        "recomputed_rank": 2,
+        "draft_projected_sum": 295.029,
+        "draft_projected_rank": 2
+      },
+      {
+        "team_id": "team_02",
+        "top10_names": [
+          "Alperen Sengun",
+          "Scottie Barnes",
+          "De'Aaron Fox",
+          "Stephon Castle",
+          "Andrew Wiggins",
+          "Jrue Holiday",
+          "RJ Barrett",
+          "Max Christie",
+          "Pelle Larsson",
+          "Zaccharie Risacher"
+        ],
+        "top10_sum_from_rounded_player_csv": 278.513,
+        "recomputed_rank": 3,
+        "draft_projected_sum": 278.513,
+        "draft_projected_rank": 3
+      },
+      {
+        "team_id": "team_13",
+        "top10_names": [
+          "Nikola Jokic",
+          "Jalen Brunson",
+          "Naz Reid",
+          "Jaime Jaquez Jr.",
+          "Josh Hart",
+          "Jeremiah Fears",
+          "Jarrett Allen",
+          "John Collins",
+          "Kyle Kuzma",
+          "Egor Demin"
+        ],
+        "top10_sum_from_rounded_player_csv": 278.437,
+        "recomputed_rank": 4,
+        "draft_projected_sum": 278.437,
+        "draft_projected_rank": 4
+      },
+      {
+        "team_id": "team_11",
+        "top10_names": [
+          "Luka Doncic",
+          "Chet Holmgren",
+          "Nickeil Alexander-Walker",
+          "Nikola Vucevic",
+          "Devin Booker",
+          "Kyle Filipowski",
+          "Zion Williamson",
+          "Day'Ron Sharpe",
+          "Collin Murray-Boyles",
+          "Franz Wagner"
+        ],
+        "top10_sum_from_rounded_player_csv": 277.813,
+        "recomputed_rank": 5,
+        "draft_projected_sum": 277.813,
+        "draft_projected_rank": 5
+      },
+      {
+        "team_id": "team_14",
+        "top10_names": [
+          "Kevin Durant",
+          "Donovan Clingan",
+          "Derrick White",
+          "Payton Pritchard",
+          "Maxime Raynaud",
+          "Jalen Suggs",
+          "Grayson Allen",
+          "Jimmy Butler III",
+          "Isaiah Hartenstein",
+          "Jerami Grant"
+        ],
+        "top10_sum_from_rounded_player_csv": 277.128,
+        "recomputed_rank": 6,
+        "draft_projected_sum": 277.128,
+        "draft_projected_rank": 6
+      },
+      {
+        "team_id": "team_09",
+        "top10_names": [
+          "Jalen Johnson",
+          "Deni Avdija",
+          "Onyeka Okongwu",
+          "DeMar DeRozan",
+          "Stephen Curry",
+          "Andrew Nembhard",
+          "Alex Sarr",
+          "Tobias Harris",
+          "Mitchell Robinson",
+          "Ajay Mitchell"
+        ],
+        "top10_sum_from_rounded_player_csv": 272.041,
+        "recomputed_rank": 7,
+        "draft_projected_sum": 272.041,
+        "draft_projected_rank": 7
+      },
+      {
+        "team_id": "team_04",
+        "top10_names": [
+          "James Harden",
+          "Paolo Banchero",
+          "Dyson Daniels",
+          "Miles Bridges",
+          "Saddiq Bey",
+          "Giannis Antetokounmpo",
+          "Sandro Mamukelashvili",
+          "Jalen Smith",
+          "Coby White",
+          "Daniel Gafford"
+        ],
+        "top10_sum_from_rounded_player_csv": 269.675,
+        "recomputed_rank": 8,
+        "draft_projected_sum": 269.675,
+        "draft_projected_rank": 8
+      },
+      {
+        "team_id": "team_07",
+        "top10_names": [
+          "Bam Adebayo",
+          "Anthony Edwards",
+          "Collin Gillespie",
+          "Michael Porter Jr.",
+          "Matas Buzelis",
+          "Anthony Black",
+          "Joel Embiid",
+          "Cedric Coward",
+          "Santi Aldama",
+          "Noah Clowney"
+        ],
+        "top10_sum_from_rounded_player_csv": 267.399,
+        "recomputed_rank": 9,
+        "draft_projected_sum": 267.399,
+        "draft_projected_rank": 9
+      },
+      {
+        "team_id": "team_01",
+        "top10_names": [
+          "LaMelo Ball",
+          "Julius Randle",
+          "Rudy Gobert",
+          "Pascal Siakam",
+          "Norman Powell",
+          "Jarace Walker",
+          "P.J. Washington",
+          "Kevin Porter Jr.",
+          "Andre Drummond",
+          "Jayson Tatum"
+        ],
+        "top10_sum_from_rounded_player_csv": 260.702,
+        "recomputed_rank": 10,
+        "draft_projected_sum": 260.702,
+        "draft_projected_rank": 10
+      },
+      {
+        "team_id": "team_12",
+        "top10_names": [
+          "Cooper Flagg",
+          "Evan Mobley",
+          "LeBron James",
+          "Julian Champagnie",
+          "Myles Turner",
+          "Ayo Dosunmu",
+          "Devin Vassell",
+          "Jaylon Tyson",
+          "Dylan Harper",
+          "Tari Eason"
+        ],
+        "top10_sum_from_rounded_player_csv": 259.984,
+        "recomputed_rank": 11,
+        "draft_projected_sum": 259.984,
+        "draft_projected_rank": 11
+      },
+      {
+        "team_id": "team_08",
+        "top10_names": [
+          "Donovan Mitchell",
+          "Ryan Rollins",
+          "CJ McCollum",
+          "Mikal Bridges",
+          "Neemias Queta",
+          "Draymond Green",
+          "Jaren Jackson Jr.",
+          "Brook Lopez",
+          "Anfernee Simons",
+          "Kelly Oubre Jr."
+        ],
+        "top10_sum_from_rounded_player_csv": 250.444,
+        "recomputed_rank": 12,
+        "draft_projected_sum": 250.444,
+        "draft_projected_rank": 12
+      },
+      {
+        "team_id": "team_06",
+        "top10_names": [
+          "Tyrese Maxey",
+          "Amen Thompson",
+          "Jalen Duren",
+          "Derik Queen",
+          "Davion Mitchell",
+          "Darius Garland",
+          "Daniss Jenkins",
+          "Anthony Davis",
+          "Isaiah Stewart",
+          "Christian Braun"
+        ],
+        "top10_sum_from_rounded_player_csv": 250.333,
+        "recomputed_rank": 13,
+        "draft_projected_sum": 250.333,
+        "draft_projected_rank": 13
+      },
+      {
+        "team_id": "team_10",
+        "top10_names": [
+          "Shai Gilgeous-Alexander",
+          "Trey Murphy III",
+          "Desmond Bane",
+          "Jaden McDaniels",
+          "Bobby Portis Jr.",
+          "Quentin Grimes",
+          "Cason Wallace",
+          "Jusuf Nurkic",
+          "Cameron Johnson",
+          "Domantas Sabonis"
+        ],
+        "top10_sum_from_rounded_player_csv": 249.78,
+        "recomputed_rank": 14,
+        "draft_projected_sum": 249.78,
+        "draft_projected_rank": 14
+      },
+      {
+        "team_id": "team_16",
+        "top10_names": [
+          "Josh Giddey",
+          "VJ Edgecombe",
+          "Brandon Miller",
+          "Nic Claxton",
+          "Austin Reaves",
+          "Moussa Diabate",
+          "Ivica Zubac",
+          "Dillon Brooks",
+          "Bennedict Mathurin",
+          "Oso Ighodaro"
+        ],
+        "top10_sum_from_rounded_player_csv": 249.607,
+        "recomputed_rank": 15,
+        "draft_projected_sum": 249.607,
+        "draft_projected_rank": 15
+      },
+      {
+        "team_id": "team_03",
+        "top10_names": [
+          "Cade Cunningham",
+          "Kawhi Leonard",
+          "Kel'el Ware",
+          "Naji Marshall",
+          "Ausar Thompson",
+          "Kyshawn George",
+          "Klay Thompson",
+          "Luke Kornet",
+          "AJ Dybantsa",
+          "Cameron Boozer"
+        ],
+        "top10_sum_from_rounded_player_csv": 238.651,
+        "recomputed_rank": 16,
+        "draft_projected_sum": 238.651,
+        "draft_projected_rank": 16
+      }
+    ],
+    "all_team_sums_and_ranks_match_draft_csv": true,
+    "notable_order_check": {
+      "team_10_rank": 14,
+      "team_10_sum": 249.78,
+      "team_16_rank": 15,
+      "team_16_sum": 249.607
+    }
+  },
+  "result_summary": "All 20 sampled player-game rows across 16 games matched raw boxscore/PBP fields and custom FP in the draft CSV. The required double-technical and ejection counts, technical-free-throw exclusion, flopping technicals, Bobby Portis Jr. corrected historical baseline and forecast, Wiggins forecast, 452-player availability prior, and all 16 projected team sums/ranks reconciled. Full-precision independent forecast outputs agree with the rounded CSV values within 0.001; baseline and preseason minute aggregates agree at the precision printed in their CSV columns."
+}
