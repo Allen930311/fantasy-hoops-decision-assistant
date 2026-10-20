@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-14",
+  "as_of": "2026-10-20",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -20,7 +20,7 @@
         "P.J. Washington",
         "Kevin Porter Jr.",
         "Keegan Murray",
-        "Jarace Walker",
+        "Kasparas Jakučionis",
         "Keaton Wagler",
         "Andre Drummond"
       ]
@@ -327,10 +327,10 @@
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-14",
+    "date": "2026-10-20",
     "team_id": "team_01",
-    "out": "Collin Sexton",
-    "in": "Jarace Walker",
+    "out": "Jarace Walker",
+    "in": "Kasparas Jakučionis",
     "authority": "yahoo_fantasy_transaction_screenshot"
   },
   "transaction_notes": [
@@ -341,6 +341,14 @@
       "in": "Yves Missi",
       "authority": "owner_confirmed_yahoo_transaction",
       "note": "Owner confirms team_09 previously dropped Yves Missi and later re-added him. Current repo already reflects Yves Missi, so no roster change needed."
+    },
+    {
+      "date": "2026-10-20",
+      "team_id": "team_01",
+      "out": "Jarace Walker",
+      "in": "Kasparas Jakučionis",
+      "authority": "yahoo_fantasy_transaction_screenshot",
+      "note": "Yahoo Fantasy chat screenshot provided by owner on 2026-10-20 shows completed add/drop; exact transaction time not independently verified."
     }
   ]
 }
