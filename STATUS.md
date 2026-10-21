@@ -1,56 +1,44 @@
 # STATUS
 
 **Project:** Fantasy Hoops Decision Assistant  
-**Status:** Yahoo Fantasy API access submitted — awaiting review  
-**Lifecycle:** Active  
+**Status:** EXTERNAL_BLOCKER — Yahoo Fantasy API application declined; lawful offline/manual R0 is the next gate  
+**Lifecycle:** Active (offline R0 and PR #6 still require review/qualification)  
 **Repository:** `Allen930311/fantasy-hoops-decision-assistant`
 
 ## Current objective
 
-Wait for Yahoo Fantasy Sports API approval, then validate a read-only R0 against the owner's Fantasy Basketball league and reconcile it against the season-scoped bootstrap snapshot.
+Move the next useful decision-support milestone to a **lawful offline/manual workflow**: review the existing 2026–27 16-team model, score public/licensed player data using the owner's league rules, and reconcile owner-confirmed roster/waiver inputs with explicit timestamps and uncertainty. See [Issue #7](https://github.com/Allen930311/fantasy-hoops-decision-assistant/issues/7). [Issue #5](https://github.com/Allen930311/fantasy-hoops-decision-assistant/issues/5) and Draft [PR #6](https://github.com/Allen930311/fantasy-hoops-decision-assistant/pull/6) retain their independent ranking, validation and CI gates.
 
-## API access state
+## API access: external blocker (new evidence)
 
-Yahoo Fantasy Sports API access application was successfully submitted on 2026-10-04.
+- Application submitted on **2026-10-04**. The previous `AWAITING_REVIEW` wording was the historical state, **not current truth**.
+- The Yahoo Fantasy API Team **declined this application** by official email dated **2026-10-19** (2026-10-20 Asia/Taipei). It stated that the proposed use case did not align with its current API Access and Use Agreement/policies and that the standard terms are for use in the United States and Canada only.
+- **No authorization or live read-only connection has been granted.** This denial does not establish that every future application is impossible; any future integration would require fresh eligibility, provider permission and Owner approval.
+- Do **not** circumvent Yahoo's access restrictions with scraped protected pages, undocumented APIs, session cookies, geographic workarounds, or unapproved credentials. Do not infer Yahoo write access.
 
-Yahoo currently provides read access only. Write access is not available at this time.
+## Season-scoped local bootstrap (not live league authority)
 
-The application is now waiting for review by the Yahoo Fantasy Sports team.
+The repository stores the **2026–27** league under `seasons/2026-27/`:
 
-## Available bootstrap state
+- 16 teams, 13 recorded roster slots each, 208 unique rostered-player slots in the recorded bootstrap;
+- `team_02` is the owner's team in that bootstrap;
+- `league.json` provides the owner-defined scoring rules;
+- `rosters.json` is a mutable, **as-of** owner-provided snapshot, not a verified current Yahoo roster, waiver pool, or transaction feed;
+- the 2026-10-04 Marcus Smart → Pelle Larsson change is historical evidence, **not** proof that the October 2026 live roster remains identical.
 
-The repository contains a season-scoped **2026–2027** bootstrap league snapshot under `seasons/2026-27/`:
+Newer changes require an owner-confirmed input, dated `as_of`, provenance and integrity validation. If they have not been reconciled, explicitly label the roster state **STALE / UNCONFIRMED** rather than silently treating the last file as live state.
 
-- 16 teams;
-- 13 rostered players per team;
-- 208 unique rostered players;
-- `team_02` is the owner's team;
-- owner-defined 2026–2027 scoring rules are stored separately from roster state;
-- latest owner-confirmed roster change: Marcus Smart out, Pelle Larsson in on 2026-10-04.
+## Offline/manual R0 acceptance (not yet complete)
 
-The roster file is intentionally mutable so confirmed adds, drops, and trades can be reflected without changing the scoring configuration. Future seasons must use a separate season directory because both roster composition and league scoring may change.
+1. Validate season configuration (`league.json`), roster structure, unique ownership and explicit input `as_of` date.
+2. Use publicly available data only where access, permitted use and attribution are verified. Record per-player statistic source, data cutoff, coverage, missingness and owner-defined fantasy point calculations; do not substitute Yahoo generic scoring.
+3. Document the manual input/reconciliation SOP for league teams, adds/drops/trades and waiver/eligibility status (input, authority, provenance, side effects, failures). **Not on a stored roster ≠ confirmed available on Yahoo.**
+4. Keep actual performance and forward projections separate and show uncertainty. Validate the 16-team ranking, independent Fresh Agent recalculation and CI for Issue #5 / Draft PR #6.
+5. Publish decision recommendations only with an explicit source/uncertainty label; unsupported Yahoo-specific ownership or availability remains **UNKNOWN**.
+6. Obtain the normal Owner merge gate before promoting any Draft work.
 
-This bootstrap state does **not** replace the planned Yahoo source-of-truth integration.
+## Current boundary and next action
 
-## R0 acceptance
+There is no authorized Yahoo API production integration. Offline scoring and owner-supplied snapshots are usable as *inputs*, not provider-certified live league truth. The next step is [Issue #7](https://github.com/Allen930311/fantasy-hoops-decision-assistant/issues/7) and PR #6 review, **not waiting indefinitely for Yahoo approval**. Reconsider an official integration only on new, legitimate provider authorization; never work around the denial.
 
-R0 is complete when the project can:
-
-1. authenticate successfully;
-2. identify the target Fantasy Basketball league;
-3. retrieve the full league team/roster state;
-4. retrieve the current available / waiver player pool;
-5. normalize ownership state;
-6. reconcile that ownership state against the existing fantasy dataset without unexplained mismatches.
-
-## Current boundary
-
-No production integration has been implemented yet. Do not build around assumed Yahoo write access. The first implementation target is read-only league-state ingestion and analysis.
-
-Until R0 reconciliation is complete, `seasons/2026-27/rosters.json` is a manual bootstrap snapshot, not a live Yahoo authority.
-
-## Next action
-
-Wait for Yahoo's approval response. Once credentials / access are granted, configure OAuth locally without committing secrets, begin live league-read validation, and reconcile Yahoo state against the 2026–2027 bootstrap snapshot.
-
-_Last reviewed: 2026-10-04_
+_Last evidence reconciliation: 2026-10-21 (Asia/Taipei). Documentation update proposed; does not by itself qualify offline R0 or PR #6._
