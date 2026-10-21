@@ -23,7 +23,7 @@ Current baseline:
 - For a new season, create a new sibling directory such as `seasons/2027-28/` with that season's own league settings and rosters.
 - `team_02` is the owner's team for this snapshot.
 - The source workbook contained a display-only “14th slot vacancy”; it is intentionally excluded. The recorded roster size is **13 players per team**.
-- Until Yahoo read-only integration is validated, this snapshot is the bootstrap ownership-state source. After reconciliation, Yahoo becomes league-state truth while owner-defined scoring remains decision truth.
+- Yahoo declined the project's API application by official notice dated 2026-10-19. This is an **as-of owner-provided bootstrap**, not current or provider-certified roster/waiver truth; require owner-confirmed updates with `as_of`, provenance and validation. An official Yahoo source can become league-state authority only after newly granted permission, integration and read-back evidence; owner scoring remains decision truth.
 
 ## Integrity snapshot
 
