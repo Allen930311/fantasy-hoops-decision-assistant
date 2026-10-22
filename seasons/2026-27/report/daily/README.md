@@ -28,8 +28,8 @@
 - `BLOCKED`：GitHub、數據或 authority 無法取得；不以記憶代替。
 - `FAIL`：任一球員歸屬錯誤、缺少使用者出賽球員、計分冒充完整或證據造假；不得發布正式版。
 
-## Fresh Agent 驗收
-使用無歷史對話的 Fresh Agent，分別測試『不使用 SOP』與『使用 SOP』對同一份固定真實 NBA 比賽/roster/scoring 樣本的結果；驗證覆蓋率、FP 精確度、FA ownership、provisional gate、重跑去重、版本保留與遠端讀回。保留原始 transcript 與比較結果。驗收前不得宣稱排程已具備自動回存能力。
+## 本功能 Fresh Agent 驗收豁免（Owner 決定，2026-10-22）
+使用者明確表示「這個不需要 fresh agent，可以收尾了」。本次 PR #9 的 Fresh Agent A/B 狀態為 `WAIVED_BY_OWNER`，**不是 PASS，也沒有執行**。豁免只限本每日戰報歸檔功能；自動化計分／歸屬測試、GitHub 寫入／讀回、驗證資料缺口與真實排程執行安全性仍需保留。其他工作流程的 Fresh Agent 驗收規則不因此改變。
 
 ## 計分與狀態補充（P0 修正）
 - FP 僅依 `league.json.scoring` 各項逐項計算：`PTS,3PTM,OREB,DREB,AST,STL,BLK,TO,FTA,PF,TECH,EJCT,FF,DD,TD`；OREB/DREB 必須分開，REB 不能直接代替。DD 與 TD 依 league.json 註記可累加，獎勵資格須由官方數據核對。
@@ -46,9 +46,9 @@
 - 名稱差異可用 `identity_aliases` 明確映射 `box_name/roster_name/source`；禁止只用模糊姓名比對。程式只接受賽程顯示已結束的比賽，且若有已完賽但沒 box score 則 fail closed。
 - CLI 輸出 JSON `{path,sha256,created,status,missing}`。`VALIDATED` 只表示內容與數值通過驗證，**不等於 GitHub ARCHIVED**；GitHub 歸檔仍需分支寫入、PR 合併及 main 遠端讀回。
 - 缺少欄位時只輸出 `PROVISIONAL`，不會把缺少的欄位補零。已驗證表格由程式產生，正文維持懂球球迷敘事；正文的事實與選材仍需要獨立 review。
-- 本機測試：`python -m unittest discover -s tests -p 'test_daily_report_archive.py' -v`；歷史真實案例在 `tests/fixtures/`，Fresh Agent 驗收操作書在 `tests/fresh-agent/README.md`。只有全部關卡完成後才可接入 15:00 排程。
+- 本機測試：`python -m unittest discover -s tests -p 'test_daily_report_archive.py' -v`；歷史真實案例在 `tests/fixtures/`，Fresh Agent 驗收操作書在 `tests/fresh-agent/README.md`。本功能依 Owner 豁免 Fresh Agent；其他 CI／資料品質／GitHub 讀回關卡仍需滿足才能接入 15:00 排程。
 
-## 尚待完成（不得誤報）
-- GitHub 寫入／PR／main 讀回的獨立遠端 publishing adapter。
-- 真正的 Fresh Agent A/B，保留 transcript 與對照證據。
-- 對最新 2026–27 roster、整日官方賽程與 box-score 的真實 E2E；通過前不能宣稱戰報自動回存已上線。
+## 發布器與完成狀態
+- 已有 `scripts/publish_daily_report_github.py`，建立 Draft PR 並從 PR branch 讀回；僅在另外呼叫 `--verify-main` 且內容與 main 一致時回報 `ARCHIVED`。
+- 完整真實 2026–27 當日賽程、逐人資料及發報的 E2E，應以**第一次實際排程執行結果**判定，不得因歷史測試通過而冒稱已驗收。官方缺欄必須保留 `PROVISIONAL`。
+- Fresh Agent：本功能 Owner 豁免，不需執行。若 GitHub 無寫入權限或建立 PR 失敗，正常傳送文章並回報 `ARCHIVE_BLOCKED`，不得冒稱已進 main。
