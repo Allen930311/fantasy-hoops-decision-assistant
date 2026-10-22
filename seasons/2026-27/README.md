@@ -13,7 +13,7 @@ This directory contains the owner-specific league state and scoring configuratio
 
 Reports under `report/` are dated analytical snapshots. They should **not** be silently rewritten when projections change; create a new dated report/model version so later season states can be compared against the earlier baseline.
 
-Daily reports use immutable dated snapshots under `report/daily/`; `VALIDATED` is a content gate, not proof of GitHub `ARCHIVED`. Archival automation remains disabled until Fresh Agent and remote E2E acceptance.
+Daily reports use immutable dated snapshots under `report/daily/`; `VALIDATED` is a content gate, not proof of GitHub `ARCHIVED`. The Fresh Agent trial for PR #9 was waived by the owner on 2026-10-22; CI, provenance, GitHub write/readback and correct status labeling remain requirements. Check deployment/automation state separately from existence of code.
 
 Current baseline:
 
