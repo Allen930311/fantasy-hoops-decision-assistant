@@ -1,0 +1,114 @@
+{
+  "fixture_id": "historical-2025-nba-finals-game-7",
+  "fixture_type": "historical_real_box_partial",
+  "note": "Historical validation fixture only. Mini roster is synthetic, not the user's 2026-27 roster. TECH/EJCT/FF are deliberately not asserted zero; result must remain PROVISIONAL.",
+  "league": {
+    "season": "2026-27",
+    "owner_team_id": "team_02",
+    "scoring": {
+      "FTA": -0.25,
+      "3PTM": 2,
+      "PTS": 1,
+      "OREB": 2.5,
+      "DREB": 1.5,
+      "AST": 2,
+      "STL": 3,
+      "BLK": 3,
+      "TO": -2,
+      "PF": -1,
+      "TECH": -1,
+      "EJCT": -10,
+      "FF": -5,
+      "DD": 7,
+      "TD": 6
+    }
+  },
+  "rosters": {
+    "season": "2026-27",
+    "teams": [
+      {
+        "team_id": "team_02",
+        "players": [
+          "Shai Gilgeous-Alexander"
+        ]
+      },
+      {
+        "team_id": "team_01",
+        "players": [
+          "Jalen Williams"
+        ]
+      }
+    ]
+  },
+  "games": [
+    {
+      "id": "0042400407",
+      "status": "final",
+      "date_taipei": "2025-06-23",
+      "source_url": "https://www.nba.com/game/ind-vs-okc-0042400407/box-score",
+      "players": [
+        {
+          "name": "Shai Gilgeous-Alexander",
+          "stats": {
+            "MIN": "40:11",
+            "PTS": 29,
+            "3PTM": 2,
+            "OREB": 0,
+            "DREB": 5,
+            "AST": 12,
+            "STL": 1,
+            "BLK": 2,
+            "TO": 1,
+            "FTA": 12,
+            "PF": 5
+          }
+        },
+        {
+          "name": "Jalen Williams",
+          "stats": {
+            "MIN": "38:13",
+            "PTS": 20,
+            "3PTM": 2,
+            "OREB": 0,
+            "DREB": 4,
+            "AST": 4,
+            "STL": 2,
+            "BLK": 0,
+            "TO": 1,
+            "FTA": 6,
+            "PF": 4
+          }
+        }
+      ]
+    }
+  ],
+  "report": {
+    "date": "2025-06-23",
+    "other_players": [
+      "Jalen Williams"
+    ],
+    "owner_players": [
+      "Shai Gilgeous-Alexander"
+    ],
+    "free_agents": [],
+    "body": "歷史固定案例：雷霆 2025 總冠軍賽 G7；僅作計分／缺欄驗證，不是 2026–27 正式戰報。",
+    "source_urls": [
+      "https://www.nba.com/game/ind-vs-okc-0042400407/box-score",
+      "https://www.basketball-reference.com/boxscores/202506220OKC.html"
+    ],
+    "provenance": {
+      "roster_commit_sha": "historical-mini-snapshot",
+      "rosters_blob_sha": "historical-mini-snapshot",
+      "league_blob_sha": "historical-scoring-fixture",
+      "data_cutoff_taipei": "2025-06-23T15:00:00+08:00",
+      "generated_at_taipei": "2026-10-22T15:45:00+08:00"
+    }
+  },
+  "schedule_games": [
+    {
+      "id": "0042400407",
+      "status": "final"
+    }
+  ],
+  "schedule_source_url": "https://www.nba.com/game/ind-vs-okc-0042400407/box-score"
+}

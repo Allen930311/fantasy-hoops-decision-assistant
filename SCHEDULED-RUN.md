@@ -28,7 +28,7 @@ If the repository later changes the active season or authority path, follow the 
 
 Resolve the owner's team from `owner_team_id`; do not hard-code player names in the scheduled task.
 
-Roster changes are authoritative only when they are present in the repository's current state. Do not reconstruct old roster membership from chat memory or from an older scheduled prompt.
+Roster changes in the repository are the first ownership authority. A later owner message explicitly confirming an already completed but not yet synced transaction can temporarily override the affected player identities, with citation and timestamp. A proposed/intent-only transaction never overrides the repository. Do not reconstruct prior roster membership from general chat memory.
 
 ## 3. Free-agent / available-player truth
 
@@ -92,3 +92,15 @@ If nothing materially changes, do not notify.
 If the current repository authority cannot be read, fail closed and report the exact missing source instead of falling back to an old hard-coded roster or scoring prompt.
 
 This scheduled monitor is read-only. It must not edit the repository, execute Yahoo roster actions, submit waivers, or make trades.
+
+## 8. Daily report vs conditional alert (2026–27)
+
+The scheduled **15:00 Asia/Taipei** daily battle report is a separate delivery obligation from the conditional notification gate in section 6. If one or more NBA games have completed by the data cutoff, produce the complete daily report even when there is no actionable ADD/DROP/TRADE alert. Section 6 governs only **extra GM action alerts**, not daily report delivery.
+
+Daily reports cover every owner-roster player who played, curated highlights from other 15 teams, and selected truly unrostered free agents. Use fresh main rosters and season scoring. Explicitly confirmed but unsynced completed adds are temporary ownership exclusions; mere trade intentions are not.
+
+**Read-only separation:** The monitor itself remains read-only with respect to rosters, Yahoo, waivers and trades. The independently tested report archival writer may only create immutable files beneath `seasons/<season>/report/daily/`, on a review branch/PR; it has no authority to change rosters, scoring, or transact. Owner explicitly waived the Fresh Agent comparison **for this daily-report archive integration only** on 2026-10-22. This is a WAIVER, not Fresh Agent PASS. After successful code CI, GitHub authorization/readback smoke test, and merge of the reviewed archive implementation, the existing daily scheduled task may invoke the independently scoped report archive flow. Treat a branch commit as PR_PENDING; report ARCHIVED only after a verified main readback. Failure to archive must not suppress the daily report. On writer failure, still deliver the report with an archive failure label; never claim archival success prematurely.
+
+## 9. One-time acceptance decision for PR #9 (2026-10-22)
+
+Owner: Fresh Agent A/B is **not required for this feature**; this does **not** repeal Fresh Agent requirements for any other workflow. Standard automated tests, complete provenance, write/readback verification, and fail-closed report publication remain required. The daily report remains a separate delivery from archiving. A successful draft PR alone is not proof that the report is already in main.
