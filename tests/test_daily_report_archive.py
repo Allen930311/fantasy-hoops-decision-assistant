@@ -208,4 +208,19 @@ class ArchiveTests(unittest.TestCase):
         self.assertIn("Alperen Sengun",scores)
         self.assertFalse(missing)
 
+
+    def test_archive_rejects_path_traversal_and_invalid_date(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            for bad in ("../escape","2026-10-22/../../escape","2026-02-30","2026-10-2"):
+                with self.subTest(bad=bad):
+                    with self.assertRaises(ValueError):
+                        module.write_immutable(Path(tmp),bad,"data","VALIDATED")
+    def test_archive_does_not_overwrite_previous_version(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            first=module.write_immutable(Path(tmp),"2026-10-22","v1","VALIDATED")
+            next_version=module.write_immutable(Path(tmp),"2026-10-22","v2","VALIDATED")
+            self.assertEqual(first[0].read_text(encoding="utf-8"),"v1")
+            self.assertEqual(next_version[0].read_text(encoding="utf-8"),"v2")
+            self.assertNotEqual(first[0],next_version[0])
+
 if __name__=="__main__":unittest.main()
