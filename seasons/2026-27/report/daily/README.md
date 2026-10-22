@@ -37,3 +37,18 @@
 - **內容 gate**（數據、球員與計分）、**branch commit gate**（PR branch 寫入讀回）、**merge gate**（PR 審查合併）、**main readback gate**（正式歸檔）分別記錄；只有最後一關通過才稱為 `ARCHIVED`。
 - 重跑同一資料/版本的報告須 idempotent（不重複 commit）；provisional 修正、轉正或正式報告更新均新增版本，保留原檔與差異說明。保存來源 URL、取得時間與報告內容 SHA-256。
 - 每日戰報是否發布與是否出現重大 GM 操作警報是兩個獨立決策；有完賽就提供每日戰報，無新操作訊號仍要發布。
+
+## CLI 封存器（離線可獨立執行）
+
+- 指令：`python scripts/daily_report_archive.py INPUT.json --output-dir seasons/2026-27/report/daily`。執行前由上游取得 NBA 賽程與逐人 Box Score（離線程式**不會**自行抓 NBA、建立 GitHub PR 或調整排程）。
+- INPUT 的 `league`／`rosters` 是固定來源快照；`schedule_games` 為獨立完賽清單，`schedule_source_url` 為其來源；`games` 的每個 final 場次須有 `id/date_taipei/source_url/players`。
+- `report` 至少提供 `date/owner_players/other_players/free_agents/body/source_urls/provenance`；如有已確認未同步交易，使用有 `status=completed,team_id,add,confirmed_at,source` 的 `confirmed_transactions`，有 DROP 才填 `drop`。
+- 名稱差異可用 `identity_aliases` 明確映射 `box_name/roster_name/source`；禁止只用模糊姓名比對。程式只接受賽程顯示已結束的比賽，且若有已完賽但沒 box score 則 fail closed。
+- CLI 輸出 JSON `{path,sha256,created,status,missing}`。`VALIDATED` 只表示內容與數值通過驗證，**不等於 GitHub ARCHIVED**；GitHub 歸檔仍需分支寫入、PR 合併及 main 遠端讀回。
+- 缺少欄位時只輸出 `PROVISIONAL`，不會把缺少的欄位補零。已驗證表格由程式產生，正文維持懂球球迷敘事；正文的事實與選材仍需要獨立 review。
+- 本機測試：`python -m unittest discover -s tests -p 'test_daily_report_archive.py' -v`；歷史真實案例在 `tests/fixtures/`，Fresh Agent 驗收操作書在 `tests/fresh-agent/README.md`。只有全部關卡完成後才可接入 15:00 排程。
+
+## 尚待完成（不得誤報）
+- GitHub 寫入／PR／main 讀回的獨立遠端 publishing adapter。
+- 真正的 Fresh Agent A/B，保留 transcript 與對照證據。
+- 對最新 2026–27 roster、整日官方賽程與 box-score 的真實 E2E；通過前不能宣稱戰報自動回存已上線。
