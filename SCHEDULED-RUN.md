@@ -92,3 +92,11 @@ If nothing materially changes, do not notify.
 If the current repository authority cannot be read, fail closed and report the exact missing source instead of falling back to an old hard-coded roster or scoring prompt.
 
 This scheduled monitor is read-only. It must not edit the repository, execute Yahoo roster actions, submit waivers, or make trades.
+
+## 8. Daily report vs conditional alert (2026–27)
+
+The scheduled **15:00 Asia/Taipei** daily battle report is a separate delivery obligation from the conditional notification gate in section 6. If one or more NBA games have completed by the data cutoff, produce the complete daily report even when there is no actionable ADD/DROP/TRADE alert. Section 6 governs only **extra GM action alerts**, not daily report delivery.
+
+Daily reports cover every owner-roster player who played, curated highlights from other 15 teams, and selected truly unrostered free agents. Use fresh main rosters and season scoring. Explicitly confirmed but unsynced completed adds are temporary ownership exclusions; mere trade intentions are not.
+
+**Read-only separation:** The monitor itself remains read-only with respect to rosters, Yahoo, waivers and trades. The independently tested report archival writer may only create immutable files beneath `seasons/<season>/report/daily/`, on a review branch/PR; it has no authority to change rosters, scoring, or transact. Do not activate the archival writer from the scheduled task until independent tests, Fresh Agent acceptance, and branch/main readback have passed. On writer failure, still deliver the report with an archive failure label; never claim archival success prematurely.
