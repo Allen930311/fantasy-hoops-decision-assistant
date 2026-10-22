@@ -116,5 +116,13 @@ class PublisherTests(unittest.TestCase):
             f2.write_bytes(f.read_bytes())
             with self.assertRaises(ValueError):
                 module.read_artifact(f2)
+    def test_archive_version_10_supported(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            f=artifact(tmp)
+            high=Path(tmp)/"2026-10-22.v10.md"
+            high.write_bytes(f.read_bytes())
+            path,content,meta=module.read_artifact(high)
+            self.assertTrue(path.endswith("2026-10-22.v10.md"))
+            self.assertEqual(meta["status"],"VALIDATED")
 if __name__=="__main__":
     unittest.main()
