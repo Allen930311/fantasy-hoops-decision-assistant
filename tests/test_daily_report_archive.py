@@ -14,11 +14,11 @@ SCORING={"PTS":1,"3PTM":2,"OREB":2.5,"DREB":1.5,"AST":2,"STL":3,"BLK":3,
          "TO":-2,"FTA":-0.25,"PF":-1,"TECH":-1,"EJCT":-10,"FF":-5,"DD":7,"TD":6}
 def fixture():
     stats={k:0 for k in module.STATS}
-    stats.update(PTS=12,OREB=3,DREB=6,AST=10,PF=2)
+    stats.update(MIN="30:15",PTS=12,OREB=3,DREB=6,AST=10,PF=2)
     return {"league":{"season":"2026-27","owner_team_id":"team_02","scoring":SCORING},
-            "rosters":{"teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
-            "games":[{"id":"game1","status":"final","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
-            "report":{"date":"2026-10-22","owner_players":["A"],"free_agents":["C"],
+            "rosters":{"season":"2026-27","teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
+            "games":[{"id":"game1","status":"final","date_taipei":"2026-10-22",\n                      "source_url":"https://www.nba.com/game/example","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
+            "report":{"date":"2026-10-22","other_players":[],"owner_players":["A"],"free_agents":["C"],
                       "confirmed_unsynced_adds":["Z"],"body":"# 今日戰報",
                       "source_urls":["https://www.nba.com/game/example"],
                       "provenance":{k:"verified" for k in ("roster_commit_sha","rosters_blob_sha","league_blob_sha","data_cutoff_taipei","generated_at_taipei")}}}
@@ -67,4 +67,61 @@ class ArchiveTests(unittest.TestCase):
             a=module.write_immutable(Path(tmp),"2026-10-22","draft","PROVISIONAL")
             b=module.write_immutable(Path(tmp),"2026-10-22","final","VALIDATED")
             self.assertNotEqual(a[0],b[0])
+
+    def test_owner_unsynced_completed_add_is_covered(self):
+        p=fixture()
+        p["report"]["confirmed_transactions"]=[{"status":"completed","team_id":"team_02","add":"C","confirmed_at":"2026-10-22","source":"owner confirmation"}]
+        p["games"][0]["players"].append({"name":"C","stats":copy.deepcopy(p["games"][0]["players"][0]["stats"])})
+        with self.assertRaisesRegex(ValueError,"owner coverage mismatch"):module.validate(p)
+        p["report"]["owner_players"].append("C")
+        scores,missing=module.validate(p)
+        self.assertIn("C",scores)
+        self.assertFalse(missing)
+    def test_unconfirmed_transaction_is_rejected(self):
+        p=fixture()
+        p["report"]["confirmed_transactions"]=[{"status":"planned","team_id":"team_02","add":"C","confirmed_at":"2026-10-22","source":"intent"}]
+        with self.assertRaisesRegex(ValueError,"completed evidence"):module.validate(p)
+    def test_selected_other_team_is_scored(self):
+        p=fixture()
+        p["report"]["other_players"]=["B"]
+        scores,missing=module.validate(p)
+        self.assertIn("B",scores)
+        self.assertFalse(missing)
+    def test_false_other_or_nonexistent_fa_is_rejected(self):
+        p=fixture()
+        p["report"]["other_players"]=["C"]
+        with self.assertRaises(ValueError):module.validate(p)
+        p=fixture()
+        p["report"]["free_agents"]=["NotInGame"]
+        with self.assertRaises(ValueError):module.validate(p)
+    def test_dnp_row_is_not_scored(self):
+        p=fixture()
+        p["games"][0]["players"].append({"name":"DNP","status":"DNP","stats":{}})
+        module.validate(p)
+    def test_missing_minutes_provisional(self):
+        p=fixture()
+        del p["games"][0]["players"][0]["stats"]["MIN"]
+        scores,missing=module.validate(p)
+        self.assertIn("A",missing)
+        self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
+    def test_render_includes_structured_player_box(self):
+        p=fixture()
+        scores,missing=module.validate(p)
+        text,status=module.render(p,scores,missing)
+        self.assertEqual(status,"VALIDATED")
+        self.assertIn("| A | 30:15 | 12 | 3 | 6 |",text)
+        self.assertIn("## 戰報正文",text)
+    def test_mismatched_taipei_date_rejected(self):
+        p=fixture()
+        p["games"][0]["date_taipei"]="2026-10-21"
+        with self.assertRaises(ValueError):module.validate(p)
+    def test_duplicate_game_player_rejected(self):
+        p=fixture()
+        p["games"].append(copy.deepcopy(p["games"][0]))
+        with self.assertRaises(ValueError):module.validate(p)
+    def test_unknown_scoring_category_rejected(self):
+        p=fixture()
+        p["league"]["scoring"]["MAGIC"]=42
+        with self.assertRaises(ValueError):module.validate(p)
+
 if __name__=="__main__":unittest.main()
