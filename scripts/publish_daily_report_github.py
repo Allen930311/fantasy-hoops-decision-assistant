@@ -46,7 +46,7 @@ def read_artifact(path):
     if meta["status"] not in ("VALIDATED","PROVISIONAL"):
         raise ValueError("report is not validated/provisional")
     filename = path.name
-    match = re.fullmatch(r"(\d{4}-\d{2}-\d{2})(\.provisional)?(\.v[2-9]\d*)?\.md",filename)
+    match = re.fullmatch(r"(\d{4}-\d{2}-\d{2})(\.provisional)?(\.v(?:[2-9]|[1-9]\\d+)\d*)?\.md",filename)
     if not match or match.group(1) != meta["report_date_taipei"]:
         raise ValueError("archive filename must match Taipei report date")
     if bool(match.group(2)) != (meta["status"]=="PROVISIONAL"):
