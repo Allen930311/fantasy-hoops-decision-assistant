@@ -30,38 +30,110 @@ def score(stats, scoring):
             raise ValueError(f"{k} bonus disagrees with official stat-derived eligibility")
     return sum(stats.get(k, 0) * weight for k,weight in scoring.items() if k not in BONUSES) + sum(flags[k]*scoring.get(k,0) for k in BONUSES)
 
-def validate(payload):
-    league, rosters, games, report = (payload[k] for k in ("league","rosters","games","report"))
-    scoring = league["scoring"]
-    owner = league["owner_team_id"]
+def _transactions_and_ownership(rosters, report):
+    """Apply only fully evidenced, explicitly completed unsynced adds/drops."""
     teams = rosters["teams"]
-    owned = {p for t in teams for p in t["players"]}
-    mine = next(t for t in teams if t["team_id"] == owner)["players"]
-    completed = [g for g in games if g["status"] == "final"]
-    players = {p["name"]: p["stats"] for g in completed for p in g["players"]}
-    expected = set(mine) & set(players)
+    if len({t["team_id"] for t in teams}) != len(teams):
+        raise ValueError("duplicate fantasy team ids")
+    ownership = {}
+    for t in teams:
+        for name in t["players"]:
+            if name in ownership:
+                raise ValueError(f"duplicate roster ownership: {name}")
+            ownership[name] = t["team_id"]
+    for tx in report.get("confirmed_transactions", []):
+        if tx.get("status") != "completed" or not all(
+            tx.get(k) for k in ("team_id", "add", "confirmed_at", "source")
+        ):
+            raise ValueError("unsynced transaction lacks completed evidence")
+        team_id = tx["team_id"]
+        if team_id not in {t["team_id"] for t in teams}:
+            raise ValueError(f"unknown transaction team: {team_id}")
+        drop = tx.get("drop")
+        if drop:
+            if ownership.get(drop) != team_id:
+                raise ValueError(f"transaction drop not owned by team: {drop}")
+            del ownership[drop]
+        added = tx["add"]
+        if added in ownership:
+            raise ValueError(f"transaction add already owned: {added}")
+        ownership[added] = team_id
+    # Legacy extra exclusions are only valid for FA filtering, not owner coverage.
+    exclusions = report.get("confirmed_unsynced_adds", [])
+    if len(exclusions) != len(set(exclusions)):
+        raise ValueError("duplicate unsynced ADD exclusions")
+    return ownership, set(exclusions)
+
+
+def _player_rows(games, report_date):
+    rows = {}
+    finals = 0
+    for game in games:
+        if game.get("status") != "final":
+            continue
+        if game.get("date_taipei") != report_date:
+            raise ValueError("completed game's Taipei date does not match report date")
+        if not game.get("source_url") or not game.get("id"):
+            raise ValueError("completed game missing source provenance")
+        finals += 1
+        for p in game.get("players", []):
+            if p.get("status") in ("DNP", "inactive", "did_not_play"):
+                continue
+            name = p.get("name")
+            if not name or not isinstance(p.get("stats"), dict):
+                raise ValueError("player row without name or stats")
+            if name in rows:
+                raise ValueError(f"duplicate same-day player row: {name}")
+            rows[name] = p["stats"]
+    if finals == 0:
+        raise ValueError("no completed games")
+    return rows
+
+
+def validate(payload):
+    league, rosters, games, report = (payload[k] for k in ("league", "rosters", "games", "report"))
+    scoring = league["scoring"]
+    if league["season"] != rosters.get("season"):
+        raise ValueError("league/rosters season mismatch")
+    unknown = set(scoring) - set(STATS) - set(BONUSES)
+    if unknown:
+        raise ValueError(f"unsupported scoring categories: {sorted(unknown)}")
+    ownership, exclusions = _transactions_and_ownership(rosters, report)
+    rows = _player_rows(games, report["date"])
+    owner = league["owner_team_id"]
+    expected = {p for p in rows if ownership.get(p) == owner}
     observed = report["owner_players"]
     if len(observed) != len(set(observed)) or set(observed) != expected:
         raise ValueError(f"owner coverage mismatch missing={sorted(expected-set(observed))} extra={sorted(set(observed)-expected)}")
-    if not completed:
-        raise ValueError("no completed games")
-    if any(p in owned for p in report["free_agents"]):
-        raise ValueError("rostered player misclassified as free agent")
-    unsynced = set(report.get("confirmed_unsynced_adds", []))
-    if unsynced & set(report["free_agents"]):
-        raise ValueError("confirmed unsynced ADD misclassified as free agent")
+    others = report.get("other_players", [])
+    free = report.get("free_agents", [])
+    if len(others) != len(set(others)) or len(free) != len(set(free)):
+        raise ValueError("duplicate featured players")
+    if set(observed) & set(others + free) or set(others) & set(free):
+        raise ValueError("player duplicated across report sections")
+    if any(ownership.get(p) in (None, owner) for p in others):
+        raise ValueError("other-team pick not owned by another fantasy team")
+    if any(p in ownership or p in exclusions for p in free):
+        raise ValueError("rostered or confirmed unsynced ADD misclassified as free agent")
+    if any(p not in rows for p in observed + others + free):
+        raise ValueError("featured player without completed-game box score")
     if not report.get("source_urls") or not report.get("body"):
         raise ValueError("missing report text or sources")
-    if any(not report["provenance"].get(k) for k in ("roster_commit_sha","rosters_blob_sha","league_blob_sha","data_cutoff_taipei","generated_at_taipei")):
+    if any(not report["provenance"].get(k) for k in ("roster_commit_sha", "rosters_blob_sha",
+          "league_blob_sha", "data_cutoff_taipei", "generated_at_taipei")):
         raise ValueError("missing provenance")
-    result = {}
-    missing = {}
-    for name in observed:
+    scores, missing = {}, {}
+    for name in observed + others + free:
+        stats = rows[name]
+        if not stats.get("MIN"):
+            missing[name] = "missing MIN"
+            continue
         try:
-            result[name] = score(players[name], scoring)
-        except ValueError as exc:
+            scores[name] = score(stats, scoring)
+        except (TypeError, ValueError) as exc:
             missing[name] = str(exc)
-    return result, missing
+    return scores, missing
+
 
 def render(payload, scores, missing):
     r=payload["report"]
@@ -69,7 +141,29 @@ def render(payload, scores, missing):
     metadata={"season":payload["league"]["season"],"report_date_taipei":r["date"],"status":status,
               "provenance":r["provenance"],"source_urls":r["source_urls"],"fp":scores,
               "missing":missing}
-    return "<!-- daily-fantasy-report metadata: "+json.dumps(metadata,ensure_ascii=False,sort_keys=True)+" -->\n"+r["body"].rstrip()+"\n",status
+    # Verified structured evidence is always rendered separately from narrative prose.
+    rows=_player_rows(payload["games"],r["date"])
+    out=["<!-- daily-fantasy-report metadata: "+
+         json.dumps(metadata,ensure_ascii=False,sort_keys=True)+" -->",
+         "# 每日 Fantasy 戰報資料驗證", "",
+         f"**狀態：{status}**。球員 FP 由 league.json 逐項計算；未核實欄位不補零。", ""]
+    headers=["球員","MIN","PTS","OREB","DREB","AST","STL","BLK","3PTM","TO","FTA","PF","TECH","EJCT","FF","FP"]
+    for title,key in [("我的球隊（全出賽覆蓋）","owner_players"),
+                      ("其他 15 隊精選","other_players"),("自由市場精選","free_agents")]:
+        out.extend(["## "+title,"","| "+" | ".join(headers)+" |",
+                    "| "+" | ".join(["---"]*len(headers))+" |"])
+        for name in r.get(key,[]):
+            s=rows[name]
+            vals=[name,str(s.get("MIN","?"))]+[str(s[k]) if s.get(k) is not None else "缺" for k in headers[2:-1]]
+            vals.append(f"{scores[name]:.2f}" if name in scores else "PROVISIONAL")
+            out.append("| "+" | ".join(vals)+" |")
+        out.append("")
+    if missing:
+        out.extend(["## 待補數據",""]+
+                   [f"- {name}: {reason}" for name,reason in missing.items()]+[""])
+    out.extend(["## 戰報正文","",r["body"].rstrip(),""])
+    return "\n".join(out),status
+
 
 def write_immutable(folder, date, text, status):
     folder.mkdir(parents=True,exist_ok=True)
