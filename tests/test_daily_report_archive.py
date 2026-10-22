@@ -14,7 +14,7 @@ SCORING={"PTS":1,"3PTM":2,"OREB":2.5,"DREB":1.5,"AST":2,"STL":3,"BLK":3,
          "TO":-2,"FTA":-0.25,"PF":-1,"TECH":-1,"EJCT":-10,"FF":-5,"DD":7,"TD":6}
 def fixture():
     stats={k:0 for k in module.STATS}
-    stats.update(PTS=12,OREB=3,DREB=8,AST=10,PF=2)
+    stats.update(PTS=12,OREB=3,DREB=6,AST=10,PF=2)
     return {"league":{"season":"2026-27","owner_team_id":"team_02","scoring":SCORING},
             "rosters":{"teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
             "games":[{"id":"game1","status":"final","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
@@ -26,7 +26,7 @@ class ArchiveTests(unittest.TestCase):
     def test_scoring_oreb_dreb_double_double(self):
         p=fixture()
         scores,missing=module.validate(p)
-        self.assertEqual(scores["A"],12+3*2.5+8*1.5+10*2-2+7)
+        self.assertEqual(scores["A"],12+3*2.5+6*1.5+10*2-2+7)
         self.assertFalse(missing)
     def test_triple_double_cumulative(self):
         p=fixture()
