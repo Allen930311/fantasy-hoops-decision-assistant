@@ -223,4 +223,16 @@ class ArchiveTests(unittest.TestCase):
             self.assertEqual(next_version[0].read_text(encoding="utf-8"),"v2")
             self.assertNotEqual(first[0],next_version[0])
 
+
+    def test_empty_completed_game_player_rows_fail_closed(self):
+        p=fixture()
+        p["games"][0]["players"]=[]
+        p["report"]["owner_players"]=[]
+        with self.assertRaisesRegex(ValueError,"without player box-score rows"):
+            module.validate(p)
+    def test_archive_invalid_status_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with self.assertRaisesRegex(ValueError,"invalid archive status"):
+                module.write_immutable(Path(tmp),"2026-10-22","text","ARCHIVED")
+
 if __name__=="__main__":unittest.main()
