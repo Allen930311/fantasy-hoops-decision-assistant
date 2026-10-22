@@ -30,3 +30,10 @@
 
 ## Fresh Agent 驗收
 使用無歷史對話的 Fresh Agent，分別測試『不使用 SOP』與『使用 SOP』對同一份固定真實 NBA 比賽/roster/scoring 樣本的結果；驗證覆蓋率、FP 精確度、FA ownership、provisional gate、重跑去重、版本保留與遠端讀回。保留原始 transcript 與比較結果。驗收前不得宣稱排程已具備自動回存能力。
+
+## 計分與狀態補充（P0 修正）
+- FP 僅依 `league.json.scoring` 各項逐項計算：`PTS,3PTM,OREB,DREB,AST,STL,BLK,TO,FTA,PF,TECH,EJCT,FF,DD,TD`；OREB/DREB 必須分開，REB 不能直接代替。DD 與 TD 依 league.json 註記可累加，獎勵資格須由官方數據核對。
+- `null`、欄位缺失、未知紀律罰分與真實零值嚴格區分；未知則 `PROVISIONAL`，不能產生標記為完整的 FP。單場完整欄位的 `FP` 可精確計算，否則僅展示已知部分並列缺口。
+- **內容 gate**（數據、球員與計分）、**branch commit gate**（PR branch 寫入讀回）、**merge gate**（PR 審查合併）、**main readback gate**（正式歸檔）分別記錄；只有最後一關通過才稱為 `ARCHIVED`。
+- 重跑同一資料/版本的報告須 idempotent（不重複 commit）；provisional 修正、轉正或正式報告更新均新增版本，保留原檔與差異說明。保存來源 URL、取得時間與報告內容 SHA-256。
+- 每日戰報是否發布與是否出現重大 GM 操作警報是兩個獨立決策；有完賽就提供每日戰報，無新操作訊號仍要發布。
