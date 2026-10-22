@@ -171,16 +171,36 @@ def validate(payload):
 def render(payload, scores, missing):
     r=payload["report"]
     status="PROVISIONAL" if missing else "VALIDATED"
-    metadata={"season":payload["league"]["season"],"report_date_taipei":r["date"],"status":status,
-              "provenance":r["provenance"],"source_urls":r["source_urls"],"fp":scores,
-              "missing":missing}
-    # Verified structured evidence is always rendered separately from narrative prose.
     ownership,_=_transactions_and_ownership(payload["rosters"],r)
     rows=_apply_identity_aliases(_player_rows(payload["games"],r["date"]),r,ownership)
-    out=["<!-- daily-fantasy-report metadata: "+
-         json.dumps(metadata,ensure_ascii=False,sort_keys=True)+" -->",
-         "# 每日 Fantasy 戰報資料驗證", "",
-         f"**狀態：{status}**。球員 FP 由 league.json 逐項計算；未核實欄位不補零。", ""]
+    provenance = r["provenance"]
+    metadata={
+        "season": payload["league"]["season"],
+        "report_date_taipei": r["date"],
+        "generated_at_taipei": provenance["generated_at_taipei"],
+        "data_cutoff_taipei": provenance["data_cutoff_taipei"],
+        "status": status,
+        "roster_commit_sha": provenance["roster_commit_sha"],
+        "rosters_blob_sha": provenance["rosters_blob_sha"],
+        "league_blob_sha": provenance["league_blob_sha"],
+        "roster_as_of": payload["rosters"].get("as_of", "UNKNOWN"),
+        "schedule_source_url": payload["schedule_source_url"],
+        "source_urls": r["source_urls"],
+        "validation_summary": {
+            "completed_games":sum(g["status"]=="final" for g in payload["games"]),
+            "owner_players":len(r["owner_players"]),
+            "other_players":len(r.get("other_players", [])),
+            "free_agents":len(r.get("free_agents", [])),
+            "fp_verified_players":len(scores),
+            "fp_missing":missing
+        },
+        "narrative_sha256": hashlib.sha256(r["body"].encode("utf-8")).hexdigest()
+    }
+    # JSON strings/lists/maps are valid YAML scalars and flow collections.
+    out=["---"]+[f"{k}: "+json.dumps(v,ensure_ascii=False,sort_keys=True)
+                  for k,v in metadata.items()]+["---","",
+         "# 每日 Fantasy 戰報資料驗證","",
+         f"**狀態：{status}**。球員 FP 由 league.json 逐項計算；未核實欄位不補零。",""]
     headers=["球員","MIN","PTS","OREB","DREB","AST","STL","BLK","3PTM","TO","FTA","PF","TECH","EJCT","FF","FP"]
     for title,key in [("我的球隊（全出賽覆蓋）","owner_players"),
                       ("其他 15 隊精選","other_players"),("自由市場精選","free_agents")]:
