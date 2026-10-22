@@ -19,7 +19,7 @@ def fixture():
             "rosters":{"season":"2026-27","teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
             "games":[{"id":"game1","status":"final","date_taipei":"2026-10-22",
                       "source_url":"https://www.nba.com/game/example","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
-            "report":{"date":"2026-10-22","other_players":[],"owner_players":["A"],"free_agents":["C"],
+            "report":{"date":"2026-10-22","other_players":[],"owner_players":["A"],"free_agents":[],
                       "confirmed_unsynced_adds":["Z"],"body":"# 今日戰報",
                       "source_urls":["https://www.nba.com/game/example"],
                       "provenance":{k:"verified" for k in ("roster_commit_sha","rosters_blob_sha","league_blob_sha","data_cutoff_taipei","generated_at_taipei")}}}
@@ -124,5 +124,14 @@ class ArchiveTests(unittest.TestCase):
         p=fixture()
         p["league"]["scoring"]["MAGIC"]=42
         with self.assertRaises(ValueError):module.validate(p)
+
+
+    def test_real_unrostered_player_can_be_scored(self):
+        p=fixture()
+        p["games"][0]["players"].append({"name":"C","stats":copy.deepcopy(p["games"][0]["players"][0]["stats"])})
+        p["report"]["free_agents"]=["C"]
+        scores,missing=module.validate(p)
+        self.assertIn("C",scores)
+        self.assertFalse(missing)
 
 if __name__=="__main__":unittest.main()
