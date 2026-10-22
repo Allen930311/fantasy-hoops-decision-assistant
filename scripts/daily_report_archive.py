@@ -77,6 +77,8 @@ def _player_rows(games, report_date):
             raise ValueError("completed game's Taipei date does not match report date")
         if not game.get("source_url") or not game.get("id"):
             raise ValueError("completed game missing source provenance")
+        if not game.get("players"):
+            raise ValueError("completed game without player box-score rows")
         finals += 1
         for p in game.get("players", []):
             if p.get("status") in ("DNP", "inactive", "did_not_play"):
@@ -221,6 +223,8 @@ def render(payload, scores, missing):
 
 
 def write_immutable(folder, date, text, status):
+    if status not in ("VALIDATED", "PROVISIONAL"):
+        raise ValueError("invalid archive status")
     try:
         valid_date = Date.fromisoformat(date)
         if valid_date.isoformat() != date:
