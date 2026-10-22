@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - "scripts/daily_report_archive.py"
+      - "scripts/publish_daily_report_github.py"
       - "tests/test_daily_report_archive.py"
+      - "tests/test_publish_archive.py"
       - "tests/fixtures/**"
       - ".github/workflows/daily-report-archive-tests.yml"
   push:
@@ -12,7 +14,9 @@ on:
       - feature/daily-fantasy-report-archive-20261022
     paths:
       - "scripts/daily_report_archive.py"
+      - "scripts/publish_daily_report_github.py"
       - "tests/test_daily_report_archive.py"
+      - "tests/test_publish_archive.py"
       - "tests/fixtures/**"
       - ".github/workflows/daily-report-archive-tests.yml"
 
@@ -29,6 +33,6 @@ jobs:
         with:
           python-version: "3.11"
       - name: Syntax validation
-        run: python -m py_compile scripts/daily_report_archive.py tests/test_daily_report_archive.py
+        run: python -m py_compile scripts/daily_report_archive.py scripts/publish_daily_report_github.py tests/test_daily_report_archive.py tests/test_publish_archive.py
       - name: Unit and contract tests
-        run: python -m unittest discover -s tests -p 'test_daily_report_archive.py' -v
+        run: python -m unittest discover -s tests -p 'test_*archive.py' -v
