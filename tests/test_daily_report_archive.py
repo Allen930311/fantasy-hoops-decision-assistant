@@ -18,7 +18,8 @@ SCORING={"PTS":1,"3PTM":2,"OREB":2.5,"DREB":1.5,"AST":2,"STL":3,"BLK":3,
 def fixture():
     stats={k:0 for k in module.STATS}
     stats.update(MIN="30:15",PTS=12,OREB=3,DREB=6,AST=10,PF=2)
-    return {"league":{"season":"2026-27","owner_team_id":"team_02","scoring":SCORING},
+    return {"schedule_games":[{"id":"game1","status":"final"}],
+            "schedule_source_url":"https://www.nba.com/schedule",\n            "league":{"season":"2026-27","owner_team_id":"team_02","scoring":SCORING},
             "rosters":{"season":"2026-27","teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
             "games":[{"id":"game1","status":"final","date_taipei":"2026-10-22",
                       "source_url":"https://www.nba.com/game/example","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
@@ -176,5 +177,34 @@ class ArchiveTests(unittest.TestCase):
             self.assertTrue(result["path"].endswith(".provisional.md"))
             self.assertIn("TECH",result["missing"]["Shai Gilgeous-Alexander"])
             self.assertTrue(Path(result["path"]).exists())
+
+
+    def test_completed_game_omitted_from_boxscore_fails(self):
+        p=fixture()
+        p["schedule_games"].append({"id":"game2","status":"final"})
+        with self.assertRaisesRegex(ValueError,"schedule coverage mismatch"):
+            module.validate(p)
+    def test_in_progress_game_does_not_require_boxscore(self):
+        p=fixture()
+        p["schedule_games"].append({"id":"game2","status":"live"})
+        module.validate(p)
+    def test_missing_schedule_evidence_fails_closed(self):
+        p=fixture()
+        del p["schedule_source_url"]
+        with self.assertRaisesRegex(ValueError,"missing independent NBA schedule"):
+            module.validate(p)
+    def test_explicit_sourced_name_alias(self):
+        p=fixture()
+        p["rosters"]["teams"][0]["players"][0]="Alperen Sengun"
+        p["games"][0]["players"][0]["name"]="Alperen Şengün"
+        p["report"]["owner_players"]=["Alperen Sengun"]
+        with self.assertRaisesRegex(ValueError,"owner coverage mismatch"):
+            module.validate(p)
+        p["report"]["identity_aliases"]=[{"box_name":"Alperen Şengün",
+                                         "roster_name":"Alperen Sengun",
+                                         "source":"https://www.nba.com/player/example"}]
+        scores,missing=module.validate(p)
+        self.assertIn("Alperen Sengun",scores)
+        self.assertFalse(missing)
 
 if __name__=="__main__":unittest.main()
