@@ -17,7 +17,8 @@ def fixture():
     stats.update(MIN="30:15",PTS=12,OREB=3,DREB=6,AST=10,PF=2)
     return {"league":{"season":"2026-27","owner_team_id":"team_02","scoring":SCORING},
             "rosters":{"season":"2026-27","teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
-            "games":[{"id":"game1","status":"final","date_taipei":"2026-10-22",\n                      "source_url":"https://www.nba.com/game/example","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
+            "games":[{"id":"game1","status":"final","date_taipei":"2026-10-22",
+                      "source_url":"https://www.nba.com/game/example","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
             "report":{"date":"2026-10-22","other_players":[],"owner_players":["A"],"free_agents":["C"],
                       "confirmed_unsynced_adds":["Z"],"body":"# 今日戰報",
                       "source_urls":["https://www.nba.com/game/example"],
