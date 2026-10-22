@@ -5,6 +5,7 @@ on:
     paths:
       - "scripts/daily_report_archive.py"
       - "tests/test_daily_report_archive.py"
+      - "tests/fixtures/**"
       - ".github/workflows/daily-report-archive-tests.yml"
   push:
     branches:
@@ -12,6 +13,7 @@ on:
     paths:
       - "scripts/daily_report_archive.py"
       - "tests/test_daily_report_archive.py"
+      - "tests/fixtures/**"
       - ".github/workflows/daily-report-archive-tests.yml"
 
 permissions:
