@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from datetime import date
 
 STATS = ("PTS","3PTM","OREB","DREB","AST","STL","BLK","TO","FTA","PF","TECH","EJCT","FF")
 BONUSES = ("DD","TD")
@@ -220,6 +221,12 @@ def render(payload, scores, missing):
 
 
 def write_immutable(folder, date, text, status):
+    try:
+        valid_date = date.fromisoformat(date)
+        if valid_date.isoformat() != date:
+            raise ValueError("noncanonical date")
+    except (TypeError, ValueError) as exc:
+        raise ValueError("report date must be canonical YYYY-MM-DD") from exc
     folder.mkdir(parents=True,exist_ok=True)
     suffix=".provisional" if status=="PROVISIONAL" else ""
     digest=hashlib.sha256(text.encode("utf-8")).hexdigest()
@@ -230,10 +237,12 @@ def write_immutable(folder, date, text, status):
     while True:
         label="" if index==1 else f".v{index}"
         path=folder/f"{date}{suffix}{label}.md"
-        if not path.exists():
-            path.write_text(text,encoding="utf-8")
+        try:
+            with path.open("x",encoding="utf-8") as stream:
+                stream.write(text)
             return path,digest,True
-        index+=1
+        except FileExistsError:
+            index+=1
 
 def main():
     ap=argparse.ArgumentParser()
