@@ -1,7 +1,7 @@
-# Daily Fantasy archive — Fresh Agent acceptance (NOT YET EXECUTED)
+# Daily Fantasy archive — optional Fresh Agent reference (WAIVED BY OWNER, 2026-10-22)
 
 ## Purpose
-The offline unit/CLI test suite cannot substitute for an independent **Fresh Agent** trial. Do not label Fresh Agent PASS until two separate, clean agent sessions and their untouched raw transcripts are attached here.
+This optional protocol is retained for future reuse only. The owner explicitly exempted the Fantasy daily-report archive PR #9 from Fresh Agent A/B on 2026-10-22. Status: `WAIVED_BY_OWNER`, **not run, not PASS**. This does not waive automated CI or GitHub evidence and does not change the general rule for other workflows.
 
 ## Fixed case inputs
 1. Read main `seasons/2026-27/rosters.json` and `league.json` using an explicitly pinned GitHub commit and record both blob SHAs; report ownership using that snapshot, not an old message.
@@ -20,5 +20,5 @@ The offline unit/CLI test suite cannot substitute for an independent **Fresh Age
 - Unit/CLI CI PASS alone = `IMPLEMENTATION_TESTS_PASS`, not Fresh Agent PASS.
 - Treatment agent must pass **all hard gates**. Control is a baseline comparison; record it accurately even if it also passes.
 - Manual scoring must be supported by independent evidence. The story's prose quality is assessed separately from numeric/ownership safety gates.
-- Only after complete trial + independent review + PR merge/main readback may the scheduled 15:00 workflow be updated to invoke the archive writer. Schedule remains unchanged until then.
-- If an independent agent runtime is unavailable, record `BLOCKED_FRESH_AGENT_RUNTIME`; do not substitute ordinary unit tests or imply completion.
+- For PR #9 only, the owner explicitly waived this Fresh Agent trial; remaining CI/review/verified GitHub readback gates are still enforced.
+- For projects where this protocol is mandatory, if an independent agent runtime is unavailable record `BLOCKED_FRESH_AGENT_RUNTIME`; do not substitute ordinary unit tests or imply completion. For PR #9 use `WAIVED_BY_OWNER`.
