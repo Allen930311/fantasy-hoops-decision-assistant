@@ -21,7 +21,7 @@ def score(stats, scoring):
     missing = [key for key in STATS if key in scoring and (key not in stats or stats[key] is None)]
     if missing:
         raise ValueError("missing scoring fields: " + ",".join(missing))
-    values = [stats.get(k, 0) for k in ("PTS","OREB","DREB","AST","STL","BLK")]
+    values = [stats.get("PTS", 0), stats.get("OREB", 0) + stats.get("DREB", 0),\n              stats.get("AST", 0), stats.get("STL", 0), stats.get("BLK", 0)]
     double = sum(v >= 10 for v in values)
     # DD and TD are cumulative under the current league.json notes.
     flags = {"DD": int(double >= 2), "TD": int(double >= 3)}
