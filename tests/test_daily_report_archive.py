@@ -1,5 +1,8 @@
 """Offline deterministic tests for the independent daily report archive."""
 import copy
+import json
+import subprocess
+import sys
 import importlib.util
 import tempfile
 import unittest
@@ -133,5 +136,45 @@ class ArchiveTests(unittest.TestCase):
         scores,missing=module.validate(p)
         self.assertIn("C",scores)
         self.assertFalse(missing)
+
+
+    def test_historical_real_game_is_provisional(self):
+        path=Path(__file__).parent/"fixtures"/"historical-nba-finals-2025-06-23-partial.json"
+        p=json.loads(path.read_text(encoding="utf-8"))
+        self.assertEqual(p["fixture_type"],"historical_real_box_partial")
+        self.assertEqual(p["report"]["owner_players"],["Shai Gilgeous-Alexander"])
+        scores,missing=module.validate(p)
+        for name in ["Shai Gilgeous-Alexander","Jalen Williams"]:
+            self.assertNotIn(name,scores)
+            self.assertIn(name,missing)
+            self.assertIn("TECH",missing[name])
+        self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
+
+    def test_cli_full_archive_and_readback(self):
+        p=fixture()
+        with tempfile.TemporaryDirectory() as tmp:
+            inp=Path(tmp)/"input.json"
+            out=Path(tmp)/"reports"
+            inp.write_text(json.dumps(p),encoding="utf-8")
+            cmd=[sys.executable,str(SCRIPT),str(inp),"--output-dir",str(out)]
+            first=json.loads(subprocess.check_output(cmd,text=True))
+            self.assertEqual(first["status"],"VALIDATED")
+            self.assertTrue(first["created"])
+            body=Path(first["path"]).read_text(encoding="utf-8")
+            self.assertIn("| A | 30:15 | 12 | 3 | 6 |",body)
+            again=json.loads(subprocess.check_output(cmd,text=True))
+            self.assertFalse(again["created"])
+            self.assertEqual(first["sha256"],again["sha256"])
+            self.assertEqual(first["path"],again["path"])
+
+    def test_cli_real_historical_case_is_provisional(self):
+        path=Path(__file__).parent/"fixtures"/"historical-nba-finals-2025-06-23-partial.json"
+        with tempfile.TemporaryDirectory() as tmp:
+            cmd=[sys.executable,str(SCRIPT),str(path),"--output-dir",tmp]
+            result=json.loads(subprocess.check_output(cmd,text=True))
+            self.assertEqual(result["status"],"PROVISIONAL")
+            self.assertTrue(result["path"].endswith(".provisional.md"))
+            self.assertIn("TECH",result["missing"]["Shai Gilgeous-Alexander"])
+            self.assertTrue(Path(result["path"]).exists())
 
 if __name__=="__main__":unittest.main()
