@@ -26,7 +26,7 @@ def artifact(folder, status="VALIDATED"):
     path.write_text(prefix,encoding="utf-8")
     return path
 
-class FakeGitHub:
+class FakeGitHub(module.Github):
     repo=module.REPO
     def __init__(self):
         self.refs={"main":MAIN}
