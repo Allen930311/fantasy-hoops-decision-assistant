@@ -29,8 +29,7 @@
       {
         "team_id": "team_02",
         "players": [
-          "Shai Gilgeous-Alexander",
-          "Tyrese Haliburton"
+          "Shai Gilgeous-Alexander"
         ]
       },
       {
@@ -79,11 +78,6 @@
             "FTA": 6,
             "PF": 4
           }
-        },
-        {
-          "name": "Tyrese Haliburton",
-          "status": "inactive",
-          "stats": {}
         }
       ]
     }
