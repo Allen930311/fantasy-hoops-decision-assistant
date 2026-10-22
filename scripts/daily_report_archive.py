@@ -91,6 +91,37 @@ def _player_rows(games, report_date):
     return rows
 
 
+def _check_schedule(payload):
+    """Fail closed if a completed NBA game is omitted from the box-score input."""
+    schedule = payload.get("schedule_games")
+    source = payload.get("schedule_source_url")
+    if not isinstance(schedule, list) or not schedule or not source:
+        raise ValueError("missing independent NBA schedule/game-status evidence")
+    expected = [x["id"] for x in schedule if x.get("status") == "final"]
+    if len(expected) != len(set(expected)):
+        raise ValueError("duplicate games in schedule")
+    supplied = [x["id"] for x in payload["games"] if x.get("status") == "final"]
+    if len(supplied) != len(set(supplied)):
+        raise ValueError("duplicate completed game ids")
+    if set(supplied) != set(expected):
+        raise ValueError(f"schedule coverage mismatch missing={sorted(set(expected)-set(supplied))} unexpected={sorted(set(supplied)-set(expected))}")
+
+
+def _apply_identity_aliases(rows, report, ownership):
+    """Identity mapping is explicit and sourced, never fuzzy or guessed."""
+    for alias in report.get("identity_aliases", []):
+        actual, canonical = alias.get("box_name"), alias.get("roster_name")
+        if not actual or not canonical or not alias.get("source"):
+            raise ValueError("identity alias must be explicit and sourced")
+        if canonical not in ownership or actual not in rows:
+            raise ValueError("identity alias cannot be resolved")
+        if canonical in rows and actual != canonical:
+            raise ValueError("identity alias collisions")
+        if canonical != actual:
+            rows[canonical] = rows.pop(actual)
+    return rows
+
+
 def validate(payload):
     league, rosters, games, report = (payload[k] for k in ("league", "rosters", "games", "report"))
     scoring = league["scoring"]
@@ -100,7 +131,8 @@ def validate(payload):
     if unknown:
         raise ValueError(f"unsupported scoring categories: {sorted(unknown)}")
     ownership, exclusions = _transactions_and_ownership(rosters, report)
-    rows = _player_rows(games, report["date"])
+    _check_schedule(payload)
+    rows = _apply_identity_aliases(_player_rows(games, report["date"]), report, ownership)
     owner = league["owner_team_id"]
     expected = {p for p in rows if ownership.get(p) == owner}
     observed = report["owner_players"]
@@ -143,7 +175,8 @@ def render(payload, scores, missing):
               "provenance":r["provenance"],"source_urls":r["source_urls"],"fp":scores,
               "missing":missing}
     # Verified structured evidence is always rendered separately from narrative prose.
-    rows=_player_rows(payload["games"],r["date"])
+    ownership,_=_transactions_and_ownership(payload["rosters"],r)
+    rows=_apply_identity_aliases(_player_rows(payload["games"],r["date"]),r,ownership)
     out=["<!-- daily-fantasy-report metadata: "+
          json.dumps(metadata,ensure_ascii=False,sort_keys=True)+" -->",
          "# 每日 Fantasy 戰報資料驗證", "",
