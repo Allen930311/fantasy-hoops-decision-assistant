@@ -13,7 +13,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-from datetime import date
+from datetime import date as Date
 
 STATS = ("PTS","3PTM","OREB","DREB","AST","STL","BLK","TO","FTA","PF","TECH","EJCT","FF")
 BONUSES = ("DD","TD")
@@ -222,7 +222,7 @@ def render(payload, scores, missing):
 
 def write_immutable(folder, date, text, status):
     try:
-        valid_date = date.fromisoformat(date)
+        valid_date = Date.fromisoformat(date)
         if valid_date.isoformat() != date:
             raise ValueError("noncanonical date")
     except (TypeError, ValueError) as exc:
