@@ -103,5 +103,12 @@
       "data_cutoff_taipei": "2025-06-23T15:00:00+08:00",
       "generated_at_taipei": "2026-10-22T15:45:00+08:00"
     }
-  }
+  },
+  "schedule_games": [
+    {
+      "id": "0042400407",
+      "status": "final"
+    }
+  ],
+  "schedule_source_url": "https://www.nba.com/game/ind-vs-okc-0042400407/box-score"
 }
