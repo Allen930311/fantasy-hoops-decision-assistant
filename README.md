@@ -4,40 +4,39 @@ Personal Yahoo Fantasy Basketball analytics and decision-support project.
 
 ## Purpose
 
-This project is intended to use Yahoo Fantasy Sports data as the live source of league state, then combine it with an owner-defined fantasy scoring model, player projections, role analysis, injury/risk context, and transaction analysis.
+Personal Fantasy Basketball analysis and decision support using owner-defined scoring, publicly sourced/licensed NBA performance information and **owner-confirmed, date-stamped manual league-state inputs**. Yahoo Fantasy league state would be the live provider authority **only if** an official API integration is separately authorized, implemented and reconciled.
 
-The goal is decision support for a private Fantasy Basketball league: identify meaningful free-agent, waiver, roster, and trade opportunities without treating Yahoo's own rankings as the decision authority.
+Yahoo declined this project's API application (official notice dated 2026-10-19). Do not scrape protected Yahoo surfaces, reuse cookies or undocumented endpoints, or work around provider restrictions. See [STATUS.md](STATUS.md) and [Issue #7](https://github.com/Allen930311/fantasy-hoops-decision-assistant/issues/7).
 
-## Initial scope
+## Active offline/manual scope
 
-The first milestone is a read-only Yahoo Fantasy integration that can:
+- Apply the owner's 2026–27 `league.json` scoring configuration to sourced, date-stamped player statistics, recording coverage, rights and missing data.
+- Reconcile the 16-team `rosters.json` bootstrap against **newer owner-confirmed manual updates** (adds/drops/trades) with input timestamps and integrity checks.
+- Build provisional free-agent, waiver and trade analyses; do **not** label an unrostered player as confirmed Yahoo-available without separate current evidence.
+- Evaluate PR #6 for Issue #5: actual vs projected rankings, independent calculation, validation, Fresh Agent and CI evidence.
+- Keep every Yahoo-specific league state/eligibility/transaction claim **UNKNOWN** unless a permitted, authoritative source is supplied.
 
-- identify the authenticated user's Fantasy Basketball league;
-- read league settings and teams;
-- reconstruct current team rosters;
-- identify available / waiver players;
-- read standings, matchups, player statistics, and completed transactions;
-- normalize that state for downstream scoring and recommendation workflows.
+## Decision authority
 
-Roster changes, waiver claims, and trades remain manual owner actions.
-
-## Decision model
-
-Yahoo Fantasy data is the **league-state truth**.
-
-Owner-defined scoring, projections, role/health adjustments, free-agent ranking, and trade valuation are the **decision truth**.
+- `league.json`: owner-approved season scoring rules.
+- `rosters.json`: owner-provided bootstrap ownership **as of its recorded update**, not a live Yahoo feed.
+- Owner-confirmed manual league/waiver/transaction snapshots: explicit `as_of` and provenance; no inferred Yahoo permission or live status.
+- Public/licensed NBA player data: raw basketball statistics, not league ownership.
+- Custom scoring, projections, role/risk adjustments and recommendations: derived decision analysis with uncertainty.
 
 ```text
-Yahoo Fantasy league state
-        ↓
-Normalized league state
-        ↓
-Custom scoring + projections
-        ↓
-FA / waiver / trade analysis
-        ↓
-Actionable recommendation
+Owner-confirmed league snapshot (timestamped) + permitted public stats
+                   ↓
+       Validation + source / staleness labels
+                   ↓
+       Custom scoring + projections
+                   ↓
+       Provisional FA / waiver / trade analysis
+                   ↓
+       Owner-controlled action (not automated)
 ```
+
+A future official Yahoo read-only connection is a **conditional option**, not an active milestone or granted entitlement.
 
 ## Season-scoped league data
 
@@ -51,11 +50,11 @@ The current bootstrap snapshot lives under:
 
 Do not overwrite an old season to represent a new one. Create a new season directory and explicitly define that season's rosters and scoring rules.
 
-Until Yahoo read-only reconciliation is complete, the owner-provided season snapshot is the bootstrap ownership-state source. Once validated, Yahoo becomes league-state truth; the season-scoped owner scoring configuration remains decision truth.
+Until a newly authorized provider source is genuinely validated, the season snapshot is only an **as-of manual bootstrap**. It may be stale; future official Yahoo state cannot be promoted without new authorization and read-back evidence. The owner scoring configuration remains the scoring authority.
 
 ## Status
 
-Repository initialized. Yahoo Fantasy API access is being requested before implementation begins.
+Yahoo API application was declined by official notice dated 2026-10-19. Active next gate: offline/manual R0 and review of Draft PR #6; no provider read entitlement has been established.
 
 A season-scoped **2026–2027** 16-team bootstrap roster and custom scoring configuration are now available for decision-support work before live Yahoo ingestion is validated.
 
@@ -63,7 +62,7 @@ See [STATUS.md](STATUS.md) for current operational state.
 
 ## Security
 
-Do not commit Yahoo OAuth client secrets, refresh tokens, access tokens, cookies, or personal league credentials to this repository. Local secrets must stay outside version control.
+Do not commit Yahoo OAuth client secrets, refresh tokens, access tokens, cookies, or personal league credentials to this repository. No use of cookies, protected-page scraping, geographic bypasses, or undocumented endpoints to circumvent the denial. Do not commit private owner-provided snapshots without appropriate confidentiality review.
 
 
 ## Scheduled monitor
