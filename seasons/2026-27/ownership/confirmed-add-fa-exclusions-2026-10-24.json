@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "as_of": "2026-10-24",
+  "purpose": "Conservative free-agent exclusion overlay; not a roster or team ownership assignment",
+  "authority": "Owner-provided Yahoo Fantasy transaction screenshots in ChatGPT, 2026-10-24",
+  "policy": {
+    "exclude_from_fa": true,
+    "team_assignment_required": false,
+    "add_without_drop_valid_due_to_il": true,
+    "resolve_against_later_confirmed_transactions": true,
+    "rosters_json_remains_primary_authority": true
+  },
+  "players": [
+    {
+      "name": "Dennis Schröder",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Bilal Coulibaly",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Alex Caruso",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Brandon Ingram",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Isaiah Joe",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Robert Williams III",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Kentavious Caldwell-Pope",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Al Horford",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Kris Dunn",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Max Christie",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Brandon Williams",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Collin Sexton",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Kasparas Jakučionis",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Isaiah Jackson",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Keldon Johnson",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    },
+    {
+      "name": "Precious Achiuwa",
+      "status": "OWNED_OR_ADD_CONFIRMED_EXCLUDE_FA",
+      "team_id": null,
+      "source": "owner_provided_yahoo_transaction_screenshot",
+      "note": "Historical ADD evidence; exclude conservatively until newer confirmed release or current Yahoo ownership reconciliation"
+    }
+  ]
+}
