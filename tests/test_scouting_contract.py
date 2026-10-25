@@ -71,7 +71,7 @@ class WatchlistContractTests(unittest.TestCase):
         self.data["targets"][0]["status"] = "REVIEW_PENDING"
         self.data["targets"][0]["report_path"] = "reports/herbert-jones/2026-10-25.v1.md"
         self.write()
-        self.assertIn("sidecar JSON missing", " ".join(validate_watchlist(self.season)))
+        self.assertIn("report JSON sidecar missing", " ".join(validate_watchlist(self.season)))
 
     def test_duplicate_name_via_alias(self):
         other = copy.deepcopy(self.data["targets"][0])

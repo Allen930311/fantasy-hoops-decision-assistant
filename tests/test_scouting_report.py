@@ -165,7 +165,7 @@ class ScoutingReportTests(unittest.TestCase):
 
     def test_stable_identity_for_validated(self):
         self.report["player"]["nba_id"] = None
-        self.assert_rejects("requires stable NBA or Yahoo player ID")
+        self.assert_rejects("requires syntactically valid stable NBA or Yahoo player ID")
 
 
 if __name__ == "__main__":
