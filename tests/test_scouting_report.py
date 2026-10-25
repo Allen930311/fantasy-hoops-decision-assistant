@@ -123,6 +123,7 @@ class ScoutingReportTests(unittest.TestCase):
         self.report["content_status"] = "PROVISIONAL"
         self.report["review_status"] = "NOT_RUN"
         del self.report["games"][0]["stats"]["FTA"]
+        self.report["games"][0]["stats_sha256"] = stats_sha256(self.report["games"][0]["stats"])
         self.report["games"][0]["claimed_fp"] = None
         self.report["claimed_fp_per_game"] = None
         self.assertEqual(self.check(), [])
