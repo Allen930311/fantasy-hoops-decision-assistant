@@ -1,0 +1,39 @@
+name: Fantasy scouting watchlist contract
+
+on:
+  pull_request:
+    paths:
+      - ".agents/skills/player-scout/**"
+      - ".claude/skills/player-scout/**"
+      - "seasons/*/scouting/**"
+      - "scripts/validate_scouting_contract.py"
+      - "tests/test_scouting_contract.py"
+      - ".github/workflows/scouting-contract-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".agents/skills/player-scout/**"
+      - ".claude/skills/player-scout/**"
+      - "seasons/*/scouting/**"
+      - "scripts/validate_scouting_contract.py"
+      - "tests/test_scouting_contract.py"
+      - ".github/workflows/scouting-contract-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  scouting-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Static and syntax checks
+        run: python -m py_compile scripts/validate_scouting_contract.py tests/test_scouting_contract.py
+      - name: Validate watchlist
+        run: python scripts/validate_scouting_contract.py seasons/2026-27
+      - name: Offline negative tests
+        run: python -m unittest discover -s tests -p 'test_scouting_contract.py' -v
