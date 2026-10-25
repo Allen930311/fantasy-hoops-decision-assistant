@@ -30,6 +30,12 @@ HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
+def stats_sha256(stats: dict) -> str:
+    """SHA-256 of the deterministic normalized stat payload (not external raw HTML)."""
+    raw = json.dumps(stats, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
+
+
 def blob_sha(data: bytes) -> str:
     return hashlib.sha1(b"blob " + str(len(data)).encode() + bytes([0]) + data).hexdigest()
 
@@ -167,6 +173,8 @@ def validate_report(path: Path, season_dir: Path) -> list[str]:
     if not isinstance(nba_sources, list) or not isinstance(film, list):
         return errors + ["sources/film must be arrays"]
     for s in nba_sources:
+        if status == "VALIDATED" and (not isinstance(s, dict) or not HEX64.fullmatch(str(s.get("raw_source_sha256", "")))):
+            errors.append("VALIDATED NBA source requires captured raw source SHA-256")
         if not isinstance(s, dict) or not _url(s.get("url")) or not _time(s.get("accessed_at")):
             errors.append("unverifiable NBA source URL/accessed_at")
         elif _time(cutoff) and not _at_or_before(s["accessed_at"], cutoff):
@@ -210,6 +218,10 @@ def validate_report(path: Path, season_dir: Path) -> list[str]:
             continue
         if _time(cutoff) and not _at_or_before(game["accessed_at"], cutoff):
             errors.append(f"games[{i}]: original data fetched after cutoff")
+        if status == "VALIDATED" and not HEX64.fullmatch(str(game.get("raw_source_sha256", ""))):
+            errors.append(f"games[{i}]: captured original source SHA-256 required")
+        if not isinstance(game.get("stats"), dict) or game.get("stats_sha256") != stats_sha256(game["stats"]):
+            errors.append(f"games[{i}]: normalized stat payload SHA-256 mismatch")
         pts, missing = compute_game_fp(game.get("stats"), league["scoring"])
         if missing:
             if status == "VALIDATED":

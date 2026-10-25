@@ -88,5 +88,5 @@
 - 獨立 review（Reviewer 身分與時間，不可虛構）：[待填或 NOT_RUN]
 - 報告前版路徑及本版差異：[首次 v1 填 N/A]
 - GitHub branch/PR/commit/main readback： [待填或 NOT_RUN；報告內容與歸檔狀態分開]
-- JSON sidecar：每場完整 raw stats、league 權重、source_url/擷取時間、roster/ownership snapshot blob SHA、影片正反案例、球員 NBA/Yahoo ID、三情境及獨立 Reviewer 證據；缺欄不能以 0 填入。
+- JSON sidecar：每場完整 raw stats、由 canonical JSON 產生的 stats_sha256、原始抓取回應 raw_source_sha256、league 權重、source_url/擷取時間、roster/ownership snapshot blob SHA、影片正反案例、球員 NBA/Yahoo ID、三情境及獨立 Reviewer 證據；缺欄不能以 0 填入。
 - 外部來源的 URL 是否真實存在、是否實際支持報告主張，必須由獨立 Reviewer 逐筆核對；離線 validator 不會上網查證。

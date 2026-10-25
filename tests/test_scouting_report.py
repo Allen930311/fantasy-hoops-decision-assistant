@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from validate_scouting_report import validate_report, compute_game_fp, blob_sha  # noqa: E402
+from validate_scouting_report import validate_report, compute_game_fp, blob_sha, stats_sha256  # noqa: E402
 
 
 class ScoutingReportTests(unittest.TestCase):
@@ -49,11 +49,11 @@ class ScoutingReportTests(unittest.TestCase):
                 "rosters_blob_sha": blob_sha((self.season / "rosters.json").read_bytes()),
                 "ownership_blob_sha": blob_sha((self.season / "ownership/current-state.json").read_bytes()),
                 "data_cutoff_taipei": "2026-10-25T12:00:00+08:00",
-                "nba_sources": [{"url": "https://example.invalid/synthetic-nba-game", "accessed_at": "2026-10-25T11:00:00+08:00"}],
+                "nba_sources": [{"url": "https://example.invalid/synthetic-nba-game", "accessed_at": "2026-10-25T11:00:00+08:00", "raw_source_sha256": "e" * 64}],
                 "film": [{"url": "https://example.invalid/synthetic-film", "game_id": "TEST-GAME", "game_date": "2026-10-25", "timestamp": "01:00-01:20", "observation": "Test observation", "counterexample": "Test counterexample"}],
             },
             "ownership": {"status": "OWNER_ROSTER", "team_id": "team_02"},
-            "games": [{"game_id": "TEST-1", "source_url": "https://example.invalid/synthetic-game-boxscore", "accessed_at": "2026-10-25T11:00:00+08:00", "stats": self.stats, "claimed_fp": fp}],
+            "games": [{"game_id": "TEST-1", "source_url": "https://example.invalid/synthetic-game-boxscore", "accessed_at": "2026-10-25T11:00:00+08:00", "stats": self.stats, "stats_sha256": stats_sha256(self.stats), "raw_source_sha256": "e" * 64, "claimed_fp": fp}],
             "claimed_fp_per_game": fp,
             "narrative": {k: "SYNTHETIC test narrative, not an actual NBA conclusion." for k in
                           ("offense", "defense", "role", "risk", "counterargument", "recommendation", "trigger")},
@@ -134,6 +134,18 @@ class ScoutingReportTests(unittest.TestCase):
     def test_wrong_fantasy_claim(self):
         self.report["games"][0]["claimed_fp"] += 2
         self.assert_rejects("claimed FP differs")
+
+    def test_changed_stat_payload_detected(self):
+        self.report["games"][0]["stats"]["FTA"] = 99
+        self.assert_rejects("normalized stat payload SHA-256 mismatch")
+
+    def test_missing_source_snapshot_digest_fails_validated(self):
+        del self.report["provenance"]["nba_sources"][0]["raw_source_sha256"]
+        self.assert_rejects("captured raw source SHA-256")
+
+    def test_missing_game_original_source_digest_fails_validated(self):
+        del self.report["games"][0]["raw_source_sha256"]
+        self.assert_rejects("captured original source SHA-256 required")
 
     def test_bad_source(self):
         self.report["provenance"]["film"][0]["url"] = "not-a-url"
