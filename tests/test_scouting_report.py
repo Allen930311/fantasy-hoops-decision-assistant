@@ -41,7 +41,7 @@ class ScoutingReportTests(unittest.TestCase):
         self.report = {
             "schema_version": 1, "season": "2026-27",
             "researcher": "synthetic-writer",
-            "player": {"name": "Herbert Jones", "nba_id": "synthetic-test-only", "yahoo_id": None, "aliases": ["Herb Jones"]},
+            "player": {"name": "Herbert Jones", "nba_id": "9999999", "yahoo_id": None, "identity_source": "https://example.invalid/synthetic-identity", "aliases": ["Herb Jones"]},
             "content_status": "VALIDATED", "review_status": "PASS", "archive_status": "NOT_WRITTEN",
             "provenance": {
                 "roster_commit_sha": "f" * 40,
@@ -81,7 +81,7 @@ class ScoutingReportTests(unittest.TestCase):
         self.assert_rejects("ownership mismatch")
 
     def test_unknown_team_add_is_owned(self):
-        self.report["player"] = {"name": "Keon Ellis", "nba_id": "synthetic-test-only", "aliases": []}
+        self.report["player"] = {"name": "Keon Ellis", "nba_id": "9999999", "identity_source": "https://example.invalid/synthetic-identity", "aliases": []}
         self.report["ownership"] = {"status": "CONFIRMED_FA", "team_id": None}
         self.assert_rejects("OWNED_TEAM_UNKNOWN")
 
@@ -94,6 +94,24 @@ class ScoutingReportTests(unittest.TestCase):
         self.report["player"] = {"name": "LaMelo Ball", "nba_id": "synthetic-test-only", "aliases": []}
         self.report["ownership"] = {"status": "OWNER_ROSTER", "team_id": "team_02"}
         self.assert_rejects("OTHER_TEAM_ROSTER")
+
+    def test_additional_owned_player_is_not_free_agent(self):
+        self.report["player"] = {"name": "Aaron Wiggins", "nba_id": "9999999",
+          "identity_source": "https://example.invalid/synthetic-identity", "aliases": []}
+        self.report["ownership"] = {"status": "CONFIRMED_FA", "team_id": None}
+        self.assert_rejects("OTHER_TEAM_ROSTER")
+
+    def test_nba_source_cannot_postdate_cutoff(self):
+        self.report["provenance"]["nba_sources"][0]["accessed_at"] = "2026-10-26T00:00:00+08:00"
+        self.assert_rejects("after the pinned cutoff")
+
+    def test_invented_stable_id_rejected(self):
+        self.report["player"]["nba_id"] = "not-verified"
+        self.assert_rejects("syntactically valid stable NBA")
+
+    def test_missing_identity_source_rejected(self):
+        self.report["player"]["identity_source"] = None
+        self.assert_rejects("independently sourced")
 
     def test_missing_fta_fails_validated(self):
         del self.report["games"][0]["stats"]["FTA"]

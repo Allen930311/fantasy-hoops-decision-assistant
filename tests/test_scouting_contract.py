@@ -64,6 +64,23 @@ class WatchlistContractTests(unittest.TestCase):
         self.write()
         self.assertIn("season does not match directory", " ".join(validate_watchlist(self.season)))
 
+    def test_report_exists_but_sidecar_missing(self):
+        directory = self.season / "scouting/reports/herbert-jones"
+        directory.mkdir(parents=True)
+        (directory / "2026-10-25.v1.md").write_text("# incomplete", encoding="utf-8")
+        self.data["targets"][0]["status"] = "REVIEW_PENDING"
+        self.data["targets"][0]["report_path"] = "reports/herbert-jones/2026-10-25.v1.md"
+        self.write()
+        self.assertIn("sidecar JSON missing", " ".join(validate_watchlist(self.season)))
+
+    def test_duplicate_name_via_alias(self):
+        other = copy.deepcopy(self.data["targets"][0])
+        other["player_name"] = "Different Player"
+        other["aliases"] = ["Herb Jones"]
+        self.data["targets"].append(other)
+        self.write()
+        self.assertIn("duplicate canonical", " ".join(validate_watchlist(self.season)))
+
     def test_nonexistent_report_rejected(self):
         self.data["targets"][0]["report_path"] = "reports/herbert-jones/2026-10-25.v1.md"
         self.write()

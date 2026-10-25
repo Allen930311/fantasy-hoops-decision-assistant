@@ -55,6 +55,13 @@ def _time(s: object) -> bool:
         return False
 
 
+def _at_or_before(timestamp: str, cutoff: str) -> bool:
+    try:
+        return dt.datetime.fromisoformat(timestamp) <= dt.datetime.fromisoformat(cutoff)
+    except (TypeError, ValueError, AttributeError):
+        return False
+
+
 def _number(n: object) -> bool:
     return isinstance(n, (int, float)) and not isinstance(n, bool) and math.isfinite(n) and n >= 0
 
@@ -134,8 +141,14 @@ def validate_report(path: Path, season_dir: Path) -> list[str]:
     name, aliases = player.get("name"), player.get("aliases", [])
     if not _text(name) or not isinstance(aliases, list) or not all(_text(x) for x in aliases):
         return errors + ["invalid player name/aliases"]
-    if status == "VALIDATED" and not (player.get("nba_id") or player.get("yahoo_id")):
-        errors.append("VALIDATED requires stable NBA or Yahoo player ID")
+    nba_id, yahoo_id = player.get("nba_id"), player.get("yahoo_id")
+    if status == "VALIDATED" and not (
+        (isinstance(nba_id, str) and nba_id.isascii() and nba_id.isdecimal())
+        or (isinstance(yahoo_id, str) and bool(re.fullmatch(r"[A-Za-z0-9._-]+", yahoo_id)))
+    ):
+        errors.append("VALIDATED requires syntactically valid stable NBA or Yahoo player ID")
+    if status == "VALIDATED" and not _url(player.get("identity_source")):
+        errors.append("VALIDATED requires independently sourced player identity")
     prov = data.get("provenance", {})
     if not isinstance(prov, dict):
         return errors + ["provenance must be object"]
@@ -146,7 +159,8 @@ def validate_report(path: Path, season_dir: Path) -> list[str]:
         v = prov.get(label)
         if not isinstance(v, str) or v != blob_sha(source.read_bytes()):
             errors.append(f"{label}: does not match the checked-out pinned source")
-    if not _time(prov.get("data_cutoff_taipei")):
+    cutoff = prov.get("data_cutoff_taipei")
+    if not _time(cutoff):
         errors.append("missing offset-aware data cutoff")
     nba_sources = prov.get("nba_sources", [])
     film = prov.get("film", [])
@@ -155,6 +169,8 @@ def validate_report(path: Path, season_dir: Path) -> list[str]:
     for s in nba_sources:
         if not isinstance(s, dict) or not _url(s.get("url")) or not _time(s.get("accessed_at")):
             errors.append("unverifiable NBA source URL/accessed_at")
+        elif _time(cutoff) and not _at_or_before(s["accessed_at"], cutoff):
+            errors.append("NBA source fetched after the pinned cutoff")
     for f in film:
         if (not isinstance(f, dict) or not _url(f.get("url"))
                 or not _text(f.get("game_id")) or not _text(f.get("game_date"))
@@ -192,6 +208,8 @@ def validate_report(path: Path, season_dir: Path) -> list[str]:
         if not isinstance(game, dict) or not _text(game.get("game_id")) or not _url(game.get("source_url")) or not _time(game.get("accessed_at")):
             errors.append(f"games[{i}]: missing original source provenance")
             continue
+        if _time(cutoff) and not _at_or_before(game["accessed_at"], cutoff):
+            errors.append(f"games[{i}]: original data fetched after cutoff")
         pts, missing = compute_game_fp(game.get("stats"), league["scoring"])
         if missing:
             if status == "VALIDATED":
