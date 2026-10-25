@@ -8,6 +8,20 @@ on:
       - "seasons/*/scouting/**"
       - "scripts/validate_scouting_contract.py"
       - "tests/test_scouting_contract.py"
+      - "tests/test_scouting_report.py"
+      - "scripts/validate_scouting_report.py"
+      - "AGENT_CONTEXT.md"
+      - "STATUS.md"
+      - "seasons/*/ownership/**"
+      - "seasons/*/league.json"
+      - "seasons/*/rosters.json"
+      - "tests/test_scouting_report.py"
+      - "scripts/validate_scouting_report.py"
+      - "AGENT_CONTEXT.md"
+      - "STATUS.md"
+      - "seasons/*/ownership/**"
+      - "seasons/*/league.json"
+      - "seasons/*/rosters.json"
       - ".github/workflows/scouting-contract-tests.yml"
   push:
     branches: [main]
@@ -32,8 +46,8 @@ jobs:
         with:
           python-version: "3.11"
       - name: Static and syntax checks
-        run: python -m py_compile scripts/validate_scouting_contract.py tests/test_scouting_contract.py
+        run: python -m py_compile scripts/validate_scouting_contract.py scripts/validate_scouting_report.py tests/test_scouting_contract.py tests/test_scouting_report.py
       - name: Validate watchlist
         run: python scripts/validate_scouting_contract.py seasons/2026-27
       - name: Offline negative tests
-        run: python -m unittest discover -s tests -p 'test_scouting_contract.py' -v
+        run: python -m unittest discover -s tests -p 'test_scouting*.py' -v

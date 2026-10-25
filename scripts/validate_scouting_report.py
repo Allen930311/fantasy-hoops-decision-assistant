@@ -31,7 +31,7 @@ HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def blob_sha(data: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\\0" + data).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + bytes([0]) + data).hexdigest()
 
 
 def _read(path: Path) -> dict:
