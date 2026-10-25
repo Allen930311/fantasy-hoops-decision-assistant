@@ -180,7 +180,7 @@
         "Alex Sarr",
         "Ajay Mitchell",
         "Darius Acuff Jr.",
-        "Mitchell Robinson",
+        "Trevon Brazile",
         "Yves Missi",
         "DeMar DeRozan"
       ]
@@ -330,15 +330,14 @@
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-24",
-    "team_id": "team_10",
-    "out": "Brayden Burries",
-    "in": "Mario Hezonja",
-    "additional_in": [
-      "Aaron Wiggins"
-    ],
-    "authority": "owner_provided_yahoo_chat_screenshot_2026-10-25",
-    "note": "Single drop uniquely mapped to team_10 from prior roster; screenshot shows two adds from the same displayed team. Additional add has confirmed team ownership but real Yahoo slot / IL status is unknown. Canonical 13-player projection list uses Mario; this does not establish which player is actually on IL."
+    "date": "2026-10-25",
+    "team_id": "team_09",
+    "out": "Mitchell Robinson",
+    "in": "Trevon Brazile",
+    "authority": "owner_provided_yahoo_chat_screenshot_2026-10-25_1145_taipei",
+    "mapping_basis": "Mitchell Robinson uniquely belonged to team_09 in pre-transaction roster; screenshot explicitly pairs that DROP with Trevon Brazile ADD",
+    "displayed_time": "5m ago on screenshot at 11:45 Asia/Taipei (approximate relative time; not an exact exchange timestamp)",
+    "note": "Yahoo confirmed completed ADD/DROP. Do not infer current free-agent or waiver availability of the released player."
   },
   "transaction_notes": [
     {
@@ -377,6 +376,16 @@
       "mapping_basis": "Brayden Burries uniquely present on team_10 in pre-transaction roster; two ADDs appear under the same displayed Yahoo team in the same batch",
       "slot_status": "one additional confirmed owned player, actual IL/active slot unknown",
       "note": "Displayed as yesterday 4:21 PM in 2026-10-25 screenshot. Team nickname is evidence only, never a persistent team key."
+    },
+    {
+      "date": "2026-10-25",
+      "team_id": "team_09",
+      "out": "Mitchell Robinson",
+      "in": "Trevon Brazile",
+      "authority": "owner_provided_yahoo_chat_screenshot_2026-10-25_1145_taipei",
+      "mapping_basis": "Mitchell Robinson uniquely belonged to team_09 in pre-transaction roster; screenshot explicitly pairs that DROP with Trevon Brazile ADD",
+      "displayed_time": "5m ago on screenshot at 11:45 Asia/Taipei (approximate relative time; not an exact exchange timestamp)",
+      "note": "Yahoo confirmed completed ADD/DROP. Do not infer current free-agent or waiver availability of the released player."
     }
   ]
 }

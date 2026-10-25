@@ -139,6 +139,13 @@
       "previous_team_id": null,
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
       "reason": "Yahoo DROP screenshot overrides older ADD evidence; identity of previous team unresolved; check waiver/current eligibility"
+    },
+    {
+      "name": "Mitchell Robinson",
+      "date": "2026-10-25",
+      "previous_team_id": "team_09",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Trevon Brazile ADD + Mitchell Robinson DROP confirmed in screenshot circa 11:40 Taipei; current Yahoo waiver/FA status not verified"
     }
   ],
   "transactions": [
@@ -207,6 +214,19 @@
       ],
       "drop": [],
       "attribution": "no stable team_id; ADD-only permitted (IL)"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "5m ago on 11:45 Taipei screenshot; estimated near 11:40, exact time unverified",
+      "team_id": "team_09",
+      "add": [
+        "Trevon Brazile"
+      ],
+      "drop": [
+        "Mitchell Robinson"
+      ],
+      "attribution": "unique prior owner of dropped Mitchell Robinson in rosters.json",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1145_taipei"
     }
   ],
   "policy": {
