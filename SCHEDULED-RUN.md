@@ -40,7 +40,7 @@ Before Yahoo read-only reconciliation is complete:
 - Do not recommend a player who appears on any of the 16 recorded rosters.
 - Prefer players with enough current evidence to evaluate under the owner's scoring model; do not spam deep-bench names merely because they are technically unrostered.
 
-After the repository records a validated Yahoo availability/ownership authority, use that source instead of roster-exclusion inference. The scheduled prompt must not need to change for this transition.
+The 2026-10-19 Yahoo API application denial means **no live Yahoo entitlement is available**. Do not scrape protected Yahoo data, rely on undocumented endpoints/cookies, or circumvent region/access restrictions. Until a separately authorized source is validated, treat roster-exclusion as *candidate discovery only*: waiver eligibility/availability must remain **UNKNOWN** unless current owner-supplied/authorized evidence confirms it. A future official provider transition requires new authorization and read-back, not a prompt assumption.
 
 ## 4. Scoring authority
 
