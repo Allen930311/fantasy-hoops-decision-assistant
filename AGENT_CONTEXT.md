@@ -69,4 +69,4 @@ scoring rules are season-scoped.
 
 ## Player scouting (independent SOP)
 
-When asked to scout a player, track research candidates, or compare a long-term replacement, use `.agents/skills/player-scout/SKILL.md` and active-season `scouting/README.md`. Claude Code can discover the equivalent `.claude/skills/player-scout/SKILL.md` entrance. This is separate from the scheduled daily battle report. Never label a candidate CONFIRMED_FA solely because the name is absent from `rosters.json`; read the season ownership SOP and current effective overlay.
+When asked to scout a player, track research candidates, or compare a long-term replacement, use the **single canonical SOP** at active-season `scouting/README.md`, accessed through `.agents/skills/player-scout/SKILL.md`. Claude Code can discover the equivalent `.claude/skills/player-scout/SKILL.md` entrance. Both Codex and Claude Code skill entrypoints are wrappers only; neither defines a second SOP. This is separate from the scheduled daily battle report. Never label a candidate CONFIRMED_FA solely because the name is absent from `rosters.json`; read the season ownership SOP and current effective overlay.

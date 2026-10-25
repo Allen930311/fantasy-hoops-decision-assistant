@@ -1,11 +1,15 @@
-# 球員球探報告模板（複製到 reports/<player-slug>/YYYY-MM-DD.v1.md）
+# 球員球探報告模板（reports/<player-slug>/YYYY-MM-DD.vN.md）
+
+> 同版本必須保存 `YYYY-MM-DD.vN.json` 原始資料 sidecar（schema 及規則以 `scripts/validate_scouting_report.py` 為準）；Markdown 不能代替結構化來源。
 
 > 所有 `[待填]` 需填實際資料或 `N/A/UNKNOWN`，不得擅填零。嚴格區分球探觀察、原始統計、推論、模型預測。
 
 ## 0. 檔案與決策摘要
 - `season`：[待填]｜`player_id/name/aliases`：[待填]
 - `report_date_taipei`：[待填]｜`data_cutoff_taipei`：[待填]｜`researcher`：[待填]
-- `status`：BLOCKED / PROVISIONAL / REVIEW_READY / ARCHIVED（每次只選一個）
+- `content_status`：BLOCKED / PROVISIONAL / VALIDATED
+- `review_status`：NOT_RUN / PASS / FAIL
+- `archive_status`：NOT_WRITTEN / PR_PENDING / ARCHIVE_BLOCKED / ARCHIVED（需獨立 GitHub 存檔 receipt；不可在此自證 ARCHIVED）
 - `roster_commit_sha`、`league_blob_sha`、`rosters_blob_sha`、`ownership_blob_sha`：[待填]
 - `roster_as_of`：[待填]｜`NBA_source_time`：[待填]｜`Yahoo_availability_checked_at`：[待填或 UNKNOWN]
 - 一句話結論：[待填]｜建議：ADD / HOLD / DROP / TRADE / WATCH｜信心：高 / 中 / 低
@@ -41,7 +45,7 @@
 | TO / FTA / PF | | | | |
 | USG% / TS% | | | | |
 | DD / TD 頻率 | | | | |
-| 官方自訂 FP/G（完整才可填） | | | | |
+| 依本 repo 當季權重重新計算的 FP/G（完整才可填） | | | | |
 
 - 上場/未上場、因傷缺賽是否納入 denominator、對手強弱、垃圾時間、樣本小的偏誤：[待填]
 - 數據來源 URL / 原始 period / 資料擷取時間：[待填]
@@ -83,4 +87,6 @@
 - ownership gate / full custom FP / film / comparison / no fabricated FA gate：[PASS/PROVISIONAL/BLOCKED + 佐證]
 - 獨立 review（Reviewer 身分與時間，不可虛構）：[待填或 NOT_RUN]
 - 報告前版路徑及本版差異：[首次 v1 填 N/A]
-- GitHub branch/PR/commit/main readback： [待填或 NOT_RUN]
+- GitHub branch/PR/commit/main readback： [待填或 NOT_RUN；報告內容與歸檔狀態分開]
+- JSON sidecar：每場完整 raw stats、league 權重、source_url/擷取時間、roster/ownership snapshot blob SHA、影片正反案例、球員 NBA/Yahoo ID、三情境及獨立 Reviewer 證據；缺欄不能以 0 填入。
+- 外部來源的 URL 是否真實存在、是否實際支持報告主張，必須由獨立 Reviewer 逐筆核對；離線 validator 不會上網查證。
