@@ -1,4 +1,4 @@
-name: Fantasy scouting watchlist contract
+name: Fantasy scouting governance and dossier contract
 
 on:
   pull_request:
@@ -6,22 +6,16 @@ on:
       - ".agents/skills/player-scout/**"
       - ".claude/skills/player-scout/**"
       - "seasons/*/scouting/**"
+      - "seasons/*/ownership/**"
+      - "seasons/*/league.json"
+      - "seasons/*/rosters.json"
       - "scripts/validate_scouting_contract.py"
+      - "scripts/validate_scouting_report.py"
       - "tests/test_scouting_contract.py"
       - "tests/test_scouting_report.py"
-      - "scripts/validate_scouting_report.py"
-      - "AGENT_CONTEXT.md"
+      - "tests/fresh-agent/scouting/**"
       - "STATUS.md"
-      - "seasons/*/ownership/**"
-      - "seasons/*/league.json"
-      - "seasons/*/rosters.json"
-      - "tests/test_scouting_report.py"
-      - "scripts/validate_scouting_report.py"
       - "AGENT_CONTEXT.md"
-      - "STATUS.md"
-      - "seasons/*/ownership/**"
-      - "seasons/*/league.json"
-      - "seasons/*/rosters.json"
       - ".github/workflows/scouting-contract-tests.yml"
   push:
     branches: [main]
@@ -29,15 +23,23 @@ on:
       - ".agents/skills/player-scout/**"
       - ".claude/skills/player-scout/**"
       - "seasons/*/scouting/**"
+      - "seasons/*/ownership/**"
+      - "seasons/*/league.json"
+      - "seasons/*/rosters.json"
       - "scripts/validate_scouting_contract.py"
+      - "scripts/validate_scouting_report.py"
       - "tests/test_scouting_contract.py"
+      - "tests/test_scouting_report.py"
+      - "tests/fresh-agent/scouting/**"
+      - "STATUS.md"
+      - "AGENT_CONTEXT.md"
       - ".github/workflows/scouting-contract-tests.yml"
 
 permissions:
   contents: read
 
 jobs:
-  scouting-contract:
+  scouting-governance:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -45,9 +47,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Static and syntax checks
+      - name: Python syntax checks
         run: python -m py_compile scripts/validate_scouting_contract.py scripts/validate_scouting_report.py tests/test_scouting_contract.py tests/test_scouting_report.py
-      - name: Validate watchlist
+      - name: Watchlist integrity
         run: python scripts/validate_scouting_contract.py seasons/2026-27
-      - name: Offline negative tests
+      - name: Governance and adversarial tests
         run: python -m unittest discover -s tests -p 'test_scouting*.py' -v

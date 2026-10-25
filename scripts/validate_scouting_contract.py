@@ -6,7 +6,9 @@ Not a live Yahoo availability verifier or a completed-report factual validator.
 import argparse
 import datetime as dt
 import json
+import unicodedata
 from pathlib import Path
+from validate_scouting_report import validate_report
 
 STATUSES = {"QUEUED", "RESEARCHING", "REVIEW_PENDING", "SCOUTED", "BLOCKED"}
 PRIORITIES = {"P0", "P1", "P2", "P3"}
@@ -41,6 +43,7 @@ def validate_watchlist(season_dir: Path) -> list[str]:
         return errors + ["targets must be a list"]
 
     seen = set()
+    identity_keys = set()
     reports_root = (season_dir / "scouting" / "reports").resolve()
     for idx, t in enumerate(targets):
         prefix = f"targets[{idx}]"
@@ -54,6 +57,13 @@ def validate_watchlist(season_dir: Path) -> list[str]:
             errors.append(f"{prefix}: duplicate player_name")
         else:
             seen.add(name.casefold().strip())
+        identity_status = t.get("identity_status", "UNVERIFIED")
+        if identity_status not in {"UNVERIFIED", "VERIFIED"}:
+            errors.append(f"{prefix}: unknown identity_status")
+        if identity_status == "VERIFIED" and (not t.get("player_id") or not t.get("identity_source")):
+            errors.append(f"{prefix}: VERIFIED must include ID and identity_source")
+        if t.get("status") == "SCOUTED" and identity_status != "VERIFIED":
+            errors.append(f"{prefix}: SCOUTED requires verified identity")
         if t.get("priority") not in PRIORITIES:
             errors.append(f"{prefix}: unknown priority")
         if t.get("status") not in STATUSES:
@@ -66,6 +76,12 @@ def validate_watchlist(season_dir: Path) -> list[str]:
         aliases = t.get("aliases", [])
         if not isinstance(aliases, list) or any(not isinstance(x, str) or not x.strip() for x in aliases):
             errors.append(f"{prefix}: aliases must be non-empty strings")
+        if isinstance(name, str) and isinstance(aliases, list):
+            for alias in [name, *[x for x in aliases if isinstance(x, str)]]:
+                key = unicodedata.normalize("NFKC", alias).strip().casefold()
+                if key in identity_keys:
+                    errors.append(f"{prefix}: duplicate canonical name/alias")
+                identity_keys.add(key)
         if "availability" in t or "team_id" in t or "fantasy_points" in t:
             errors.append(f"{prefix}: research queue must not assert FA/ownership/FP facts")
         report = t.get("report_path")
@@ -80,6 +96,18 @@ def validate_watchlist(season_dir: Path) -> list[str]:
                 errors.append(f"{prefix}: unsafe report_path")
             elif not candidate.is_file():
                 errors.append(f"{prefix}: report_path does not exist")
+            elif t.get("status") in {"REVIEW_PENDING", "SCOUTED"}:
+                sidecar = candidate.with_suffix(".json")
+                if not sidecar.is_file():
+                    errors.append(f"{prefix}: report JSON sidecar missing")
+                else:
+                    checks = validate_report(sidecar, season_dir)
+                    if checks:
+                        errors.append(f"{prefix}: report failed validation: " + "; ".join(checks))
+                    elif t.get("status") == "SCOUTED":
+                        content = json.loads(sidecar.read_text(encoding="utf-8"))
+                        if content.get("content_status") != "VALIDATED" or content.get("review_status") != "PASS":
+                            errors.append(f"{prefix}: SCOUTED requires VALIDATED plus independent PASS")
     return errors
 
 
