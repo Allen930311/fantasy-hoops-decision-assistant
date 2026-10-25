@@ -3,7 +3,7 @@
   "season": "2026-27",
   "as_of": "2026-10-25",
   "authority": "owner_provided_yahoo_fantasy_transaction_screenshots",
-  "description": "Effective ownership overlay; replaces dated historical ADD-only exclusion lists for current decisions. Names are stable identity, display-only team nicknames are not.",
+  "description": "Effective ownership overlay; replaces dated historical ADD-only exclusion lists for current decisions. Names are stable identity, display-only team nicknames are not. Owner team_02 2026-10-25 Champagnie-for-Herbert Jones completed transaction is reflected in rosters.json.",
   "unassigned_confirmed_owned_players": [
     {
       "name": "Al Horford",
@@ -123,6 +123,13 @@
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
       "evidence_date": "2026-10-25",
       "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+    },
+    {
+      "name": "Ja'Kobe Walter",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1520_taipei"
     }
   ],
   "released_availability_unverified": [
@@ -146,6 +153,13 @@
       "previous_team_id": "team_09",
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
       "reason": "Trevon Brazile ADD + Mitchell Robinson DROP confirmed in screenshot circa 11:40 Taipei; current Yahoo waiver/FA status not verified"
+    },
+    {
+      "name": "Herbert Jones",
+      "date": "2026-10-25",
+      "previous_team_id": "team_02",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner confirmed Yahoo DROP; current waiver/FA availability not verified"
     }
   ],
   "transactions": [
@@ -227,6 +241,30 @@
       ],
       "attribution": "unique prior owner of dropped Mitchell Robinson in rosters.json",
       "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1145_taipei"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "just now on screenshot at 15:20 Asia/Taipei; exact transaction timestamp not independently verified",
+      "team_id": "team_02",
+      "add": [
+        "Justin Champagnie"
+      ],
+      "drop": [
+        "Herbert Jones"
+      ],
+      "attribution": "owner-confirmed Yahoo ADD/DROP screenshot in current conversation",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1520_taipei"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "today at 1:38 PM Asia/Taipei",
+      "team_id": null,
+      "add": [
+        "Ja'Kobe Walter"
+      ],
+      "drop": [],
+      "attribution": "Yahoo ADD-only; displayed team nickname is not stable ID",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1520_taipei"
     }
   ],
   "policy": {
