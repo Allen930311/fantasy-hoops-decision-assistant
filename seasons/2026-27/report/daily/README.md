@@ -4,7 +4,7 @@
 每天台灣時間 15:00 的戰報先在聊天中交付，通過資料驗證後，另存為可追溯、不可靜默覆寫的 Markdown 快照。這是獨立 SOP；排程接線屬後續步驟。僅處理報告，**不得**修改 `rosters.json`、`league.json`、Yahoo 或進行交易。
 
 ## Input / Authority
-1. 每次執行重新讀取 `main:seasons/2026-27/rosters.json`（16 隊 ownership 第一順位）與 `main:seasons/2026-27/league.json`（唯一計分規則），記錄 commit SHA、檔案 blob SHA、讀取時間與 roster `as_of`。
+1. 每次執行重新讀取 `main:seasons/2026-27/rosters.json`（16 隊已確認歸屬；**含 `additional_owned_players`**）、`main:seasons/2026-27/ownership/current-state.json`（未歸屬 ADD 排除與 DROP 釋出狀態）與 `main:seasons/2026-27/league.json`（唯一計分規則），記錄來源 SHA、讀取時間與各 `as_of`。日期型舊 ADD 名單不得直接聯集成永久持有。
 2. 使用者在較新對話**明確確認已完成**但 repo 尚未同步的交易，可作暫時 ownership 覆蓋；逐筆列出來源、日期、ADD/DROP 與未確認欄位。意向不是交易；不推測 DROP。
 3. 取 NBA 官方或可核對逐人 Box Score，標示台灣日期、NBA 當地日期、賽事結束狀態、數據來源與擷取時間。禁止杜撰。
 
@@ -16,7 +16,7 @@
 - 若報告已存在，建立 `YYYY-MM-DD.v2.md` 或更高版並說明差異，不直接覆寫；保留舊版。
 
 ## 執行流程
-1. **Read**：讀取最新 main、賽程與 Box Score，建立 ownership set 與今日出賽交集。
+1. **Read**：讀取最新 main、賽程與 Box Score；依 `ownership/README.md` 合併基本名冊 + 同隊額外持有 + 未歸屬確認 ADD，再依較新 DROP 消解舊持有，建立 ownership set 與今日出賽交集。DROP 若尚未核實 Yahoo 當前 FA/waiver，不得直接列為推薦自由球員。
 2. **Calculate**：逐項按 league.json 計算 FP，保留每項加扣分明細；未有欄位就記缺口，不補零。
 3. **Review**：確認我的出賽球員 100% 覆蓋；其他隊僅精選；FA 不在 16 隊或已確認未同步 ADD；比賽皆已結束；來源可追溯；文字敘事不超出證據。
 4. **Publish**：只在全部 gate PASS 時寫正式報告。未通過只可寫清楚標記的 provisional 草稿，不能宣稱正式完成。寫入專用 branch/PR，通過讀回後才合併；若無 GitHub 寫入權限，輸出可供提交的檔案並報 BLOCKED。

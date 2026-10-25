@@ -35,6 +35,7 @@ def main() -> int:
 
     team_ids: list[str] = []
     players: list[str] = []
+    extra_owned: list[str] = []
     owner_teams: list[str] = []
 
     for team in teams:
@@ -56,14 +57,55 @@ def main() -> int:
                 f"{team_id}: expected {expected_roster} players, found {len(team_players)}"
             )
         players.extend(team_players)
+        additional = team.get("additional_owned_players", [])
+        if not isinstance(additional, list) or any(
+            not isinstance(name, str) or not name.strip() for name in additional
+        ):
+            errors.append(f"{team_id}: additional_owned_players must be non-empty name strings")
+        else:
+            extra_owned.extend(additional)
 
     duplicate_team_ids = sorted({x for x in team_ids if team_ids.count(x) > 1})
     if duplicate_team_ids:
         errors.append(f"duplicate team_ids: {duplicate_team_ids}")
 
-    duplicate_players = sorted({x for x in players if players.count(x) > 1})
+    all_known_owned = players + extra_owned
+    duplicate_players = sorted({x for x in set(all_known_owned) if all_known_owned.count(x) > 1})
     if duplicate_players:
-        errors.append(f"duplicate rostered players: {duplicate_players}")
+        errors.append(f"duplicate team-attributed owned players: {duplicate_players}")
+
+    current_overlay = season_dir / "ownership" / "current-state.json"
+    unassigned: list[str] = []
+    released: list[str] = []
+    if current_overlay.exists():
+        overlay = json.loads(current_overlay.read_text(encoding="utf-8"))
+        if overlay.get("season") != league.get("season"):
+            errors.append("ownership/current-state.json season mismatch")
+        for key, target in (
+            ("unassigned_confirmed_owned_players", unassigned),
+            ("released_availability_unverified", released),
+        ):
+            entries = overlay.get(key)
+            if not isinstance(entries, list):
+                errors.append(f"ownership/current-state.json: {key} must be a list")
+                continue
+            for entry in entries:
+                if not isinstance(entry, dict) or not isinstance(entry.get("name"), str) or not entry["name"].strip():
+                    errors.append(f"ownership/current-state.json: invalid entry in {key}")
+                    continue
+                if key == "unassigned_confirmed_owned_players" and entry.get("team_id") is not None:
+                    errors.append(f"ownership/current-state.json: {entry['name']} is not unassigned")
+                target.append(entry["name"])
+
+        for key, names in (("unassigned", unassigned), ("released", released)):
+            duplicates = sorted({name for name in set(names) if names.count(name) > 1})
+            if duplicates:
+                errors.append(f"duplicate {key} entries: {duplicates}")
+        known_set = set(all_known_owned)
+        if known_set.intersection(unassigned):
+            errors.append(f"unassigned overlay overlaps known team ownership: {sorted(known_set.intersection(unassigned))}")
+        if known_set.intersection(released) or set(unassigned).intersection(released):
+            errors.append(f"released players still marked owned: {sorted((known_set | set(unassigned)).intersection(released))}")
 
     owner_team_id = league.get("owner_team_id")
     if owner_teams != [owner_team_id]:
@@ -86,6 +128,8 @@ def main() -> int:
     print(
         f"OK season={league['season']} teams={len(teams)} "
         f"players={len(players)} unique_players={len(set(players))} "
+        f"additional_owned={len(extra_owned)} total_team_owned={len(all_known_owned)} "
+        f"unassigned_confirmed_owned={len(unassigned)} released_unverified={len(released)} "
         f"owner_team={owner_team_id}"
     )
     return 0

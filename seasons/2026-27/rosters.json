@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-20",
+  "as_of": "2026-10-25",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -201,8 +201,11 @@
         "Damian Lillard",
         "Quentin Grimes",
         "Cameron Johnson",
-        "Brayden Burries",
+        "Mario Hezonja",
         "Obi Toppin"
+      ],
+      "additional_owned_players": [
+        "Aaron Wiggins"
       ]
     },
     {
@@ -327,11 +330,15 @@
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-20",
-    "team_id": "team_02",
-    "out": "Max Christie",
-    "in": "Isaiah Jackson",
-    "authority": "yahoo_fantasy_transaction_screenshot"
+    "date": "2026-10-24",
+    "team_id": "team_10",
+    "out": "Brayden Burries",
+    "in": "Mario Hezonja",
+    "additional_in": [
+      "Aaron Wiggins"
+    ],
+    "authority": "owner_provided_yahoo_chat_screenshot_2026-10-25",
+    "note": "Single drop uniquely mapped to team_10 from prior roster; screenshot shows two adds from the same displayed team. Additional add has confirmed team ownership but real Yahoo slot / IL status is unknown. Canonical 13-player projection list uses Mario; this does not establish which player is actually on IL."
   },
   "transaction_notes": [
     {
@@ -357,6 +364,19 @@
       "in": "Isaiah Jackson",
       "authority": "yahoo_fantasy_transaction_screenshot",
       "note": "Owner-provided Yahoo Fantasy chat screenshot shows completed add/drop on Oct 20; displayed as 52m ago, precise execution timestamp not recorded."
+    },
+    {
+      "date": "2026-10-24",
+      "team_id": "team_10",
+      "out": "Brayden Burries",
+      "in": [
+        "Mario Hezonja",
+        "Aaron Wiggins"
+      ],
+      "authority": "owner_provided_yahoo_chat_screenshot_2026-10-25",
+      "mapping_basis": "Brayden Burries uniquely present on team_10 in pre-transaction roster; two ADDs appear under the same displayed Yahoo team in the same batch",
+      "slot_status": "one additional confirmed owned player, actual IL/active slot unknown",
+      "note": "Displayed as yesterday 4:21 PM in 2026-10-25 screenshot. Team nickname is evidence only, never a persistent team key."
     }
   ]
 }

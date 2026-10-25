@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "as_of": "2026-10-25",
+  "authority": "owner_provided_yahoo_fantasy_transaction_screenshots",
+  "description": "Effective ownership overlay; replaces dated historical ADD-only exclusion lists for current decisions. Names are stable identity, display-only team nicknames are not.",
+  "unassigned_confirmed_owned_players": [
+    {
+      "name": "Al Horford",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Alex Caruso",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Bilal Coulibaly",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Brandon Williams",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Collin Sexton",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "De'Anthony Melton",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+    },
+    {
+      "name": "Dennis Schröder",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Isaiah Joe",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Jock Landale",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+    },
+    {
+      "name": "Keldon Johnson",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Keon Ellis",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+    },
+    {
+      "name": "Kris Dunn",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Max Christie",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Precious Achiuwa",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Robert Williams III",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-24",
+      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+    },
+    {
+      "name": "Sam Merrill",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+    },
+    {
+      "name": "Tristan da Silva",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+    }
+  ],
+  "released_availability_unverified": [
+    {
+      "name": "Brayden Burries",
+      "date": "2026-10-24",
+      "previous_team_id": "team_10",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Yahoo DROP screenshot; check waivers/current eligibility before listing as FREE AGENT"
+    },
+    {
+      "name": "Kentavious Caldwell-Pope",
+      "date": "2026-10-25",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Yahoo DROP screenshot overrides older ADD evidence; identity of previous team unresolved; check waiver/current eligibility"
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2026-10-24",
+      "displayed_time": "yesterday at 4:21 PM on 2026-10-25 screenshot",
+      "team_id": "team_10",
+      "add": [
+        "Mario Hezonja",
+        "Aaron Wiggins"
+      ],
+      "drop": [
+        "Brayden Burries"
+      ],
+      "attribution": "uniquely_match_dropped_player_in_prior_16_team_roster",
+      "slot_status": "one extra confirmed owned; specific roster/IL slot unknown"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "today at 1:05 AM",
+      "team_id": null,
+      "add": [
+        "Tristan da Silva"
+      ],
+      "drop": [
+        "Kentavious Caldwell-Pope"
+      ],
+      "attribution": "no stable team_id: prior KCP only in unassigned ADD overlay"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "today at 1:45 AM",
+      "team_id": null,
+      "add": [
+        "Keon Ellis"
+      ],
+      "drop": [],
+      "attribution": "no stable team_id; ADD-only permitted (IL)"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "today (time not shown)",
+      "team_id": null,
+      "add": [
+        "Jock Landale"
+      ],
+      "drop": [],
+      "attribution": "no stable team_id; Yahoo team nickname alone is not a stable key"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "today at 4:52 AM",
+      "team_id": null,
+      "add": [
+        "Sam Merrill"
+      ],
+      "drop": [],
+      "attribution": "same displayed team as Jock Landale but no stable team_id"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "today at 9:56 AM",
+      "team_id": null,
+      "add": [
+        "De'Anthony Melton"
+      ],
+      "drop": [],
+      "attribution": "no stable team_id; ADD-only permitted (IL)"
+    }
+  ],
+  "policy": {
+    "current_overlay_authority": "this file plus rosters.json; newer confirmed Yahoo transactions take precedence",
+    "roster_owned_paths": [
+      "teams[].players",
+      "teams[].additional_owned_players"
+    ],
+    "unassigned_adds_are_not_free_agents": true,
+    "drop_is_not_immediately_confirmed_free_agent": true,
+    "displayed_team_names_not_stable_ids": true,
+    "add_only_does_not_imply_drop": true,
+    "duplicates_of_screenshots_are_one_event": true
+  }
+}

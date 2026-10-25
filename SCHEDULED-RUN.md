@@ -17,6 +17,8 @@ For the current 2026–27 season, read:
 - `seasons/2026-27/README.md`
 - `seasons/2026-27/league.json`
 - `seasons/2026-27/rosters.json`
+- `seasons/2026-27/ownership/README.md` (transaction matching policy)
+- `seasons/2026-27/ownership/current-state.json` (current effective overlay; do **not** union all historical dated ADD lists)
 
 If the repository later changes the active season or authority path, follow the repository's newest canonical state instead of this historical example.
 
@@ -24,9 +26,11 @@ If the repository later changes the active season or authority path, follow the 
 
 `league.json` is the season-specific league/scoring configuration.
 
-`rosters.json` is the current bootstrap ownership state until the repository explicitly promotes a validated Yahoo read-only source.
+`rosters.json` is the current bootstrap ownership state until the repository explicitly promotes a validated Yahoo read-only source. Owned players include **both** `teams[].players` and `teams[].additional_owned_players` (extra confirmed team ownership, actual active/IL slot unknown); do not assume 13 baseline slots exhaust ownership.
 
 Resolve the owner's team from `owner_team_id`; do not hard-code player names in the scheduled task.
+
+Apply the current-season `ownership/README.md` when reconciling screenshots: a uniquely rostered DROP can identify a stable team_id for that entire clear transaction batch; a nickname alone cannot, and ADD without DROP does not imply anyone else was released (IL allowed). `ownership/current-state.json` holds confirmed ADDs with no provable team_id; later explicit DROP releases historical ADD evidence, but waiver/FA eligibility remains unknown.
 
 Roster changes in the repository are the first ownership authority. A later owner message explicitly confirming an already completed but not yet synced transaction can temporarily override the affected player identities, with citation and timestamp. A proposed/intent-only transaction never overrides the repository. Do not reconstruct prior roster membership from general chat memory.
 
@@ -34,7 +38,10 @@ Roster changes in the repository are the first ownership authority. A later owne
 
 Before Yahoo read-only reconciliation is complete:
 
-- Treat every player listed in any team in `rosters.json` as rostered / unavailable.
+- Treat every player in any team's `players` **or** `additional_owned_players` in `rosters.json` as rostered / unavailable.
+- Exclude `ownership/current-state.json.unassigned_confirmed_owned_players` from FA recommendations, even though `team_id` is null.
+- Players in `released_availability_unverified` are no longer treated as confirmed owned but must not be called immediately available without a newer Yahoo FA/waiver check.
+- A newer confirmed screenshot overrides older ADD-only exclusions: never union historical `confirmed-add-fa-exclusions-YYYY-MM-DD.json` files as permanent ownership.
 - Build the candidate available-player pool from current NBA/Fantasy-eligible players and exclude every rostered player.
 - Distinguish confirmed fantasy availability from inference when waiver/eligibility state cannot be verified.
 - Do not recommend a player who appears on any of the 16 recorded rosters.
@@ -97,7 +104,7 @@ This scheduled monitor is read-only. It must not edit the repository, execute Ya
 
 The scheduled **15:00 Asia/Taipei** daily battle report is a separate delivery obligation from the conditional notification gate in section 6. If one or more NBA games have completed by the data cutoff, produce the complete daily report even when there is no actionable ADD/DROP/TRADE alert. Section 6 governs only **extra GM action alerts**, not daily report delivery.
 
-Daily reports cover every owner-roster player who played, curated highlights from other 15 teams, and selected truly unrostered free agents. Use fresh main rosters and season scoring. Explicitly confirmed but unsynced completed adds are temporary ownership exclusions; mere trade intentions are not.
+Daily reports cover every owner-roster player who played, curated highlights from other 15 teams, and selected truly unrostered free agents. Use fresh main rosters (including `additional_owned_players`), current ownership overlay and season scoring. Explicitly confirmed but unsynced completed adds are temporary ownership exclusions; mere trade intentions are not.
 
 **Read-only separation:** The monitor itself remains read-only with respect to rosters, Yahoo, waivers and trades. The independently tested report archival writer may only create immutable files beneath `seasons/<season>/report/daily/`, on a review branch/PR; it has no authority to change rosters, scoring, or transact. Owner explicitly waived the Fresh Agent comparison **for this daily-report archive integration only** on 2026-10-22. This is a WAIVER, not Fresh Agent PASS. After successful code CI, GitHub authorization/readback smoke test, and merge of the reviewed archive implementation, the existing daily scheduled task may invoke the independently scoped report archive flow. Treat a branch commit as PR_PENDING; report ARCHIVED only after a verified main readback. Failure to archive must not suppress the daily report. On writer failure, still deliver the report with an archive failure label; never claim archival success prematurely.
 

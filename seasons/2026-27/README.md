@@ -5,7 +5,9 @@ This directory contains the owner-specific league state and scoring configuratio
 ## Files
 
 - `league.json` — season metadata and the owner-defined scoring system.
-- `rosters.json` — mutable 16-team roster snapshot.
+- `rosters.json` — mutable 16-team roster snapshot; `teams[].additional_owned_players` records confirmed same-team ADDs with unknown active/IL slot, not an invented DROP.
+- [`ownership/README.md`](ownership/README.md) — Yahoo transaction attribution SOP (known team vs unknown team, ADD-only, DROP precedence).
+- [`ownership/current-state.json`](ownership/current-state.json) — effective unassigned-confirmed-ADD exclusions and releases awaiting Yahoo FA/waiver verification; newer evidence overrides historical dated overlays.
 - `report/2026-10-05-preseason-model-v1.md` — frozen 16-team preseason power-ranking baseline, including model methodology, scoring formula, team ranking, owner-team interpretation, and limitations.
 - `report/daily/README.md` — 每日 Fantasy 戰報獨立歸檔 SOP；離線驗證、暫定稿、版本控制、GitHub PR 和 main 讀回關卡。
 
@@ -21,11 +23,11 @@ Current baseline:
 
 ## Update policy
 
-- Treat roster membership as mutable. When a player is added, dropped, traded, or reassigned, update `rosters.json` and advance its `as_of` date.
+- Treat roster membership as mutable. Apply `ownership/README.md` first: attributable transactions update `rosters.json` and `as_of`, while unassignable confirmed ADDs update only `ownership/current-state.json`. Reconcile any later DROP against historical ADD-only exclusions.
 - Do not silently carry roster state or scoring rules into another season.
 - For a new season, create a new sibling directory such as `seasons/2027-28/` with that season's own league settings and rosters.
 - `team_02` is the owner's team for this snapshot.
-- The source workbook contained a display-only “14th slot vacancy”; it is intentionally excluded. The recorded roster size is **13 players per team**.
+- The original source workbook contained a display-only “14th slot vacancy”; the computational baseline remains **13 players per team**. A subsequent owner-confirmed ADD without a matching DROP may make the real number of owned players exceed that baseline. Store confirmed extra ownership in `additional_owned_players` without asserting an IL slot.
 - Until Yahoo read-only integration is validated, this snapshot is the bootstrap ownership-state source. After reconciliation, Yahoo becomes league-state truth while owner-defined scoring remains decision truth.
 
 ## Integrity snapshot
