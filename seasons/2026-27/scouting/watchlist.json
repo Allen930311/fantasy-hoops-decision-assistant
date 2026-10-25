@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "season": "2026-27",
+  "as_of": "2026-10-25",
+  "description": "Research queue only. Not ownership authority, free-agent confirmation, or a finished scouting report.",
+  "targets": [
+    {
+      "player_name": "Herbert Jones",
+      "aliases": [
+        "Herb Jones"
+      ],
+      "priority": "P1",
+      "status": "QUEUED",
+      "purpose": "OWNER_ROSTER_HOLD_VS_REPLACE",
+      "research_question": "比較 Herbert Jones 的長期 Fantasy 保留價值與真實可取得的替代人選，避免只看近期低迷；另列未來兩週與中長期情境。",
+      "requested_on": "2026-10-25",
+      "report_path": null,
+      "notes": "種子案例：當前 2026-10-25 main roster 的 team_02 持有。正式研究時必須重新核對最新歸屬及數據；尚未完成球探研究。"
+    }
+  ]
+}

@@ -66,3 +66,7 @@ scoring rules are season-scoped.
 3. Read current roster/bootstrap state before recommending adds/drops/trades.
 4. Check fresh NBA player/news evidence when a recommendation depends on current
    roles, injuries or transactions.
+
+## Player scouting (independent SOP)
+
+When asked to scout a player, track research candidates, or compare a long-term replacement, use `.agents/skills/player-scout/SKILL.md` and active-season `scouting/README.md`. Claude Code can discover the equivalent `.claude/skills/player-scout/SKILL.md` entrance. This is separate from the scheduled daily battle report. Never label a candidate CONFIRMED_FA solely because the name is absent from `rosters.json`; read the season ownership SOP and current effective overlay.
