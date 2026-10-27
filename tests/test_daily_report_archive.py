@@ -268,13 +268,14 @@ class ArchiveTests(unittest.TestCase):
             module.validate(p)
 
 
-    def test_historical_real_game_is_provisional(self):
-        path=Path(__file__).parent/"fixtures"/"historical-nba-finals-2025-06-23-partial.json"
-        p=json.loads(path.read_text(encoding="utf-8"))
-        self.assertEqual(p["fixture_type"],"historical_real_box_partial")
-        self.assertEqual(p["report"]["owner_players"],["Shai Gilgeous-Alexander"])
+    def test_unknown_special_event_fields_are_provisional(self):
+        p=fixture()
+        p["report"]["other_players"]=["B"]
+        for row in p["games"][0]["players"]:
+            row["stats"]["TECH"]=None
+            row["quality"]["TECH"]="UNKNOWN"
         scores,missing=module.validate(p)
-        for name in ["Shai Gilgeous-Alexander","Jalen Williams"]:
+        for name in ["A","B"]:
             self.assertNotIn(name,scores)
             self.assertIn(name,missing)
             self.assertIn("TECH",missing[name])
@@ -297,14 +298,18 @@ class ArchiveTests(unittest.TestCase):
             self.assertEqual(first["sha256"],again["sha256"])
             self.assertEqual(first["path"],again["path"])
 
-    def test_cli_real_historical_case_is_provisional(self):
-        path=Path(__file__).parent/"fixtures"/"historical-nba-finals-2025-06-23-partial.json"
+    def test_cli_unknown_special_event_fields_are_provisional(self):
+        p=fixture()
+        p["games"][0]["players"][0]["stats"]["TECH"]=None
+        p["games"][0]["players"][0]["quality"]["TECH"]="UNKNOWN"
         with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/"input.json"
+            path.write_text(json.dumps(p),encoding="utf-8")
             cmd=[sys.executable,str(SCRIPT),str(path),"--output-dir",tmp]
             result=json.loads(subprocess.check_output(cmd,text=True))
             self.assertEqual(result["status"],"PROVISIONAL")
             self.assertTrue(result["path"].endswith(".provisional.md"))
-            self.assertIn("TECH",result["missing"]["Shai Gilgeous-Alexander"])
+            self.assertIn("TECH",result["missing"]["A"])
             self.assertTrue(Path(result["path"]).exists())
 
 
