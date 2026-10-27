@@ -1,19 +1,12 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-25",
+  "as_of": "2026-10-27",
   "authority": "owner_provided_yahoo_fantasy_transaction_screenshots",
-  "description": "Effective ownership overlay; replaces dated historical ADD-only exclusion lists for current decisions. Names are stable identity, display-only team nicknames are not. Owner team_02 2026-10-25 Champagnie-for-Herbert Jones completed transaction is reflected in rosters.json.",
+  "description": "Effective ownership overlay from owner-provided Yahoo screenshots through 2026-10-27. Later confirmed DROP removes prior owned evidence, and later confirmed ADD removes earlier release; team nickname alone cannot establish stable team ID.",
   "unassigned_confirmed_owned_players": [
     {
       "name": "Al Horford",
-      "team_id": null,
-      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-24",
-      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
-    },
-    {
-      "name": "Alex Caruso",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
       "evidence_date": "2026-10-24",
@@ -27,13 +20,6 @@
       "source": "confirmed-add-fa-exclusions-2026-10-24.json"
     },
     {
-      "name": "Brandon Williams",
-      "team_id": null,
-      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-24",
-      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
-    },
-    {
       "name": "Collin Sexton",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
@@ -41,11 +27,11 @@
       "source": "confirmed-add-fa-exclusions-2026-10-24.json"
     },
     {
-      "name": "De'Anthony Melton",
+      "name": "DeMar DeRozan",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-25",
-      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
+      "evidence_date": "2026-10-27",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
       "name": "Dennis Schröder",
@@ -55,11 +41,18 @@
       "source": "confirmed-add-fa-exclusions-2026-10-24.json"
     },
     {
-      "name": "Isaiah Joe",
+      "name": "Ja'Kobe Walter",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-24",
-      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+      "evidence_date": "2026-10-25",
+      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1520_taipei"
+    },
+    {
+      "name": "Jay Huff",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-26",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
       "name": "Jock Landale",
@@ -76,13 +69,6 @@
       "source": "confirmed-add-fa-exclusions-2026-10-24.json"
     },
     {
-      "name": "Keon Ellis",
-      "team_id": null,
-      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-25",
-      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
-    },
-    {
       "name": "Kris Dunn",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
@@ -90,11 +76,18 @@
       "source": "confirmed-add-fa-exclusions-2026-10-24.json"
     },
     {
-      "name": "Max Christie",
+      "name": "Matisse Thybulle",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-24",
-      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
+      "evidence_date": "2026-10-27",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Mitchell Robinson",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-27",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
       "name": "Precious Achiuwa",
@@ -118,6 +111,20 @@
       "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
     },
     {
+      "name": "Sergio De Larrea",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-27",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Terrence Shannon Jr.",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-27",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
       "name": "Tristan da Silva",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
@@ -125,20 +132,91 @@
       "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
     },
     {
-      "name": "Ja'Kobe Walter",
+      "name": "Ziaire Williams",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-25",
-      "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1520_taipei"
+      "evidence_date": "2026-10-26",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     }
   ],
   "released_availability_unverified": [
+    {
+      "name": "Alex Caruso",
+      "date": "2026-10-27",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Brandon Williams",
+      "date": "2026-10-27",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
     {
       "name": "Brayden Burries",
       "date": "2026-10-24",
       "previous_team_id": "team_10",
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
       "reason": "Yahoo DROP screenshot; check waivers/current eligibility before listing as FREE AGENT"
+    },
+    {
+      "name": "Cason Wallace",
+      "date": "2026-10-26",
+      "previous_team_id": "team_10",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "De'Anthony Melton",
+      "date": "2026-10-27",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Dean Wade",
+      "date": "2026-10-27",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "GG Jackson",
+      "date": "2026-10-26",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Graham Ike",
+      "date": "2026-10-26",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Herbert Jones",
+      "date": "2026-10-25",
+      "previous_team_id": "team_02",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner confirmed Yahoo DROP; current waiver/FA availability not verified"
+    },
+    {
+      "name": "Isaiah Joe",
+      "date": "2026-10-27",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
       "name": "Kentavious Caldwell-Pope",
@@ -148,18 +226,44 @@
       "reason": "Yahoo DROP screenshot overrides older ADD evidence; identity of previous team unresolved; check waiver/current eligibility"
     },
     {
-      "name": "Mitchell Robinson",
+      "name": "Keon Ellis",
       "date": "2026-10-25",
-      "previous_team_id": "team_09",
+      "previous_team_id": null,
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
-      "reason": "Trevon Brazile ADD + Mitchell Robinson DROP confirmed in screenshot circa 11:40 Taipei; current Yahoo waiver/FA status not verified"
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
-      "name": "Herbert Jones",
-      "date": "2026-10-25",
-      "previous_team_id": "team_02",
+      "name": "Luke Kornet",
+      "date": "2026-10-27",
+      "previous_team_id": "team_03",
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
-      "reason": "Owner confirmed Yahoo DROP; current waiver/FA availability not verified"
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Max Christie",
+      "date": "2026-10-27",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Sam Hauser",
+      "date": "2026-10-27",
+      "previous_team_id": "team_15",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
+    },
+    {
+      "name": "Scoot Henderson",
+      "date": "2026-10-27",
+      "previous_team_id": "team_12",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     }
   ],
   "transactions": [
@@ -265,6 +369,232 @@
       "drop": [],
       "attribution": "Yahoo ADD-only; displayed team nickname is not stable ID",
       "source": "owner_provided_yahoo_chat_screenshot_2026-10-25_1520_taipei"
+    },
+    {
+      "date": "2026-10-25",
+      "displayed_time": "21:31",
+      "team_id": null,
+      "add": [
+        "Dean Wade"
+      ],
+      "drop": [
+        "Keon Ellis"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2833.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "01:53",
+      "team_id": "team_09",
+      "add": [
+        "Derrick Jones Jr."
+      ],
+      "drop": [
+        "DeMar DeRozan"
+      ],
+      "attribution": "Unique pre-transaction DROP in team roster, supported by screenshot",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2833.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "04:06",
+      "team_id": null,
+      "add": [],
+      "drop": [
+        "Tre Johnson"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2833.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "04:06 group, ADD exact time not shown",
+      "team_id": null,
+      "add": [
+        "Ziaire Williams"
+      ],
+      "drop": [],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2833.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "07:46",
+      "team_id": null,
+      "add": [
+        "GG Jackson"
+      ],
+      "drop": [],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2832.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "15:28",
+      "team_id": null,
+      "add": [
+        "Graham Ike"
+      ],
+      "drop": [
+        "GG Jackson"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2832.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "15:44",
+      "team_id": null,
+      "add": [
+        "Jay Huff"
+      ],
+      "drop": [
+        "Graham Ike"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2832.png"
+    },
+    {
+      "date": "2026-10-26",
+      "displayed_time": "16:53",
+      "team_id": "team_10",
+      "add": [],
+      "drop": [
+        "Cason Wallace"
+      ],
+      "attribution": "Unique pre-transaction DROP in team roster, supported by screenshot",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2832.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "00:22",
+      "team_id": null,
+      "add": [],
+      "drop": [
+        "Isaiah Joe"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2830.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "02:52",
+      "team_id": null,
+      "add": [
+        "Sergio De Larrea"
+      ],
+      "drop": [
+        "Brandon Williams"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2830.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "03:13",
+      "team_id": "team_15",
+      "add": [
+        "Ronald Holland II"
+      ],
+      "drop": [
+        "Sam Hauser"
+      ],
+      "attribution": "Unique pre-transaction DROP in team roster, supported by screenshot",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2830.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "06:14",
+      "team_id": "team_03",
+      "add": [],
+      "drop": [
+        "Luke Kornet"
+      ],
+      "attribution": "Unique pre-transaction DROP in team roster, supported by screenshot",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2829.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "10:55",
+      "team_id": null,
+      "add": [
+        "Matisse Thybulle"
+      ],
+      "drop": [
+        "Dean Wade"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2829.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "15:58",
+      "team_id": null,
+      "add": [
+        "Mitchell Robinson"
+      ],
+      "drop": [
+        "Alex Caruso"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2829.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "16:16",
+      "team_id": null,
+      "add": [
+        "DeMar DeRozan"
+      ],
+      "drop": [
+        "Max Christie"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2828.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "time not shown, between 16:16 and 16:44",
+      "team_id": null,
+      "add": [
+        "Terrence Shannon Jr."
+      ],
+      "drop": [
+        "De'Anthony Melton"
+      ],
+      "attribution": "Confirmed screenshot transaction, but no stable team ID; do not infer team from nickname",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2828.png"
+    },
+    {
+      "date": "2026-10-27",
+      "displayed_time": "16:44",
+      "team_id": "team_12",
+      "add": [
+        "Tre Johnson"
+      ],
+      "drop": [
+        "Scoot Henderson"
+      ],
+      "attribution": "Unique pre-transaction DROP in team roster, supported by screenshot",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2828.png"
     }
   ],
   "policy": {
