@@ -27,6 +27,7 @@ read from `main` at `23595f69fbbfa904c9b1a1236a8a5061a43f21d1` and PR #21's publ
 | `main:seasons/2026-27/report/daily/2026-10-26.provisional.md` | Player/game stats, custom FP, commentary, source links | `b5d826ac5122b74b9614cc41f92dbcf2a012a8a86bc5cf949b253b6373b723ad` | Historical public; review required |
 | `PR #21:.../2026-10-27.provisional.md` | Player/game stats, custom FP, commentary, source links | `04d6c5f1c348d232118ef42a21dbb5570949ca4e7a20196ec6007d6faf781794` | Public draft; superseded |
 | `PR #21:.../2026-10-27.v2.provisional.md` | Player/game stats, custom FP, commentary, source links | `572d0fd3375315163dd051e28432948d513b201eb25ebe59cdd9a2e2711269b5` | Public draft; superseded |
+| `main:tests/fixtures/historical-nba-finals-2025-06-23-partial.json` | Partial player box-score facts used by a historical scoring test; not a raw API response | `12362a1f2b363c823fb288261a455291645462ce527c2811aabbf239a8b8894e` | Pre-existing public fixture; rights review required |
 
 The inspected Markdown files contain report-level values and citations, but no
 complete raw NBA API response payload was found embedded in those files. Raw
@@ -44,7 +45,10 @@ and `feat/player-scout-2026-27`. These are duplicate public refs, not additional
 unique report content. PR #21 also carries inherited copies of the 10/24–10/26
 files in addition to its two unique 10/27 draft reports and supersession note.
 The audit therefore counts five unique report versions plus one metadata note,
-not one publication per duplicate ref.
+not one publication per duplicate ref. The separate historical unit-test fixture
+is not counted as a report; it already exists on main and is unchanged by this PR.
+The current Daily tests use synthetic fixtures for quality-gate behavior, and
+the real-data E2E snapshots remain private.
 
 The three distinct main-branch report files entered main through merged PR #12
 (10/24), #18 (10/25), and #20 (10/26). Their branch copies remain publicly
