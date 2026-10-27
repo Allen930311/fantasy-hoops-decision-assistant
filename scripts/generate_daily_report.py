@@ -41,6 +41,14 @@ def _minutes_seconds(value: str | None) -> int | None:
         return None
 
 
+def _read_pinned_json(root: Path, commit_sha: str, relative: str):
+    committed=subprocess.check_output(["git","show",f"{commit_sha}:{relative}"],cwd=root)
+    working=(root/relative).read_bytes()
+    if working!=committed:
+        raise ValueError(f"working-tree decision source differs from pinned commit: {relative}")
+    return json.loads(committed.decode("utf-8"))
+
+
 def _read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -49,8 +57,8 @@ def _git_sha(root: Path, ref: str) -> str:
     return subprocess.check_output(["git","rev-parse",ref],cwd=root,text=True).strip()
 
 
-def _source_blob_sha(root: Path, relative: str) -> str:
-    return _git_sha(root,f"HEAD:{relative}")
+def _source_blob_sha(root: Path, relative: str, commit_sha: str) -> str:
+    return _git_sha(root,f"{commit_sha}:{relative}")
 
 
 def _private_path(path: Path, root: Path, label: str) -> Path:
@@ -87,9 +95,10 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
     report_day=date.fromisoformat(report_date)
     if report_day.isoformat()!=report_date: raise ValueError("report date must be YYYY-MM-DD")
     if len(nba_date_et)!=8 or not nba_date_et.isdigit(): raise ValueError("NBA ET date must be YYYYMMDD")
-    league=_read_json(root/"seasons/2026-27/league.json")
-    rosters=_read_json(root/"seasons/2026-27/rosters.json")
-    ownership=_read_json(root/"seasons/2026-27/ownership/current-state.json")
+    source_commit_sha=_git_sha(root,"HEAD")
+    league=_read_pinned_json(root,source_commit_sha,"seasons/2026-27/league.json")
+    rosters=_read_pinned_json(root,source_commit_sha,"seasons/2026-27/rosters.json")
+    ownership=_read_pinned_json(root,source_commit_sha,"seasons/2026-27/ownership/current-state.json")
     alias_rows=aliases or []
     client=client or JsonClient(snapshot_dir,replay=replay_cache)
     source_failures=[]
@@ -264,10 +273,10 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
         "free_agents":free_names,"free_agent_claimability":claimability,"identity_aliases":alias_rows,
         "body":"\n".join(body_lines),"source_urls":source_urls,"source_failures":source_failures,
         "quality_gaps":quality_gaps,"short_appearance_alerts":short_appearance_alerts,
-        "provenance":{"roster_commit_sha":_git_sha(root,"HEAD"),
-            "rosters_blob_sha":_source_blob_sha(root,"seasons/2026-27/rosters.json"),
-            "league_blob_sha":_source_blob_sha(root,"seasons/2026-27/league.json"),
-            "ownership_blob_sha":_source_blob_sha(root,"seasons/2026-27/ownership/current-state.json"),
+        "provenance":{"roster_commit_sha":source_commit_sha,
+            "rosters_blob_sha":_source_blob_sha(root,"seasons/2026-27/rosters.json",source_commit_sha),
+            "league_blob_sha":_source_blob_sha(root,"seasons/2026-27/league.json",source_commit_sha),
+            "ownership_blob_sha":_source_blob_sha(root,"seasons/2026-27/ownership/current-state.json",source_commit_sha),
             "roster_as_of":rosters.get("as_of"),"ownership_as_of":ownership.get("as_of"),
             "data_cutoff_taipei":generated,"generated_at_taipei":generated,
             "data_rights_status":"PRIVATE_RESEARCH_ONLY"}}

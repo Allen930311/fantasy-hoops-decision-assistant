@@ -1,6 +1,8 @@
 """Integration contract for the real-data daily report orchestrator."""
 import json
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -16,6 +18,23 @@ class Client:
 
 
 class GeneratorTests(unittest.TestCase):
+    def test_dirty_decision_source_is_rejected_against_pinned_commit(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            source=root/"seasons/2026-27/league.json"
+            source.parent.mkdir(parents=True)
+            source.write_text('{"season":"2026-27"}\n',encoding="utf-8")
+            subprocess.run(["git","init","-q"],cwd=root,check=True)
+            subprocess.run(["git","add","."],cwd=root,check=True)
+            subprocess.run(["git","-c","user.name=Test","-c","user.email=test@example.invalid",
+                "commit","-q","-m","fixture"],cwd=root,check=True)
+            commit=generator._git_sha(root,"HEAD")
+            self.assertEqual(generator._read_pinned_json(root,commit,"seasons/2026-27/league.json"),
+                             {"season":"2026-27"})
+            source.write_text('{"season":"2026-27","scoring":{"PTS":0}}\n',encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"differs from pinned commit"):
+                generator._read_pinned_json(root,commit,"seasons/2026-27/league.json")
+
     def test_owner_coverage_flows_from_official_ids_into_canonical_validator(self):
         league=json.loads((ROOT/"seasons/2026-27/league.json").read_text())
         scoring=league["scoring"]
@@ -41,6 +60,7 @@ class GeneratorTests(unittest.TestCase):
             payload,_=generator.generate_payload(root=ROOT,report_date="2026-10-27",nba_date_et="20261026",
                 snapshot_dir=ROOT.parent/"private-test-cache",client=Client())
         self.assertEqual(payload["report"]["owner_players"],["Justin Champagnie"])
+        self.assertEqual(payload["report"]["provenance"]["roster_commit_sha"],generator._git_sha(ROOT,"HEAD"))
         self.assertEqual(payload["report"]["short_appearance_alerts"][0]["status"],
                          "SHORT_APPEARANCE_WATCH_INJURY_UNVERIFIED")
         scores,missing=validate(payload)
