@@ -111,3 +111,11 @@ Daily reports cover every owner-roster player who played, curated highlights fro
 ## 9. One-time acceptance decision for PR #9 (2026-10-22)
 
 Owner: Fresh Agent A/B is **not required for this feature**; this does **not** repeal Fresh Agent requirements for any other workflow. Standard automated tests, complete provenance, write/readback verification, and fail-closed report publication remain required. The daily report remains a separate delivery from archiving. A successful draft PR alone is not proof that the report is already in main.
+
+## 10. Shared NBA adapter and release gates
+
+- Use `scripts/nba_data_adapter.py` for the schedule, official NBA Game / Player IDs, box scores, play-by-play, immutable raw snapshots, retries and per-source provenance. Scouting and Daily Report must consume the same adapter and the same season `league.json`; do not add another scoring or player-ID registry.
+- Use `scripts/daily_report_archive.py` as the single daily content / ownership / field-quality validator and `scripts/publish_daily_report_github.py` as its separate GitHub writer. The archive validator reads both roster player lists and the effective ownership overlay; unknown additions are not FA, and dropped players remain availability-unverified until an allowed current availability source confirms them.
+- Source values with unknown rights may be used for a private evidence run only when the source itself permits that use. Mark `data_rights_status=PRIVATE_RESEARCH_ONLY`; the GitHub writer rejects it. Public archive requires documented permission for the chosen source and `data_rights_status=AUTHORIZED_FOR_GITHUB`. Public HTTP response, an active League Pass subscription, or an ESPN endpoint does not itself grant automated API or republication rights.
+- Do not add a duplicate recurring schedule. Preserve the existing `15:00 Asia/Taipei` schedule and its existing trigger. Manual `verify_nba_live_e2e.py` output is not evidence that the scheduled job ran.
+- Report the independent dimensions separately: field quality (`VERIFIED_FP` / `PARTIAL_FP` / `BLOCKED`), report content (`VALIDATED` / `PROVISIONAL`), archive (`ARCHIVE_BLOCKED` / `PR_PENDING` / `ARCHIVED`) and scheduled evidence (`SCHEDULED_PRODUCTION_PENDING` until a real scheduled run is observed).

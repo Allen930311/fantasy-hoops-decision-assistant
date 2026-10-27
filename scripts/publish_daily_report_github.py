@@ -16,9 +16,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
+from report_archive_naming import parse_archive_filename
 
 REPO = "Allen930311/fantasy-hoops-decision-assistant"
-REQUIRED = ("season","report_date_taipei","status","roster_commit_sha","rosters_blob_sha","league_blob_sha")
+REQUIRED = ("season","report_date_taipei","status","roster_commit_sha","rosters_blob_sha","league_blob_sha","ownership_blob_sha","data_rights_status")
 
 class GithubError(Exception):
     def __init__(self, status, message):
@@ -43,13 +44,18 @@ def read_artifact(path):
         meta[key] = json.loads(value)
     if any(not meta.get(k) for k in REQUIRED):
         raise ValueError("missing required report metadata")
+    for key in ("roster_commit_sha", "rosters_blob_sha", "league_blob_sha", "ownership_blob_sha"):
+        if not re.fullmatch(r"[0-9a-f]{40}", str(meta[key])):
+            raise ValueError(f"{key} must be an immutable 40-character Git SHA-1")
     if meta["status"] not in ("VALIDATED","PROVISIONAL"):
         raise ValueError("report is not validated/provisional")
+    if meta["data_rights_status"] != "AUTHORIZED_FOR_GITHUB":
+        raise ValueError("source data is not authorized for public GitHub archival")
     filename = path.name
-    match = re.fullmatch(r"(\d{4}-\d{2}-\d{2})(\.provisional)?(\.v(?:[2-9]|[1-9]\d+))?\.md", filename)
-    if not match or match.group(1) != meta["report_date_taipei"]:
+    filename_date, filename_status, _ = parse_archive_filename(filename)
+    if filename_date != meta["report_date_taipei"]:
         raise ValueError("archive filename must match Taipei report date")
-    if bool(match.group(2)) != (meta["status"]=="PROVISIONAL"):
+    if filename_status != meta["status"]:
         raise ValueError("filename status mismatch")
     if not re.fullmatch(r"20\d\d-\d\d",meta["season"]):
         raise ValueError("invalid season")
@@ -82,13 +88,29 @@ class Github:
 def _sha(content):
     return hashlib.sha256(content).hexdigest()
 
+def _source_paths(meta):
+    season=meta["season"]
+    return ((f"seasons/{season}/rosters.json","rosters_blob_sha"),
+            (f"seasons/{season}/league.json","league_blob_sha"),
+            (f"seasons/{season}/ownership/current-state.json","ownership_blob_sha"))
+
+def verify_snapshot_sources(gh,meta):
+    """Prove the recorded source SHAs existed at the exact captured commit."""
+    ref=meta["roster_commit_sha"]
+    for path,key in _source_paths(meta):
+        if gh.file(path,ref)["sha"]!=meta[key]:
+            raise ValueError(f"source SHA does not match snapshot commit for {path}")
+
 def verify_current_sources(gh,meta):
     head=gh.request("GET","git/ref/heads/main")["object"]["sha"]
-    # Snapshot commit must match current main when staging. Do not publish stale ownership.
+    # Allow unrelated main commits but require the snapshot to be an ancestor of
+    # current main, and require all decision-source blobs to match current main.
     if head != meta["roster_commit_sha"]:
-        raise ValueError("roster snapshot commit is no longer main")
-    for path,key in ((f"seasons/{meta['season']}/rosters.json","rosters_blob_sha"),
-                     (f"seasons/{meta['season']}/league.json","league_blob_sha")):
+        comparison=gh.request("GET",f"compare/{meta['roster_commit_sha']}...{head}")
+        if comparison.get("status") not in ("ahead","identical"):
+            raise ValueError("roster snapshot commit is not an ancestor of current main")
+    verify_snapshot_sources(gh,meta)
+    for path,key in _source_paths(meta):
         if gh.file(path,"main")["sha"] != meta[key]:
             raise ValueError(f"stale source SHA for {path}")
     return head
@@ -137,8 +159,10 @@ def stage_draft_pr(gh, artifact):
 
 def verify_main(gh, artifact):
     path,content,meta=read_artifact(artifact)
+    verify_snapshot_sources(gh,meta)
+    source_head=gh.request("GET","git/ref/heads/main")["object"]["sha"]
     digest=_readback(gh,path,"main",content)
-    return {"state":"ARCHIVED","path":path,"sha256":digest,"main_archived":True}
+    return {"state":"ARCHIVED","path":path,"sha256":digest,"main_readback_commit":source_head,"main_archived":True}
 
 def main():
     p=argparse.ArgumentParser()

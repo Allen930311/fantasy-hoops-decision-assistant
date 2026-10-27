@@ -1,0 +1,160 @@
+"""Contract tests for fetch provenance, source failures, identity, and league scoring."""
+import hashlib
+import importlib.util
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+SCRIPT=Path(__file__).resolve().parents[1]/"scripts"/"nba_data_adapter.py"
+spec=importlib.util.spec_from_file_location("nba_adapter",SCRIPT)
+adapter=importlib.util.module_from_spec(spec);spec.loader.exec_module(adapter)
+
+class Response:
+    status=200
+    headers={}
+    def __init__(self,body): self.body=body
+    def read(self): return self.body
+    def __enter__(self): return self
+    def __exit__(self,*args): return False
+
+class AdapterTests(unittest.TestCase):
+    def test_raw_hash_and_snapshot_manifest(self):
+        body=b'{"events":[]}'
+        with tempfile.TemporaryDirectory() as tmp:
+            c=adapter.JsonClient(Path(tmp),sleep=lambda _:None,opener=lambda *a,**k:Response(body))
+            payload,record=c.get_json("espn","https://example.test/data","test-v1",lambda x:"events" in x)
+            self.assertEqual(payload,{"events":[]})
+            self.assertEqual(record["raw_sha256"],hashlib.sha256(body).hexdigest())
+            raw=Path(tmp)/"espn"/(record["raw_sha256"]+".json")
+            manifest=raw.with_name(raw.stem+".manifest.json")
+            self.assertEqual(raw.read_bytes(),body)
+            self.assertTrue(manifest.exists())
+            self.assertEqual(json.loads(manifest.read_text())["schema_version"],"test-v1")
+            self.assertEqual(json.loads(manifest.read_text())["fetched_with_normalizer_version"],adapter.NORMALIZER_VERSION)
+            self.assertRegex(json.loads(manifest.read_text())["fetched_with_normalizer_code_sha256"],r"^[0-9a-f]{64}$")
+            replay=adapter.JsonClient(Path(tmp),replay=True)
+            cached,meta=replay.get_json("espn","https://example.test/data","test-v1",lambda x:"events" in x)
+            self.assertEqual(cached,payload);self.assertTrue(meta["cache_replay"])
+            self.assertEqual(meta["raw_sha256"],record["raw_sha256"])
+            self.assertEqual(meta["replayed_with_normalizer_version"],adapter.NORMALIZER_VERSION)
+            self.assertRegex(meta["replayed_with_normalizer_code_sha256"],r"^[0-9a-f]{64}$")
+
+    def test_official_static_schedule_fallback_preserves_game_identity_and_status(self):
+        payload={"leagueSchedule":{"seasonYear":"2026-27","gameDates":[{"gameDate":"10/26/2026 00:00:00","games":[
+            {"gameId":"0022600122","gameStatus":3,"gameStatusText":"Final","gameDateTimeUTC":"2026-10-26T23:30:00Z",
+             "homeTeam":{"teamId":1610612748,"teamTricode":"MIA"},"awayTeam":{"teamId":1610612742,"teamTricode":"DAL"}},
+            {"gameId":"0022600120","gameStatus":2,"gameStatusText":"In Progress","gameDateTimeUTC":"2026-10-27T00:00:00Z",
+             "homeTeam":{"teamId":1610612739,"teamTricode":"CLE"},"awayTeam":{"teamId":1610612750,"teamTricode":"MIN"}}
+        ]}]}}
+        class FallbackClient:
+            def get_json(self,provider,url,schema_version,validator=None):
+                if provider=="nba_stats":raise adapter.SourceError(provider,url,"FORBIDDEN","HTTP 403",403)
+                self.asserted=(provider,url,schema_version)
+                if not validator(payload):raise AssertionError("static schedule fixture failed its schema")
+                return payload,{"provider":provider,"url":url,"http_status":200,"raw_sha256":"a"*64,"normalized_sha256":"b"*64}
+        client=FallbackClient()
+        result=adapter.acquire_schedule("20261026",client)
+        rows=adapter.normalize_schedule(result["events"],result["provider"])
+        self.assertEqual(result["provider"],"nba_static_schedule")
+        self.assertEqual(result["errors"][0]["kind"],"FORBIDDEN")
+        self.assertEqual([(x["official_game_id"],x["status"]) for x in rows],[("0022600122","Final"),("0022600120","Live")])
+        self.assertEqual(rows[0]["game_date_taipei"],"2026-10-27")
+        self.assertEqual(result["record"]["schedule_date_normalized_sha256"],hashlib.sha256(
+            json.dumps(result["events"],sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest())
+
+    def test_403_fails_without_retry(self):
+        import urllib.error
+        calls=[]
+        def opener(*a,**k):
+            calls.append(1);raise urllib.error.HTTPError("https://x",403,"Forbidden",{},None)
+        c=adapter.JsonClient(sleep=lambda _:None,opener=opener)
+        with self.assertRaises(adapter.SourceError) as ctx:c.get_json("nba_cdn","https://x","v1")
+        self.assertEqual(ctx.exception.kind,"FORBIDDEN");self.assertEqual(len(calls),1)
+
+    def test_429_honors_retry_after_and_is_bounded(self):
+        import urllib.error
+        calls=[]; waits=[]
+        def opener(*a,**k):
+            calls.append(1)
+            if len(calls)==1:
+                raise urllib.error.HTTPError("https://x",429,"Rate limit",{"Retry-After":"2"},None)
+            return Response(b'{"ok":true}')
+        c=adapter.JsonClient(retries=1,sleep=waits.append,opener=opener)
+        _,r=c.get_json("x","https://x","v1")
+        self.assertEqual(r["http_status"],200);self.assertEqual(waits,[2])
+
+    def test_schema_and_invalid_json_errors_are_classified(self):
+        c=adapter.JsonClient(sleep=lambda _:None,opener=lambda *a,**k:Response(b"not-json"))
+        with self.assertRaises(adapter.SourceError) as ctx:c.get_json("x","https://x","v1")
+        self.assertEqual(ctx.exception.kind,"INVALID_JSON")
+        c=adapter.JsonClient(sleep=lambda _:None,opener=lambda *a,**k:Response(b'{"x":1}'))
+        with self.assertRaises(adapter.SourceError) as ctx:c.get_json("x","https://x","v1",lambda x:"events" in x)
+        self.assertEqual(ctx.exception.kind,"SCHEMA_DRIFT")
+
+    def test_official_boxscore_and_pbp_id_must_match(self):
+        box={"game":{"gameId":"0022600001","gameStatus":3}}
+        pbp={"game":{"gameId":"0022600002","actions":[]}}
+        with self.assertRaisesRegex(ValueError,"GAME_ID mismatch"):
+            adapter.normalize_nba_boxscore(box,pbp)
+
+    def test_explicit_crosswalk_only_and_no_name_guess(self):
+        x={"espn:3059319":{"nba_player_id":"203952","identity_status":"VERIFIED","source_url":"https://nba.example/id"}}
+        self.assertEqual(adapter.resolve_official_player_id("espn","3059319",x),"203952")
+        self.assertIsNone(adapter.resolve_official_player_id("espn","unknown",x))
+        self.assertIsNone(adapter.resolve_official_player_id("espn","3059319",{}))
+
+    def test_provider_game_crosswalk_needs_exact_teams_and_tipoff(self):
+        official={"id":"0022600122","home_team_tricode":"MIA","away_team_tricode":"DAL",
+                  "game_time_utc":"2026-10-26T23:30:00Z"}
+        events=[{"id":"401909871","date":"2026-10-26T23:30:00Z","competitions":[{"competitors":[
+            {"homeAway":"home","team":{"abbreviation":"MIA"}},
+            {"homeAway":"away","team":{"abbreviation":"DAL"}}]}]}]
+        cross=adapter.resolve_provider_event_id(official,events)
+        self.assertEqual(cross["provider_event_id"],"401909871")
+        self.assertEqual(cross["nba_game_id"],"0022600122")
+        events.append(dict(events[0],id="401999999"))
+        with self.assertRaises(adapter.SourceError):adapter.resolve_provider_event_id(official,events)
+
+    def test_official_boxscore_schema_requires_all_scoring_inputs(self):
+        data={"game":{"gameId":"0022600001","homeTeam":{"players":[{"played":True,"statistics":{
+            "points":1}}]},"awayTeam":{"players":[]}}}
+        self.assertFalse(adapter._valid_nba_boxscore(data))
+
+    def test_duplicate_incident_ids_rejected(self):
+        p={"game":{"actions":[{"actionNumber":1},{"actionNumber":1}]}}
+        with self.assertRaisesRegex(ValueError,"duplicated actionNumber"):
+            adapter.incident_events(p)
+
+    def test_quality_gate_zero_vs_unknown_and_conflicts(self):
+        league=json.loads((Path(__file__).parents[1]/"seasons/2026-27/league.json").read_text())
+        stats={k:0 for k in adapter.FIELDS};stats.update(PTS=7,OREB=1,DREB=3,AST=2,STL=1,TO=1,FTA=3,PF=3,TECH=2,EJCT=1)
+        q={k:("VERIFIED_VALUE" if stats[k] else "VERIFIED_ZERO") for k in adapter.FIELDS}
+        result=adapter.scoring_trace(stats,q,league["scoring"])
+        self.assertEqual(result["status"],"VERIFIED_FP");self.assertEqual(result["value"],"3.25")
+        q={**q,"TECH":"UNKNOWN"}
+        result=adapter.scoring_trace(stats,q,league["scoring"])
+        self.assertEqual(result["status"],"PARTIAL_FP");self.assertIn("TECH",result["missing"])
+        q={**q,"TECH":"CONFLICTING"}
+        self.assertEqual(adapter.scoring_trace(stats,q,league["scoring"])["status"],"PARTIAL_FP")
+
+    def test_fta_is_attempted_not_made_and_rebounds_reconcile(self):
+        league=json.loads((Path(__file__).parents[1]/"seasons/2026-27/league.json").read_text())
+        stats={k:0 for k in adapter.FIELDS};stats.update(PTS=0,FTA=6,FTM=5,OREB=1,DREB=2,REB=3)
+        q={k:"VERIFIED_ZERO" for k in adapter.FIELDS};q.update(FTA="VERIFIED_VALUE",OREB="VERIFIED_VALUE",DREB="VERIFIED_VALUE")
+        result=adapter.scoring_trace(stats,q,league["scoring"])
+        self.assertEqual(result["components"]["FTA"],"-1.50")
+        stats["REB"]=4
+        result=adapter.scoring_trace(stats,q,league["scoring"])
+        self.assertEqual(result["status"],"PARTIAL_FP");self.assertEqual(result["quality"]["OREB"],"CONFLICTING")
+
+    def test_technical_and_ejection_are_distinct_events(self):
+        pbp={"game":{"actions":[
+            {"actionNumber":11,"personId":203932,"actionType":"foul","subType":"technical","description":"A Gordon Tech 1"},
+            {"actionNumber":12,"personId":203932,"actionType":"foul","subType":"technical","description":"A Gordon Tech 2"},
+            {"actionNumber":13,"personId":203932,"actionType":"ejection","subType":"secondtechnical","description":"Ejection A Gordon"}]}}
+        events=adapter.incident_events(pbp)["203932"]
+        self.assertEqual([x["kind"] for x in events],["TECH","TECH","EJCT"])
+
+if __name__=="__main__":unittest.main()

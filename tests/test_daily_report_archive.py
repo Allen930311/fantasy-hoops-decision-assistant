@@ -9,6 +9,7 @@ import unittest
 from pathlib import Path
 
 SCRIPT=Path(__file__).resolve().parents[1]/"scripts"/"daily_report_archive.py"
+sys.path.insert(0,str(SCRIPT.parent))
 spec=importlib.util.spec_from_file_location("daily_archive",SCRIPT)
 module=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
@@ -18,16 +19,19 @@ SCORING={"PTS":1,"3PTM":2,"OREB":2.5,"DREB":1.5,"AST":2,"STL":3,"BLK":3,
 def fixture():
     stats={k:0 for k in module.STATS}
     stats.update(MIN="30:15",PTS=12,OREB=3,DREB=6,AST=10,PF=2)
-    return {"schedule_games":[{"id":"game1","status":"final"}],
+    quality={k:("VERIFIED_VALUE" if stats[k] else "VERIFIED_ZERO") for k in module.STATS}
+    gid="0022601000"
+    return {"schedule_games":[{"id":gid,"status":"final"}],
             "schedule_source_url":"https://www.nba.com/schedule",
-            "league":{"season":"2026-27","owner_team_id":"team_02","scoring":SCORING},
+            "league":{"season":"2026-27","owner_team_id":"team_02","scoring":copy.deepcopy(SCORING)},
             "rosters":{"season":"2026-27","teams":[{"team_id":"team_02","players":["A","DNP"]},{"team_id":"team_01","players":["B"]}]},
-            "games":[{"id":"game1","status":"final","date_taipei":"2026-10-22",
-                      "source_url":"https://www.nba.com/game/example","players":[{"name":"A","stats":stats},{"name":"B","stats":stats}]}],
+            "ownership":{"season":"2026-27","unassigned_confirmed_owned_players":[],"released_availability_unverified":[]},
+            "games":[{"id":gid,"status":"final","date_taipei":"2026-10-22",
+                      "source_url":"https://www.nba.com/game/example","raw_source_sha256":"a"*64,"players":[{"name":"A","status":"played","game_id":gid,"player_id":"1","provider_player_id":"1","official_player_id":"1","identity_status":"VERIFIED","identity_source_url":"https://www.nba.com/game/example","identity_source_sha256":"a"*64,"quality":quality,"stats":stats},{"name":"B","status":"played","game_id":gid,"player_id":"2","provider_player_id":"2","official_player_id":"2","identity_status":"VERIFIED","identity_source_url":"https://www.nba.com/game/example","identity_source_sha256":"a"*64,"quality":quality,"stats":stats}]}],
             "report":{"date":"2026-10-22","other_players":[],"owner_players":["A"],"free_agents":[],
                       "confirmed_unsynced_adds":["Z"],"body":"# 今日戰報",
                       "source_urls":["https://www.nba.com/game/example"],
-                      "provenance":{k:"verified" for k in ("roster_commit_sha","rosters_blob_sha","league_blob_sha","data_cutoff_taipei","generated_at_taipei")}}}
+                      "provenance":{**{k:"verified" for k in ("roster_commit_sha","rosters_blob_sha","league_blob_sha","ownership_blob_sha","data_cutoff_taipei","generated_at_taipei")},"data_rights_status":"AUTHORIZED_FOR_GITHUB"}}}
 class ArchiveTests(unittest.TestCase):
     def test_scoring_oreb_dreb_double_double(self):
         p=fixture()
@@ -77,7 +81,8 @@ class ArchiveTests(unittest.TestCase):
     def test_owner_unsynced_completed_add_is_covered(self):
         p=fixture()
         p["report"]["confirmed_transactions"]=[{"status":"completed","team_id":"team_02","add":"C","confirmed_at":"2026-10-22","source":"owner confirmation"}]
-        p["games"][0]["players"].append({"name":"C","stats":copy.deepcopy(p["games"][0]["players"][0]["stats"])})
+        c=copy.deepcopy(p["games"][0]["players"][0]);c["name"]="C";c["player_id"]="3";c["provider_player_id"]="3";c["official_player_id"]="3"
+        p["games"][0]["players"].append(c)
         with self.assertRaisesRegex(ValueError,"owner coverage mismatch"):module.validate(p)
         p["report"]["owner_players"].append("C")
         scores,missing=module.validate(p)
@@ -104,6 +109,17 @@ class ArchiveTests(unittest.TestCase):
         p=fixture()
         p["games"][0]["players"].append({"name":"DNP","status":"DNP","stats":{}})
         module.validate(p)
+
+    def test_did_not_play_spelling_is_not_scored(self):
+        p=fixture()
+        row=copy.deepcopy(p["games"][0]["players"][0]);row["name"]="DNP";row["status"]="Did Not Play"
+        p["games"][0]["players"].append(row)
+        module.validate(p)
+
+    def test_unknown_participation_status_fails_closed(self):
+        p=fixture();p["games"][0]["players"][0]["status"]="scheduled"
+        with self.assertRaisesRegex(ValueError,"unknown game participation status"):
+            module.validate(p)
     def test_missing_minutes_provisional(self):
         p=fixture()
         del p["games"][0]["players"][0]["stats"]["MIN"]
@@ -133,11 +149,70 @@ class ArchiveTests(unittest.TestCase):
 
     def test_real_unrostered_player_can_be_scored(self):
         p=fixture()
-        p["games"][0]["players"].append({"name":"C","stats":copy.deepcopy(p["games"][0]["players"][0]["stats"])})
+        c=copy.deepcopy(p["games"][0]["players"][0]);c["name"]="C";c["player_id"]="3";c["provider_player_id"]="3";c["official_player_id"]="3"
+        p["games"][0]["players"].append(c)
         p["report"]["free_agents"]=["C"]
+        p["report"]["free_agent_claimability"]={"C":{"confidence":"INFERRED_UNROSTERED"}}
         scores,missing=module.validate(p)
         self.assertIn("C",scores)
         self.assertFalse(missing)
+
+    def test_unassigned_overlay_is_not_free_agent(self):
+        p=fixture()
+        p["ownership"]["unassigned_confirmed_owned_players"]=[{"name":"C","team_id":None}]
+        c=copy.deepcopy(p["games"][0]["players"][0]);c["name"]="C";c["player_id"]="3";c["provider_player_id"]="3";c["official_player_id"]="3"
+        p["games"][0]["players"].append(c)
+        p["report"]["free_agents"]=["C"]
+        p["report"]["free_agent_claimability"]={"C":{"confidence":"UNKNOWN"}}
+        with self.assertRaisesRegex(ValueError,"rostered or confirmed unsynced ADD"):
+            module.validate(p)
+
+    def test_additional_owned_player_counts_for_coverage(self):
+        p=fixture()
+        p["rosters"]["teams"][0]["additional_owned_players"]=["C"]
+        c=copy.deepcopy(p["games"][0]["players"][0]);c["name"]="C";c["player_id"]="3";c["provider_player_id"]="3";c["official_player_id"]="3"
+        p["games"][0]["players"].append(c)
+        with self.assertRaisesRegex(ValueError,"owner coverage mismatch"):
+            module.validate(p)
+        p["report"]["owner_players"].append("C")
+        self.assertIn("C",module.validate(p)[0])
+
+    def test_unverified_fields_never_become_verified_fp(self):
+        p=fixture()
+        p["games"][0]["players"][0]["quality"]["TECH"]="THIRD_PARTY_RECONSTRUCTED"
+        scores,missing=module.validate(p)
+        self.assertIn("A",scores)
+        self.assertIn("PARTIAL_FP",missing["A"])
+        self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
+
+    def test_reb_mismatch_never_becomes_verified_fp(self):
+        p=fixture();p["games"][0]["players"][0]["stats"]["REB"]=1
+        scores,missing=module.validate(p)
+        self.assertNotIn("A",scores)
+        self.assertIn("conflicting REB total",missing["A"])
+        self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
+
+    def test_identity_source_and_id_must_be_bound_to_game_blob(self):
+        p=fixture();row=p["games"][0]["players"][0]
+        row["identity_source_url"]="https://example.invalid/player/1"
+        scores,missing=module.validate(p)
+        self.assertIn("A",scores);self.assertIn("NBA_PLAYER_ID",missing["A"])
+        row=p["games"][0]["players"][0];row["identity_source_url"]="https://www.nba.com/game/example"
+        row["identity_source_sha256"]="b"*64;row["provider_player_id"]="different"
+        scores,missing=module.validate(p)
+        self.assertIn("NBA_PLAYER_ID",missing["A"])
+
+    def test_game_player_ids_required(self):
+        p=fixture()
+        p["games"][0]["players"][0]["game_id"]="wrong"
+        with self.assertRaisesRegex(ValueError,"mismatched GAME_ID/PLAYER_ID"):
+            module.validate(p)
+
+    def test_fa_claimability_confidence_required(self):
+        p=fixture();c=copy.deepcopy(p["games"][0]["players"][0]);c["name"]="C";c["player_id"]="3";c["provider_player_id"]="3";c["official_player_id"]="3"
+        p["games"][0]["players"].append(c);p["report"]["free_agents"]=["C"]
+        with self.assertRaisesRegex(ValueError,"Claimability Confidence"):
+            module.validate(p)
 
 
     def test_historical_real_game_is_provisional(self):
@@ -182,12 +257,12 @@ class ArchiveTests(unittest.TestCase):
 
     def test_completed_game_omitted_from_boxscore_fails(self):
         p=fixture()
-        p["schedule_games"].append({"id":"game2","status":"final"})
+        p["schedule_games"].append({"id":"0022601001","status":"final"})
         with self.assertRaisesRegex(ValueError,"schedule coverage mismatch"):
             module.validate(p)
     def test_in_progress_game_does_not_require_boxscore(self):
         p=fixture()
-        p["schedule_games"].append({"id":"game2","status":"live"})
+        p["schedule_games"].append({"id":"0022601001","status":"live"})
         module.validate(p)
     def test_missing_schedule_evidence_fails_closed(self):
         p=fixture()
@@ -222,6 +297,14 @@ class ArchiveTests(unittest.TestCase):
             self.assertEqual(first[0].read_text(encoding="utf-8"),"v1")
             self.assertEqual(next_version[0].read_text(encoding="utf-8"),"v2")
             self.assertNotEqual(first[0],next_version[0])
+
+    def test_next_version_counts_legacy_provisional_names(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp)
+            (folder/"2026-10-22.provisional.md").write_text("v1")
+            (folder/"2026-10-22.v4.provisional.md").write_text("legacy v4")
+            row=module.write_immutable(folder,"2026-10-22","new draft","PROVISIONAL")
+            self.assertEqual(row[0].name,"2026-10-22.provisional.v5.md")
 
 
     def test_empty_completed_game_player_rows_fail_closed(self):
