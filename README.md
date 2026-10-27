@@ -1,6 +1,6 @@
 # Fantasy Hoops Decision Assistant
 
-Personal Yahoo Fantasy Basketball analytics and decision-support project.
+Personal Fantasy Basketball analytics and decision-support project.
 
 ## Purpose
 
@@ -56,7 +56,7 @@ Until a newly authorized provider source is genuinely validated, the season snap
 
 Yahoo API application was declined by official notice dated 2026-10-19. Active next gate: offline/manual R0 and review of Draft PR #6; no provider read entitlement has been established.
 
-A season-scoped **2026–2027** 16-team bootstrap roster and custom scoring configuration are now available for decision-support work before live Yahoo ingestion is validated.
+A season-scoped **2026–2027** 16-team bootstrap roster and custom scoring configuration are now available for provisional decision support while authorized live provider ingestion is unavailable.
 
 See [STATUS.md](STATUS.md) for current operational state.
 
