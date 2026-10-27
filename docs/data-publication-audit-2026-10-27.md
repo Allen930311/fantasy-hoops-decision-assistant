@@ -17,8 +17,8 @@ private until a written grant or a provider contract covers the intended use.
 ## Public artifact inventory
 
 Repository visibility was confirmed as public on 2026-10-27. The source tree was
-read from `main` at `d07c194e` and PR #21's public branch at
-`43e6c4c95fdc72a0aa4ea09371caf3b09bfa55a8`.
+read from `main` at `23595f69fbbfa904c9b1a1236a8a5061a43f21d1` and PR #21's public branch at
+`a767aa3d7311cb557dbcc19f73c85fa4cd1bf248`.
 
 | Location | Content found | SHA-256 | Audit state |
 |---|---|---|---|
@@ -55,10 +55,26 @@ establish consistent prominent attribution in connection with each use.
 Attribution compliance remains unverified.
 
 The corrected private 2026-10-27 report is identified by SHA-256
-`63acbf5774ec1ec04e4488cda0849d225ae9a64d7a7f80d1bc6e42819d6c1723`. It is not
+`8e00f711b7715368d8c1ce49a4d08334576e94e72d94e7cb40806b0c456a74c3`. It is not
 published in this repository. PR #21's two report versions must be treated as
 `SUPERSEDED`; the private report hash is a traceable correction reference, not a
 public archive location.
+
+The private report was regenerated against main commit
+`23595f69fbbfa904c9b1a1236a8a5061a43f21d1` using the current shared adapter.
+Its SHA-256 is `8e00f711b7715368d8c1ce49a4d08334576e94e72d94e7cb40806b0c456a74c3`;
+the canonical validator rendered byte-identical content. The publisher returned
+`ARCHIVE_BLOCKED` with `github_request_made=false`, so this report was not sent to
+GitHub. The source receipt records a three-day replay of 24 official NBA games
+(539 played rows, 118 DNP, 531 VERIFIED_FP, 8 PARTIAL_FP due to TECH conflicts,
+0 blocked rows and 0 fetch errors). The receipt applies the current ownership
+snapshot only to matching Taipei game dates: the 10/26 ET slate (Taipei 10/27)
+has six owner players, all VERIFIED_FP; 12 earlier rows matching the current
+roster are excluded from historical ownership claims. One non-owner slate quality
+gap remains on 10/26. Receipt SHA-256:
+`3535580e0155cb2bbb6a46d46cfd557457f3d17dde1eb71742beee723ed9f959`; adapter
+SHA-256: `e53f4e2943eaa1a9bde4ac73605446e8b53812220702b4a96b2b353e8dabd52e`.
+Raw snapshots remain outside the public repository.
 
 ## Rights evidence reviewed
 

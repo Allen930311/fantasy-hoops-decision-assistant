@@ -210,6 +210,16 @@ class ArchiveTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"rostered or confirmed unsynced ADD"):
             module.validate(p)
 
+    def test_unassigned_overlay_period_variant_is_not_free_agent(self):
+        p=fixture()
+        p["ownership"]["unassigned_confirmed_owned_players"]=[{"name":"C Jr.","team_id":None}]
+        c=copy.deepcopy(p["games"][0]["players"][0]);c["name"]="C Jr";c["player_id"]="3";c["provider_player_id"]="3";c["official_player_id"]="3"
+        p["games"][0]["players"].append(c)
+        p["report"]["free_agents"]=["C Jr"]
+        p["report"]["free_agent_claimability"]={"C Jr":{"confidence":"UNKNOWN"}}
+        with self.assertRaisesRegex(ValueError,"rostered or confirmed unsynced ADD"):
+            module.validate(p)
+
     def test_additional_owned_player_counts_for_coverage(self):
         p=fixture()
         p["rosters"]["teams"][0]["additional_owned_players"]=["C"]

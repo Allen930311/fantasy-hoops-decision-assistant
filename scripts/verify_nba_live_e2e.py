@@ -30,6 +30,7 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
     overlay=json.loads((root/"seasons/2026-27/ownership/current-state.json").read_text(encoding="utf-8"))
     owner=next(t for t in rosters["teams"] if t["team_id"]==league["owner_team_id"])
     owned=set(owner.get("players",[])+owner.get("additional_owned_players",[]))
+    owner_snapshot_date=overlay.get("as_of")
     unassigned={x if isinstance(x,str) else x["name"] for x in overlay.get("unassigned_confirmed_owned_players",[])}
     client=JsonClient(snapshot_dir,replay=replay)
     date_rows=[]; all_games={}; all_players=[]
@@ -59,7 +60,8 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
                 "normalized_sha256":bundle["normalized_sha256"],
                 "normalized_by_version":NORMALIZER_VERSION,
                 "normalized_by_code_sha256":normalizer_code_sha256()})
-            all_players.extend(bundle["players"])
+            all_players.extend({**p,"game_date_taipei":bundle["game_date_taipei"]}
+                               for p in bundle["players"])
         date_rows.append({"nba_date_et":f"{date[:4]}-{date[4:6]}-{date[6:]}",
             "schedule_provider":result["provider"],"schedule_source_url":result["record"]["url"],
             "schedule_fetched_at":result["record"]["fetched_at"],"schedule_http_status":result["record"]["http_status"],
@@ -107,8 +109,11 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
         "verified_fp":verified,"partial_fp":partial,"blocked_fp":blocked,
         "fp_conflicts":[{"game_id":p["game_id"],"player_id":p["official_player_id"],"name":p["name"],"missing":t["missing"],"quality":t["quality"]}
                          for p,t in traces if t["status"]!="VERIFIED_FP"],
-        "owner_played_players":[{"game_id":p["game_id"],"player_id":p["official_player_id"],"name":p["name"],"fp":t["value"],"fp_status":t["status"]}
-                                for p,t in traces if p["name"] in owned],
+        "owner_snapshot_as_of":owner_snapshot_date,
+        "owner_coverage_basis":"current roster/ownership snapshot; coverage is counted only for games whose Taipei date matches ownership.as_of",
+        "owner_played_players":[{"game_id":p["game_id"],"player_id":p["official_player_id"],"name":p["name"],"game_date_taipei":p["game_date_taipei"],"fp":t["value"],"fp_status":t["status"]}
+                                for p,t in traces if p["name"] in owned and p["game_date_taipei"]==owner_snapshot_date],
+        "historical_roster_match_rows_excluded_from_owner_coverage":sum(1 for p,_ in traces if p["name"] in owned and p["game_date_taipei"]!=owner_snapshot_date),
         "unassigned_overlay_excluded_from_fa":sorted(unassigned),"cases":cases,
         "fetch_errors":[x for x in client.history if "kind" in x],
         "classification":"REAL_DATA_ACQUISITION_AND_SCORING_ONLY; not report archive, not rights authorization, not production schedule evidence"}

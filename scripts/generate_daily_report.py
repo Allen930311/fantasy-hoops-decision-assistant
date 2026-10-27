@@ -11,25 +11,18 @@ import argparse
 import hashlib
 import json
 import subprocess
-import unicodedata
 from datetime import date, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from daily_report_archive import validate, render, write_immutable
+from daily_report_archive import validate, render, write_immutable, player_name_key as _name_key
 from nba_data_adapter import (NBA_BOXSCORE, NORMALIZER_VERSION, JsonClient, SourceError,
     acquire_game_bundle_with_fallback, acquire_schedule, normalize_schedule,
     normalizer_code_sha256, scoring_trace)
 
 TAIPEI=ZoneInfo("Asia/Taipei")
 SHORT_APPEARANCE_WATCH_SECONDS=5*60
-
-
-def _name_key(value: str) -> str:
-    folded=unicodedata.normalize("NFKD",value).casefold()
-    unmarked="".join(char for char in folded if unicodedata.category(char)!="Mn")
-    return " ".join(unmarked.split())
 
 
 def _minutes_seconds(value: str | None) -> int | None:
