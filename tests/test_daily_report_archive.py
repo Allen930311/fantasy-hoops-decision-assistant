@@ -33,6 +33,49 @@ def fixture():
                       "source_urls":["https://www.nba.com/game/example"],
                       "provenance":{**{k:"verified" for k in ("roster_commit_sha","rosters_blob_sha","league_blob_sha","ownership_blob_sha","data_cutoff_taipei","generated_at_taipei")},"data_rights_status":"AUTHORIZED_FOR_GITHUB"}}}
 class ArchiveTests(unittest.TestCase):
+    def test_off_day_still_produces_a_valid_empty_daily_report(self):
+        p=fixture();p["schedule_games"]=[];p["games"]=[];p["report"]["owner_players"]=[]
+        scores,missing=module.validate(p)
+        text,status=module.render(p,scores,missing)
+        self.assertEqual(scores,{})
+        self.assertEqual(missing,{})
+        self.assertEqual(status,"VALIDATED")
+        self.assertIn('"completed_games": 0',text)
+
+    def test_live_slate_is_reported_provisionally_without_dnp_rows(self):
+        p=fixture();p["schedule_games"]=[{"id":"0022601000","status":"live"}]
+        p["games"]=[];p["report"]["owner_players"]=[]
+        scores,missing=module.validate(p)
+        text,status=module.render(p,scores,missing)
+        self.assertEqual(status,"PROVISIONAL")
+        self.assertEqual(missing,{})
+        self.assertIn('"completed_games": 0',text)
+        self.assertEqual(text.count("| A |"),0)
+
+    def test_boxscore_failure_emits_provisional_with_unknown_owner_coverage(self):
+        p=fixture();missing_id="0022601001"
+        p["schedule_games"].append({"id":missing_id,"status":"final"})
+        p["games"].append({"id":missing_id,"status":"final","date_taipei":"2026-10-22",
+            "source_url":"https://cdn.nba.com/static/json/liveData/boxscore/boxscore_0022601001.json",
+            "fetch_error":{"kind":"FORBIDDEN"},"players":[]})
+        p["report"]["source_failures"]=[{"game_id":missing_id,"provider":"nba_cdn","url":p["games"][1]["source_url"],
+            "kind":"FORBIDDEN","message":"HTTP 403; switched to fallback, no verified identity rows",
+            "impact":"OWNER_COVERAGE_UNKNOWN"}]
+        scores,missing=module.validate(p)
+        text,status=module.render(p,scores,missing)
+        self.assertEqual(status,"PROVISIONAL")
+        self.assertIn('"owner_coverage_status": "UNKNOWN_DUE_TO_SOURCE_GAP"',text)
+        self.assertIn("不可解讀為 DNP、缺席或零 FP",text)
+
+    def test_unfeatured_game_player_quality_gap_keeps_report_provisional(self):
+        p=fixture();p["report"]["quality_gaps"]=[{"game_id":"0022601000","player_id":"3",
+            "name":"Unfeatured","missing":["TECH"]}]
+        scores,missing=module.validate(p)
+        text,status=module.render(p,scores,missing)
+        self.assertEqual(status,"PROVISIONAL")
+        self.assertIn('"quality_gaps": 1',text)
+        self.assertIn("Unfeatured: TECH",text)
+
     def test_scoring_oreb_dreb_double_double(self):
         p=fixture()
         scores,missing=module.validate(p)

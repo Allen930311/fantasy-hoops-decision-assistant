@@ -11,6 +11,7 @@ on:
       - "seasons/*/rosters.json"
       - "scripts/validate_scouting_contract.py"
       - "scripts/validate_scouting_report.py"
+      - "scripts/nba_data_adapter.py"
       - "tests/test_scouting_contract.py"
       - "tests/test_scouting_report.py"
       - "tests/fresh-agent/scouting/**"
@@ -28,6 +29,7 @@ on:
       - "seasons/*/rosters.json"
       - "scripts/validate_scouting_contract.py"
       - "scripts/validate_scouting_report.py"
+      - "scripts/nba_data_adapter.py"
       - "tests/test_scouting_contract.py"
       - "tests/test_scouting_report.py"
       - "tests/fresh-agent/scouting/**"
@@ -48,7 +50,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Python syntax checks
-        run: python -m py_compile scripts/validate_scouting_contract.py scripts/validate_scouting_report.py tests/test_scouting_contract.py tests/test_scouting_report.py
+        run: python -m py_compile scripts/nba_data_adapter.py scripts/validate_scouting_contract.py scripts/validate_scouting_report.py tests/test_scouting_contract.py tests/test_scouting_report.py
       - name: Watchlist integrity
         run: python scripts/validate_scouting_contract.py seasons/2026-27
       - name: Governance and adversarial tests

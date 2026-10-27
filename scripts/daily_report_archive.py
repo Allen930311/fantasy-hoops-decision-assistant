@@ -16,8 +16,8 @@ import json
 import re
 from pathlib import Path
 from datetime import date as Date
-from decimal import Decimal, ROUND_HALF_UP
 from urllib.parse import urlparse
+from nba_data_adapter import calculate_custom_fp
 from report_archive_naming import next_archive_path
 
 STATS = ("PTS","3PTM","OREB","DREB","AST","STL","BLK","TO","FTA","PF","TECH","EJCT","FF")
@@ -25,22 +25,14 @@ BONUSES = ("DD","TD")
 QUALITY_STATES = {"VERIFIED_VALUE","VERIFIED_ZERO","THIRD_PARTY_RECONSTRUCTED","CONFLICTING","UNKNOWN"}
 
 def score(stats, scoring):
-    missing = [key for key in STATS if key in scoring and (key not in stats or stats[key] is None)]
-    if missing:
-        raise ValueError("missing scoring fields: " + ",".join(missing))
-    if stats.get("REB") is not None and stats["REB"] != stats["OREB"] + stats["DREB"]:
-        raise ValueError("conflicting REB total: OREB + DREB does not reconcile")
-    values = [stats.get("PTS", 0), stats.get("OREB", 0) + stats.get("DREB", 0),
-              stats.get("AST", 0), stats.get("STL", 0), stats.get("BLK", 0)]
-    double = sum(v >= 10 for v in values)
-    # DD and TD are cumulative under the current league.json notes.
-    flags = {"DD": int(double >= 2), "TD": int(double >= 3)}
-    for k in BONUSES:
-        if k in scoring and k in stats and stats[k] is not None and stats[k] != flags[k]:
-            raise ValueError(f"{k} bonus disagrees with official stat-derived eligibility")
-    parts=[Decimal(str(stats[k])) * Decimal(str(weight)) for k,weight in scoring.items() if k not in BONUSES]
-    parts.extend(Decimal(flags[k]) * Decimal(str(scoring.get(k,0))) for k in BONUSES)
-    return sum(parts,Decimal("0")).quantize(Decimal("0.01"),rounding=ROUND_HALF_UP)
+    result=calculate_custom_fp(stats,scoring)
+    if result["missing"]:
+        if "CONFLICTING_REB" in result["missing"]:
+            raise ValueError("conflicting REB total: OREB + DREB does not reconcile")
+        if "DD_TD_INCONSISTENT" in result["missing"]:
+            raise ValueError("DD/TD bonus disagrees with official stat-derived eligibility")
+        raise ValueError("missing or invalid scoring fields: " + ",".join(result["missing"]))
+    return result["value"]
 
 def _transactions_and_ownership(rosters, report, overlay):
     """Apply only fully evidenced, explicitly completed unsynced adds/drops."""
@@ -97,9 +89,11 @@ def _player_rows(games, report_date):
             raise ValueError("completed game's Taipei date does not match report date")
         if not game.get("source_url") or not game.get("id"):
             raise ValueError("completed game missing source provenance")
-        if not game.get("players"):
+        if not game.get("players") and not game.get("fetch_error"):
             raise ValueError("completed game without player box-score rows")
         finals += 1
+        if not game.get("players"):
+            continue
         for p in game.get("players", []):
             status=str(p.get("status", "")).casefold().strip().replace("_"," ")
             if status in ("dnp", "inactive", "did not play") or status.startswith("dnp-") or status.startswith("dnp "):
@@ -125,8 +119,6 @@ def _player_rows(games, report_date):
             stats["__game_source_url__"]=game.get("source_url")
             stats["__game_source_sha256__"]=game.get("raw_source_sha256")
             rows[name] = stats
-    if finals == 0:
-        raise ValueError("no completed games")
     return rows
 
 
@@ -134,7 +126,7 @@ def _check_schedule(payload):
     """Fail closed if a completed NBA game is omitted from the box-score input."""
     schedule = payload.get("schedule_games")
     source = payload.get("schedule_source_url")
-    if not isinstance(schedule, list) or not schedule or not source:
+    if not isinstance(schedule, list) or not source:
         raise ValueError("missing independent NBA schedule/game-status evidence")
     for x in schedule:
         gid=str(x.get("id", ""))
@@ -177,6 +169,20 @@ def validate(payload):
         raise ValueError(f"unsupported scoring categories: {sorted(unknown)}")
     ownership, exclusions = _transactions_and_ownership(rosters, report, overlay)
     _check_schedule(payload)
+    source_failures=report.get("source_failures", [])
+    if not isinstance(source_failures,list):
+        raise ValueError("report source_failures must be a list")
+    final_ids={x["id"] for x in payload["schedule_games"] if str(x.get("status","")).casefold()=="final"}
+    for failure in source_failures:
+        if not isinstance(failure,dict) or not all(failure.get(k) for k in ("provider","url","kind","message","impact")):
+            raise ValueError("source failure must include provider, URL, kind, message and impact")
+        if failure["impact"] not in ("OWNER_COVERAGE_UNKNOWN","FIELD_QUALITY_REVIEW"):
+            raise ValueError(f"unknown source failure impact: {failure['impact']}")
+        if failure.get("game_id") is not None and failure["game_id"] not in final_ids:
+            raise ValueError("source failure references a game that is not Final in the schedule")
+    quality_gaps=report.get("quality_gaps", [])
+    if not isinstance(quality_gaps,list):
+        raise ValueError("report quality_gaps must be a list")
     rows = _apply_identity_aliases(_player_rows(games, report["date"]), report, ownership)
     owner = league["owner_team_id"]
     expected = {p for p in rows if ownership.get(p) == owner}
@@ -249,7 +255,8 @@ def validate(payload):
 
 def render(payload, scores, missing):
     r=payload["report"]
-    status="PROVISIONAL" if missing else "VALIDATED"
+    has_pending_games=any(str(g.get("status","")).casefold() in ("live","scheduled") for g in payload.get("schedule_games",[]))
+    status="PROVISIONAL" if missing or has_pending_games or r.get("source_failures") or r.get("quality_gaps") else "VALIDATED"
     ownership,_=_transactions_and_ownership(payload["rosters"],r,payload["ownership"])
     rows=_apply_identity_aliases(_player_rows(payload["games"],r["date"]),r,ownership)
     provenance = r["provenance"]
@@ -272,6 +279,9 @@ def render(payload, scores, missing):
             "owner_players":len(r["owner_players"]),
             "other_players":len(r.get("other_players", [])),
             "free_agents":len(r.get("free_agents", [])),
+            "source_failures":len(r.get("source_failures", [])),
+            "quality_gaps":len(r.get("quality_gaps", [])),
+            "owner_coverage_status":"UNKNOWN_DUE_TO_SOURCE_GAP" if any(x.get("impact")=="OWNER_COVERAGE_UNKNOWN" for x in r.get("source_failures",[])) else "MATCHED_TO_AVAILABLE_FINAL_ROWS",
             "fp_verified_players":sum(1 for n in scores if n not in missing),
             "fp_partial_players":sum(1 for n in scores if n in missing),
             "fp_missing":missing
@@ -295,6 +305,12 @@ def render(payload, scores, missing):
             vals.append(r.get("free_agent_claimability", {}).get(name,{}).get("confidence","—"))
             out.append("| "+" | ".join(vals)+" |")
         out.append("")
+    if r.get("source_failures"):
+        out.extend(["## 資料來源失敗 / 尚待覆核","", "下列來源請求失敗或未完成；依 impact 欄位確認其影響。缺少 box score 時，不可解讀為 DNP、缺席或零 FP。"]+
+                   [f"- {x.get('game_id','schedule')}: {x['provider']} {x['kind']} — {x['message']} ({x['url']})" for x in r["source_failures"]]+[""])
+    if r.get("quality_gaps"):
+        out.extend(["## 全場欄位品質缺口","", "以下出賽列未達 VERIFIED_FP；衝突或未知欄位未補零。"]+
+                   [f"- {x.get('game_id','?')} / {x.get('player_id','?')} / {x.get('name','?')}: {', '.join(x.get('missing',[]))}" for x in r["quality_gaps"]]+[""])
     if missing:
         out.extend(["## 待補數據",""]+
                    [f"- {name}: {reason}" for name,reason in missing.items()]+[""])

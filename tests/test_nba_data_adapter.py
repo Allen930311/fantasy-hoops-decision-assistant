@@ -73,6 +73,18 @@ class AdapterTests(unittest.TestCase):
         with self.assertRaises(adapter.SourceError) as ctx:c.get_json("nba_cdn","https://x","v1")
         self.assertEqual(ctx.exception.kind,"FORBIDDEN");self.assertEqual(len(calls),1)
 
+    def test_timeout_uses_bounded_retry_and_records_error(self):
+        calls=[]
+        def opener(*a,**k):
+            calls.append(1)
+            if len(calls)<3: raise TimeoutError("simulated timeout")
+            return Response(b'{"ok":true}')
+        c=adapter.JsonClient(retries=2,sleep=lambda _:None,opener=opener)
+        _,record=c.get_json("nba_cdn","https://example.test/timeout","test-v1")
+        self.assertEqual(record["http_status"],200)
+        self.assertEqual(len(calls),3)
+        self.assertEqual([x["kind"] for x in c.history if "kind" in x],["TIMEOUT","TIMEOUT"])
+
     def test_429_honors_retry_after_and_is_bounded(self):
         import urllib.error
         calls=[]; waits=[]
@@ -121,6 +133,25 @@ class AdapterTests(unittest.TestCase):
         data={"game":{"gameId":"0022600001","homeTeam":{"players":[{"played":True,"statistics":{
             "points":1}}]},"awayTeam":{"players":[]}}}
         self.assertFalse(adapter._valid_nba_boxscore(data))
+
+    def test_missing_official_pf_oreb_or_technical_foul_fails_schema(self):
+        fields={"minutes":"PT1M0S","points":1,"threePointersMade":0,"reboundsOffensive":0,
+            "reboundsDefensive":0,"reboundsTotal":0,"assists":0,"steals":0,"blocks":0,"turnovers":0,
+            "freeThrowsAttempted":0,"freeThrowsMade":0,"foulsPersonal":0,"foulsTechnical":0}
+        for field in ("foulsPersonal","reboundsOffensive","foulsTechnical"):
+            with self.subTest(field=field):
+                stats={k:v for k,v in fields.items() if k!=field}
+                payload={"game":{"gameId":"0022600001","homeTeam":{"players":[{"played":True,"statistics":stats}]},
+                    "awayTeam":{"players":[]}}}
+                self.assertFalse(adapter._valid_nba_boxscore(payload))
+
+    def test_requested_game_id_mismatch_is_rejected(self):
+        payload={"game":{"gameId":"0022600002","gameStatus":3}}
+        class FakeClient:
+            def get_json(self,*args,**kwargs):
+                return payload,{"provider":"nba_cdn","url":"https://cdn.nba.com/wrong","raw_sha256":"a"*64}
+        with self.assertRaisesRegex(adapter.SourceError,"gameId differs"):
+            adapter.acquire_boxscore(nba_game_id="0022600001",provider_event_id=None,client=FakeClient())
 
     def test_duplicate_incident_ids_rejected(self):
         p={"game":{"actions":[{"actionNumber":1},{"actionNumber":1}]}}

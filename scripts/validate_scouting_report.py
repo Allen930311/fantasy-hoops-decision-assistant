@@ -16,6 +16,7 @@ import re
 import unicodedata
 from pathlib import Path
 from urllib.parse import urlparse
+from nba_data_adapter import calculate_custom_fp
 
 CONTENT = {"BLOCKED", "PROVISIONAL", "VALIDATED"}
 REVIEW = {"NOT_RUN", "PASS", "FAIL"}
@@ -81,19 +82,11 @@ def _key(s: str) -> str:
 
 
 def compute_game_fp(stats: dict, scoring: dict) -> tuple[float | None, list[str]]:
-    """All configured counting fields required; absence != 0. DD+TD cumulative."""
-    if not isinstance(stats, dict):
-        return None, list(scoring)
-    missing = [k for k in scoring if k not in stats or not _number(stats[k])]
-    if missing:
-        return None, missing
-    categories = (stats["PTS"], stats["OREB"] + stats["DREB"], stats["AST"], stats["STL"], stats["BLK"])
-    qualifying = sum(v >= 10 for v in categories)
-    if stats["DD"] != int(qualifying >= 2) or stats["TD"] != int(qualifying >= 3):
-        return None, ["DD_TD_INCONSISTENT"]
-    if stats["DD"] not in (0, 1) or stats["TD"] not in (0, 1):
-        return None, ["DD_TD_OUT_OF_RANGE"]
-    return sum(stats[k] * weight for k, weight in scoring.items()), []
+    """Shared adapter arithmetic; absence != 0 and DD/TD remain cumulative."""
+    result=calculate_custom_fp(stats,scoring)
+    if result["missing"]:
+        return None,result["missing"]
+    return float(result["value"]),[]
 
 
 def infer_ownership(name: str, aliases: list[str], rosters: dict, overlay: dict) -> tuple[str, str | None]:

@@ -12,9 +12,9 @@
 1. **Read & pin**：取得 roster commit SHA 和 league/roster/ownership 各 Git blob SHA，確認 nba_id 或 yahoo_id、別名與研究截止時間。無法確認穩定 ID 可進 watchlist 或 PROVISIONAL，不可正式 VALIDATED。
 2. **Ownership gate**：依 ownership SOP 決定 `OWNER_ROSTER / OTHER_TEAM_ROSTER / OWNED_TEAM_UNKNOWN / RELEASED_AVAILABILITY_UNVERIFIED / CONFIRMED_FA / CONFIRMED_WAIVER / UNKNOWN`。不確定可用性者不可直接建議立即 ADD。
 3. **Basketball**：進攻、防守、戰術角色、球隊輪替、角色變化、優缺點及反證；影片應寫比賽日期、game ID、時間戳與正反案例，不能憑 highlights 推定全場能力。
-4. **NBA stats & FP**：近 5／10／20 場及全季實際樣本，樣本不足填 N/A；讀 `league.json.scoring` 計算全部原始欄位（含 FTA、OREB/DREB、TECH、EJCT、FF、DD、TD），不可把缺值補零。逐場原始資料與 canonical `stats_sha256`、原始來源擷取位元組的 `raw_source_sha256` 寫入可驗證 sidecar，保留缺漏（無法取得 raw source digest 時不能標 VALIDATED）；DAILY 戰報與球探資料分離。
+4. **NBA stats & FP**：共用 `scripts/nba_data_adapter.py` 取得排程、Box Score、PBP、來源快照與逐欄品質；使用該模組的 `calculate_custom_fp` 對 `league.json.scoring` 計算全部欄位（含 FTA、OREB/DREB、TECH、EJCT、FF、DD、TD）。近 5／10／20 場及全季以真實樣本為準，樣本不足填 N/A；不可把缺值補零。逐場原始資料與 canonical `stats_sha256`、原始來源擷取位元組的 `raw_source_sha256` 寫入可驗證 sidecar，保留缺漏（無法取得 raw source digest 時不能標 VALIDATED）；DAILY 戰報與球探資料分離。
 5. **Forecast/Compare**：保守／基準／樂觀 minutes、FP/G、每週預期出賽及可重算公式；短期兩週和長期；和 Owner 現有球員／替代人選比較差值。已被別隊持有者只能提出談判路徑，不能直接叫 ADD。
-6. **Review**：執行 `python scripts/validate_scouting_report.py <report.json> seasons/2026-27`；再由與 Scout **不同**的 Reviewer 實際核對 URL 可開、box score 場次及影片說法，記錄審核時間與來源。Validator 是離線資料/算術/一致性 gate，能重算 normalized stats digest，但原始 `raw_source_sha256` 需由獨立 Reviewer 比對實際來源保存結果；不能僅靠格式證實 URL 真實性或 Yahoo 即時狀態。
+6. **Review**：執行 `python scripts/validate_scouting_report.py <report.json> seasons/2026-27`；再由與 Scout **不同**的 Reviewer 實際核對 URL 可開、box score 場次及影片說法，記錄審核時間與來源。Validator 是離線資料/算術/一致性 gate，使用共用 FP calculator，能重算 normalized stats digest；原始 `raw_source_sha256` 需由獨立 Reviewer 比對實際來源保存結果；不能僅靠格式證實 URL 真實性或 Yahoo 即時狀態。
 7. **Publish**：只在專用 branch/PR 新增 watchlist 與 `reports/<slug>/YYYY-MM-DD.vN.md` 加同名 `.json`，版本不可靜默覆寫；不改 roster、ownership、scoring、Yahoo 或 15:00 報告。main 遠端讀回另立 receipt，不能報告自述完成。
 
 ## 狀態分離與寫入治理

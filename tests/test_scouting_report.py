@@ -25,7 +25,7 @@ class ScoutingReportTests(unittest.TestCase):
         self.roster = json.loads((self.season / "rosters.json").read_text())
         self.score = json.loads((self.season / "league.json").read_text())["scoring"]
         self.overlay = json.loads((self.season / "ownership/current-state.json").read_text())
-        self.folder = self.season / "scouting/reports/herbert-jones"
+        self.folder = self.season / "scouting/reports/current-owner-player"
         self.folder.mkdir(parents=True)
         self.path = self.folder / "2026-10-25.v1.json"
         self.markdown = self.path.with_suffix(".md")
@@ -41,7 +41,7 @@ class ScoutingReportTests(unittest.TestCase):
         self.report = {
             "schema_version": 1, "season": "2026-27",
             "researcher": "synthetic-writer",
-            "player": {"name": "Herbert Jones", "nba_id": "9999999", "yahoo_id": None, "identity_source": "https://example.invalid/synthetic-identity", "aliases": ["Herb Jones"]},
+            "player": {"name": "Justin Champagnie", "nba_id": "9999999", "yahoo_id": None, "identity_source": "https://example.invalid/synthetic-identity", "aliases": []},
             "content_status": "VALIDATED", "review_status": "PASS", "archive_status": "NOT_WRITTEN",
             "provenance": {
                 "roster_commit_sha": "f" * 40,

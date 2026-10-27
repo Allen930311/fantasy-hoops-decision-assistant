@@ -33,7 +33,7 @@ BONUSES = ("DD", "TD")
 QUALITY = {"VERIFIED_VALUE", "VERIFIED_ZERO", "THIRD_PARTY_RECONSTRUCTED", "CONFLICTING", "UNKNOWN"}
 NBA_TRADITIONAL_FIELDS={"minutes","points","threePointersMade","reboundsOffensive","reboundsDefensive","reboundsTotal",
     "assists","steals","blocks","turnovers","freeThrowsAttempted","freeThrowsMade","foulsPersonal","foulsTechnical"}
-NORMALIZER_VERSION="2.0.0"
+NORMALIZER_VERSION="2.1.0"
 
 def normalizer_code_sha256() -> str:
     return hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
@@ -538,6 +538,7 @@ def acquire_game_bundle(nba_game_id: str, client: JsonClient,
         status_type=comp.get("status",{}).get("type",{}).get("state")
         return {"game_id":nba_game_id,"game_date_et":played.astimezone(ZoneInfo("America/New_York")).date().isoformat(),
                 "game_date_taipei":taipei,"status":"Final" if status_type=="post" else "Unknown",
+                "periods":None,"overtime":None,
                 "source_records":[box["record"]],"source_errors":box["errors"],
                 "game_id_crosswalk":event_crosswalk,
                 "boxscore_source_url":box["record"]["url"],"boxscore_raw_sha256":box["record"]["raw_sha256"],
@@ -550,11 +551,13 @@ def acquire_game_bundle(nba_game_id: str, client: JsonClient,
         pbp_error=exc.as_dict();pbp=None
     played=datetime.fromisoformat(game["gameTimeUTC"].replace("Z","+00:00"))
     taipei=played.astimezone(ZoneInfo("Asia/Taipei")).date().isoformat()
+    periods=int(game.get("period") or 0)
     players=normalize_nba_boxscore(box["payload"],pbp["payload"] if pbp else None,taipei_date=taipei,
         source_url=box["record"]["url"],source_sha256=box["record"]["raw_sha256"])
     digest=hashlib.sha256(json.dumps(players,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
     return {"game_id":nba_game_id,"game_date_et":game.get("gameEt"),"game_date_taipei":taipei,
             "status":"Final" if game.get("gameStatus")==3 else game.get("gameStatusText","Unknown"),
+            "periods":periods,"overtime":periods>4,
             "source_records":[box["record"]]+([pbp["record"]] if pbp else []),
             "source_errors":box["errors"]+([pbp_error] if pbp_error else []),
             "playbyplay_status":"AVAILABLE" if pbp else "UNKNOWN",
@@ -581,6 +584,48 @@ def acquire_game_bundle_with_fallback(official_game:dict[str,Any],client:JsonCli
         bundle["source_records"].append(record)
         bundle["game_id_crosswalk"]=crosswalk
         return bundle
+
+
+def calculate_custom_fp(stats: dict[str, Any], scoring: dict[str, Any]) -> dict[str, Any]:
+    """Single exact-arithmetic FP calculator shared by scouting and daily reports."""
+    unknown_categories=set(scoring)-set(FIELDS)-set(BONUSES)
+    if unknown_categories: raise ValueError(f"unsupported league scoring keys: {sorted(unknown_categories)}")
+    if not isinstance(stats,dict): return {"value":None,"components":{},"missing":list(scoring)}
+    required=[key for key in scoring if key not in BONUSES]
+    values={};missing=[]
+    for key in required:
+        raw=stats.get(key)
+        if isinstance(raw,bool) or raw is None:
+            missing.append(key);continue
+        try: value=Decimal(str(raw))
+        except Exception:
+            missing.append(key);continue
+        if not value.is_finite() or value<0:
+            missing.append(key);continue
+        values[key]=value
+    if missing: return {"value":None,"components":{},"missing":missing}
+    if "REB" in stats and stats["REB"] is not None:
+        try: total_rebounds=Decimal(str(stats["REB"]))
+        except Exception: return {"value":None,"components":{},"missing":["CONFLICTING_REB"]}
+        if total_rebounds != values.get("OREB",Decimal(0))+values.get("DREB",Decimal(0)):
+            return {"value":None,"components":{},"missing":["CONFLICTING_REB"]}
+    categories=[values.get(key,Decimal(0)) for key in ("PTS","OREB","DREB","AST","STL","BLK")]
+    qualifying=sum(int(value>=10) for value in (categories[0],categories[1]+categories[2],*categories[3:]))
+    derived={"DD":int(qualifying>=2),"TD":int(qualifying>=3)}
+    for key in BONUSES:
+        if key in stats and stats[key] is not None:
+            try: supplied=Decimal(str(stats[key]))
+            except Exception: return {"value":None,"components":{},"missing":["DD_TD_INCONSISTENT"]}
+            if supplied != Decimal(derived[key]):
+                return {"value":None,"components":{},"missing":["DD_TD_INCONSISTENT"]}
+    components={}
+    for key,weight in scoring.items():
+        try: multiplier=Decimal(str(weight))
+        except Exception: return {"value":None,"components":{},"missing":[f"INVALID_SCORING_WEIGHT:{key}"]}
+        value=Decimal(derived[key]) if key in BONUSES else values[key]
+        components[key]=value*multiplier
+    total=sum(components.values(),Decimal("0")).quantize(Decimal("0.01"),rounding=ROUND_HALF_UP)
+    return {"value":total,"components":{k:str(v) for k,v in components.items()},"derived_bonuses":derived,"missing":[]}
 
 
 def scoring_trace(stats: dict[str, Any], quality: dict[str, str], scoring: dict[str, Any],
@@ -619,19 +664,21 @@ def scoring_trace(stats: dict[str, Any], quality: dict[str, str], scoring: dict[
         state = "BLOCKED" if len(components) == 0 else "PARTIAL_FP"
         return {"status": state, "value": str(subtotal.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)),
                 "components": components, "missing": bad, "quality": quality, "rounding": "ROUND_HALF_UP_0.01"}
-    counting = [stats["PTS"], stats["OREB"] + stats["DREB"], stats["AST"], stats["STL"], stats["BLK"]]
-    dd = sum(int(x >= 10) for x in counting) >= 2
-    td = sum(int(x >= 10) for x in counting) >= 3
-    derived = {"DD": int(dd), "TD": int(td)}
-    components = {}
-    for key, weight in scoring.items():
-        value = derived[key] if key in BONUSES else stats[key]
-        components[key] = str(Decimal(str(value)) * Decimal(str(weight)))
-    total = sum((Decimal(v) for v in components.values()), Decimal("0"))
+    calculation=calculate_custom_fp(stats,scoring)
+    if calculation["missing"]:
+        components={}
+        for key,weight in scoring.items():
+            if key in BONUSES or quality.get(key) not in ("VERIFIED_VALUE","VERIFIED_ZERO","THIRD_PARTY_RECONSTRUCTED"):
+                continue
+            try: components[key]=str(Decimal(str(stats[key]))*Decimal(str(weight)))
+            except (KeyError,TypeError,ValueError): continue
+        subtotal=sum((Decimal(v) for v in components.values()),Decimal("0")).quantize(Decimal("0.01"),rounding=ROUND_HALF_UP)
+        return {"status":"PARTIAL_FP" if components else "BLOCKED","value":str(subtotal),
+                "components":components,"missing":calculation["missing"],"quality":quality,"rounding":"ROUND_HALF_UP_0.01"}
     trusted = all(quality.get(k) in ("VERIFIED_VALUE", "VERIFIED_ZERO") for k in required)
     return {"status": "VERIFIED_FP" if trusted else "PARTIAL_FP",
-            "value": str(total.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)),
-            "components": components, "derived_bonuses": derived, "missing": [],
+            "value": str(calculation["value"]),
+            "components": calculation["components"], "derived_bonuses": calculation["derived_bonuses"], "missing": [],
             "quality": quality, "rounding": "ROUND_HALF_UP_0.01"}
 
 

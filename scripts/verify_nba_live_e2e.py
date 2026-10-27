@@ -50,6 +50,7 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
             all_games[gid]=bundle
             fetched.append({"game_id":gid,"status":bundle["status"],
                 "game_date_et":bundle["game_date_et"],"game_date_taipei":bundle["game_date_taipei"],
+                "periods":bundle.get("periods"),"overtime":bundle.get("overtime"),
                 "played_player_rows":len([p for p in bundle["players"] if p["status"]=="PLAYED"]),
                 "player_rows":len(bundle["players"]),
                 "source_records":[{k:r[k] for k in ("provider","url","fetched_at","http_status","schema_version","raw_sha256","normalized_sha256","fetched_with_normalizer_version","fetched_with_normalizer_code_sha256","replayed_with_normalizer_version","replayed_with_normalizer_code_sha256","publication_rights","raw_snapshot_path") if k in r} for r in bundle["source_records"]],
@@ -87,8 +88,8 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
     champ=cases["justin_champagnie"]
     if champ["stats"].get("MIN")!="3:55":
         raise ValueError("Justin Champagnie short-appearance regression mismatch")
-    # Injury cause is not present in the official traditional box score itself.
-    champ["injury_alert_status"]="UNKNOWN_NO_RIGHTS_CLEARED_INJURY_REPORT_SOURCE"
+    # The official stats verify the short appearance, but not its injury cause.
+    champ["injury_alert_status"]="SHORT_APPEARANCE_WATCH_INJURY_UNVERIFIED"
     verified=sum(t["status"]=="VERIFIED_FP" for _,t in traces)
     partial=sum(t["status"]=="PARTIAL_FP" for _,t in traces)
     blocked=sum(t["status"]=="BLOCKED" for _,t in traces)

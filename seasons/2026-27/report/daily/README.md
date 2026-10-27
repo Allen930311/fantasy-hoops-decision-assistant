@@ -1,7 +1,7 @@
 # 每日 Fantasy 戰報保存 SOP（2026–27）
 
 ## 目的與邊界
-每天台灣時間 15:00 的戰報先在聊天中交付，通過資料驗證後，另存為可追溯、不可靜默覆寫的 Markdown 快照。這是獨立 SOP；排程接線屬後續步驟。僅處理報告，**不得**修改 `rosters.json`、`league.json`、Yahoo 或進行交易。
+每天台灣時間 15:00 的既有排程先交付戰報，通過資料驗證後另存為可追溯、不可靜默覆寫的 Markdown 快照。不得建立重複排程；目前尚未有本次修復後的 scheduled-production 執行證據。僅處理報告，**不得**修改 `rosters.json`、`league.json`、Yahoo 或進行交易。
 
 ## Input / Authority
 1. 每次執行重新讀取 `main:seasons/2026-27/rosters.json`（16 隊已確認歸屬；**含 `additional_owned_players`**）、`main:seasons/2026-27/ownership/current-state.json`（未歸屬 ADD 排除與 DROP 釋出狀態）與 `main:seasons/2026-27/league.json`（唯一計分規則），記錄來源 SHA、讀取時間與各 `as_of`。日期型舊 ADD 名單不得直接聯集成永久持有。
@@ -10,10 +10,10 @@
 
 ## Output
 - `seasons/2026-27/report/daily/YYYY-MM-DD.md`：驗證通過的正式戰報。
-- 如缺 OREB、PF、紀律罰分或其他計分欄位，僅可標為 `PROVISIONAL`，存 `YYYY-MM-DD.provisional.md`；不得以基礎 FP 冒充完整 FP。
+- 如缺 OREB、PF、紀律罰分或其他計分欄位，僅可標為 `PROVISIONAL`，版本 1 為 `YYYY-MM-DD.provisional.md`，修訂版用 `YYYY-MM-DD.provisional.v2.md`；不得以基礎 FP 冒充完整 FP。
 - 報告 front matter 至少包含：`season`、`report_date_taipei`、`generated_at_taipei`、`status`、`roster_commit_sha`、`rosters_blob_sha`、`league_blob_sha`、`roster_as_of`、`data_cutoff_taipei`、`source_urls`、`validation_summary`。
 - 正文：NBA 今日焦點；**使用者所有當日出賽球員逐人完整數據、完整 FP 與文字戰報**；其他 15 隊僅精選爆發/角色異動球員；真正 FA 精選；有證據的 GM 建議。未出賽/DNP 不可混淆。
-- 若報告已存在，建立 `YYYY-MM-DD.v2.md` 或更高版並說明差異，不直接覆寫；保留舊版。
+- 檔名權威為 `scripts/report_archive_naming.py`：正式版用 `YYYY-MM-DD.md` / `YYYY-MM-DD.v2.md`，暫定版用 `YYYY-MM-DD.provisional.md` / `YYYY-MM-DD.provisional.v2.md`；歷史 `YYYY-MM-DD.v2.provisional.md` 仍可讀取。若報告已存在，產生下一個版本並說明差異，不直接覆寫。
 
 ## 執行流程
 1. **Read**：讀取最新 main、賽程與 Box Score；依 `ownership/README.md` 合併基本名冊 + 同隊額外持有 + 未歸屬確認 ADD，再依較新 DROP 消解舊持有，建立 ownership set 與今日出賽交集。DROP 若尚未核實 Yahoo 當前 FA/waiver，不得直接列為推薦自由球員。
@@ -40,8 +40,8 @@
 
 ## NBA Data Adapter 與計分
 
-- 共用版本化入口為 `scripts/nba_data_adapter.py`。它使用 NBA 官方 dated `scoreboardv3`、Live Data box score 與 PBP，逐筆保存 URL、provider、取得時間、schema 版本、HTTP 狀態、原始 / 正規化 SHA-256、快照與錯誤歷程；`GAME_ID` / `PLAYER_ID` 不以姓名或日期推測。
-- NBA 來源失敗時記錄 403 / 429 / timeout / schema error 後才切換 ESPN public JSON adapter。ESPN ID 只保留在 provider namespace，未取得有來源的 NBA ID crosswalk 就不能成為 `VERIFIED_FP`。資料可讀不等於授權；未取得公開 GitHub 再發布權時，標記 `PRIVATE_RESEARCH_ONLY`。
+- 共用版本化入口為 `scripts/nba_data_adapter.py`；Daily 與 Scouting 共用同一 `calculate_custom_fp` 實作和 `league.json`。排程優先使用 NBA 官方 dated `scoreboardv3`，失敗改用 NBA 官方靜態賽程 CDN，再以嚴格條件嘗試 ESPN；比賽資料使用官方 NBA Live Data box score 與 PBP。逐筆保存 URL、provider、取得時間、schema 版本、HTTP 狀態、原始 / 正規化 SHA-256、快照與錯誤歷程；`GAME_ID` / `PLAYER_ID` 不以姓名或日期推測。
+- NBA 官方來源失敗後可用 ESPN public JSON 做具明確 GAME_ID、兩隊 tricodes 和 tipoff 的交叉比對；ESPN 玩家 ID 沒有明確 NBA ID crosswalk 時不得冒認為官方 ID，資料保持 `PARTIAL_FP`。資料可讀不等於授權；未取得公開 GitHub 再發布權時，標記 `PRIVATE_RESEARCH_ONLY`。
 - FP 唯一規則仍讀當季 `league.json`。逐欄品質為 `VERIFIED_VALUE` / `VERIFIED_ZERO` / `THIRD_PARTY_RECONSTRUCTED` / `CONFLICTING` / `UNKNOWN`；每場輸出 `VERIFIED_FP` / `PARTIAL_FP` / `BLOCKED`。`FTA` 使用罰球出手數；OREB + DREB 對帳 REB；TECH / EJCT / FF 用穩定事件 ID 去重；DD / TD 由官方統計導出並依季規則累加。計算採 Decimal，`ROUND_HALF_UP` 至 0.01。
 - Daily validator 同時讀 `rosters.json` 的 `players` 和 `additional_owned_players`、目前 `ownership/current-state.json` overlay；未歸屬 ADD 排除 FA，DROP 仍不代表已可領取。每項 FA 推薦必須有 Claimability Confidence。
 
