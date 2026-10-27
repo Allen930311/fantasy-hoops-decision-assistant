@@ -69,13 +69,13 @@ The private report was regenerated against main commit
 Its SHA-256 is `8e00f711b7715368d8c1ce49a4d08334576e94e72d94e7cb40806b0c456a74c3`;
 the canonical validator rendered byte-identical content. The publisher returned
 `ARCHIVE_BLOCKED` with `github_request_made=false`, so this report was not sent to
-GitHub. The source receipt records a three-day replay of 24 official NBA games
-(539 played rows, 118 DNP, 531 VERIFIED_FP, 8 PARTIAL_FP due to TECH conflicts,
-0 blocked rows and 0 fetch errors). The receipt applies the current ownership
-snapshot only to matching Taipei game dates: the 10/26 ET slate (Taipei 10/27)
-has six owner players, all VERIFIED_FP; 12 earlier rows matching the current
-roster are excluded from historical ownership claims. One non-owner slate quality
-gap remains on 10/26. Receipt SHA-256:
+GitHub. The private source receipt records a three-day replay of official NBA
+schedule, box-score and play-by-play snapshots. It uses official game/player
+identities, retains unresolved fields as partial quality, and does not count
+historical roster matches as current ownership. Only the slate whose Taipei date
+matches the current ownership snapshot is used for Owner coverage; those Owner
+rows are verified. Raw snapshots and per-player output remain private. Receipt
+SHA-256:
 `3535580e0155cb2bbb6a46d46cfd557457f3d17dde1eb71742beee723ed9f959`; adapter
 SHA-256: `e53f4e2943eaa1a9bde4ac73605446e8b53812220702b4a96b2b353e8dabd52e`.
 Raw snapshots remain outside the public repository.
