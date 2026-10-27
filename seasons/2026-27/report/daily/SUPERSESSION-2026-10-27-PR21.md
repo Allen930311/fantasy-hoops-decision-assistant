@@ -8,7 +8,7 @@ Supersedes both draft report files in PR #21:
 - `seasons/2026-27/report/daily/2026-10-27.v2.provisional.md`
 
 `SUPERSEDED_BY`: private corrected report SHA-256
-`91c34382a48ebb6db172983903597c53ca869eb3f1eb0455e659ed0573ee90ae`.
+`63acbf5774ec1ec04e4488cda0849d225ae9a64d7a7f80d1bc6e42819d6c1723`.
 
 The player figures for Andrew Wiggins and Zaccharie Risacher in the superseded
 drafts must not be cited as canonical. The corrected report remains private;
