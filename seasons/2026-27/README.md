@@ -18,7 +18,7 @@ Current baseline:
 
 ## Update policy
 
-- Treat roster membership as mutable. When a player is added, dropped, traded, or reassigned, update `rosters.json` and advance its `as_of` date.
+- Treat roster membership as mutable and the snapshot as historical. When a completed player move is verifiably attributed to a team, update `rosters.json`, advance `as_of` and retain provenance. A confirmed ADD with unknown team must enter the non-FA ownership exclusion workflow without an invented team mapping; ADD-only may be legitimate with IL, and it does not imply a DROP. The file may lag newer Owner-provided evidence.
 - Do not silently carry roster state or scoring rules into another season.
 - For a new season, create a new sibling directory such as `seasons/2027-28/` with that season's own league settings and rosters.
 - `team_02` is the owner's team for this snapshot.
