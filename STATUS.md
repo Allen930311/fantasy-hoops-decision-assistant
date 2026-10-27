@@ -24,9 +24,11 @@ The repository stores the **2026–27** league under `seasons/2026-27/`:
 - `team_02` is the owner's team in that bootstrap;
 - `league.json` provides the owner-defined scoring rules;
 - `rosters.json` is a mutable, **as-of** owner-provided snapshot, not a verified current Yahoo roster, waiver pool, or transaction feed;
-- the 2026-10-04 Marcus Smart → Pelle Larsson change is historical evidence, **not** proof that the October 2026 live roster remains identical.
+- the latest *recorded* `rosters.json` snapshot on main is **as_of 2026-10-25**, with 16 teams and 208 unique roster entries; the last recorded manual change is team_09 Mitchell Robinson → Trevon Brazile, backed by the Owner-provided 2026-10-25 transaction screenshot; this is **not** a live Yahoo readback.
+- earlier Oct 4 and Oct 20 roster changes remain historical records, not proof of current Yahoo waiver or eligibility state.
+- verified Owner-provided Yahoo ADD screenshots exclude a player from free-agent recommendations even if the adding team is unknown; preserve `unknown_team` and do not infer a DROP from an ADD-only screenshot (IL is allowed).
 
-Newer changes require an owner-confirmed input, dated `as_of`, provenance and integrity validation. If they have not been reconciled, explicitly label the roster state **STALE / UNCONFIRMED** rather than silently treating the last file as live state.
+Changes later than the recorded 2026-10-25 snapshot require Owner-confirmed input, dated `as_of`, provenance and integrity validation. If they have not been reconciled, explicitly label the roster state **STALE / UNCONFIRMED** rather than silently treating the last file as live state.
 
 ## Offline/manual R0 acceptance (not yet complete)
 
@@ -41,4 +43,4 @@ Newer changes require an owner-confirmed input, dated `as_of`, provenance and in
 
 There is no authorized Yahoo API production integration. Offline scoring and owner-supplied snapshots are usable as *inputs*, not provider-certified live league truth. The next step is [Issue #7](https://github.com/Allen930311/fantasy-hoops-decision-assistant/issues/7) and PR #6 review, **not waiting indefinitely for Yahoo approval**. Reconsider an official integration only on new, legitimate provider authorization; never work around the denial.
 
-_Last evidence reconciliation: 2026-10-21 (Asia/Taipei). Documentation update proposed; does not by itself qualify offline R0 or PR #6._
+_Last documentation/evidence reconciliation: 2026-10-27 (Asia/Taipei); roster as_of verified 2026-10-25. This docs-only change does not qualify offline R0, PR #6 or Yahoo live availability._
