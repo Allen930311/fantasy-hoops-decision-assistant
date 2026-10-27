@@ -24,7 +24,7 @@ If the repository later changes the active season or authority path, follow the 
 
 `league.json` is the season-specific league/scoring configuration.
 
-`rosters.json` is the current bootstrap ownership state until the repository explicitly promotes a validated Yahoo read-only source.
+`rosters.json` is the last recorded Owner-supplied ownership bootstrap, not confirmed live league state. Read its `as_of` and provenance on every run; a provider can become an authority only after separate authorization and validated readback.
 
 Resolve the owner's team from `owner_team_id`; do not hard-code player names in the scheduled task.
 
@@ -32,9 +32,10 @@ Roster changes are authoritative only when they are present in the repository's 
 
 ## 3. Free-agent / available-player truth
 
-Before Yahoo read-only reconciliation is complete:
+Until a separately authorized live league-state source is validated:
 
 - Treat every player listed in any team in `rosters.json` as rostered / unavailable.
+- Also exclude a player with a verified Owner-supplied completed ADD screenshot, even if their team is unknown; keep `unknown_team` rather than guessing a team or inferring a DROP when only ADD appears (IL slots are allowed).
 - Build the candidate available-player pool from current NBA/Fantasy-eligible players and exclude every rostered player.
 - Distinguish confirmed fantasy availability from inference when waiver/eligibility state cannot be verified.
 - Do not recommend a player who appears on any of the 16 recorded rosters.
