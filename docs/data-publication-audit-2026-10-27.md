@@ -18,7 +18,7 @@ private until a written grant or a provider contract covers the intended use.
 
 Repository visibility was confirmed as public on 2026-10-27. The source tree was
 read from `main` at `d07c194e` and PR #21's public branch at
-`ec5f896987b1c17fbb09ac433586bef6a89e9a22`.
+`43e6c4c95fdc72a0aa4ea09371caf3b09bfa55a8`.
 
 | Location | Content found | SHA-256 | Audit state |
 |---|---|---|---|

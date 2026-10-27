@@ -19,6 +19,12 @@ class Response:
     def __enter__(self): return self
     def __exit__(self,*args): return False
 
+class StatusResponse(Response):
+    def __init__(self,status,headers,body=b''):
+        super().__init__(body)
+        self.status=status
+        self.headers=headers
+
 class AdapterTests(unittest.TestCase):
     def test_raw_hash_and_snapshot_manifest(self):
         body=b'{"events":[]}'
@@ -116,6 +122,32 @@ class AdapterTests(unittest.TestCase):
         self.assertGreaterEqual(waits[0],3)
         self.assertEqual(c.history[0]["retry_action"],"RETRY")
 
+    def test_429_response_object_uses_same_retry_after_handler(self):
+        calls=[]; waits=[]
+        def opener(*a,**k):
+            calls.append(1)
+            if len(calls)==1:return StatusResponse(429,{"Retry-After":"2"})
+            return Response(b'{"ok":true}')
+        c=adapter.JsonClient(retries=1,sleep=waits.append,opener=opener)
+        _,result=c.get_json("x","https://x","v1")
+        self.assertEqual(result["http_status"],200)
+        self.assertEqual(len(calls),2)
+        self.assertEqual(waits[0],2)
+        self.assertGreaterEqual(sum(waits),2)
+        self.assertEqual(c.history[0]["retry_action"],"RETRY")
+
+    def test_429_response_object_with_long_retry_after_stops_source(self):
+        calls=[]; waits=[]
+        def opener(*a,**k):
+            calls.append(1)
+            return StatusResponse(429,{"Retry-After":"45"})
+        c=adapter.JsonClient(retries=2,sleep=waits.append,opener=opener)
+        with self.assertRaisesRegex(adapter.SourceError,"stop provider and fall back"):
+            c.get_json("x","https://x","v1")
+        self.assertEqual(len(calls),1)
+        self.assertEqual(waits,[])
+        self.assertEqual(c.history[0]["retry_action"],"STOP_PROVIDER_AND_FALL_BACK")
+
     def test_429_long_retry_after_stops_provider_instead_of_retrying_early(self):
         import urllib.error
         calls=[]; waits=[]
@@ -143,6 +175,8 @@ class AdapterTests(unittest.TestCase):
         self.assertTrue(adapter._valid_nba_boxscore(dnp))
         normalized=adapter.normalize_nba_boxscore(dnp,None)
         self.assertEqual(normalized[0]["status"],"DNP")
+        self.assertEqual(normalized[0]["player_status"],"ACTIVE")
+        self.assertIsNone(normalized[0]["dnp_reason"])
         self.assertEqual(normalized[0]["stats"],{})
         self.assertEqual(normalized[0]["quality"],{})
         self.assertTrue(adapter._valid_nba_boxscore(payload("0",False)))

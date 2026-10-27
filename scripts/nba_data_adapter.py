@@ -105,7 +105,7 @@ class JsonClient:
                     raw = response.read()
                     headers = response.headers
                 if status == 429:
-                    raise SourceError(provider, url, "RATE_LIMIT", "HTTP 429", 429)
+                    raise urllib.error.HTTPError(url,429,"Rate limit",headers,None)
                 if status >= 400:
                     raise SourceError(provider, url, "HTTP_ERROR", f"HTTP {status}", status)
                 try:
@@ -161,10 +161,6 @@ class JsonClient:
                 raise err from exc
             except SourceError as exc:
                 self.history.append({**exc.as_dict(), "fetched_at": fetched_at, "attempt": attempt + 1})
-                if exc.kind == "RATE_LIMIT" and attempt < self.retries:
-                    self.sleep(1)
-                    attempt += 1
-                    continue
                 raise
             except (TimeoutError, OSError, urllib.error.URLError) as exc:
                 err = SourceError(provider, url, "TIMEOUT" if isinstance(exc, TimeoutError) else "NETWORK_ERROR", str(exc))
@@ -522,14 +518,17 @@ def normalize_nba_boxscore(boxscore_payload: dict[str, Any], pbp_payload: dict[s
             if played is None:
                 raise ValueError(f"NBA player row has unknown played status for {person_id}")
             if played is False:
-                raw_status=str(player.get("status") or "DNP")
+                raw_status=player.get("status")
+                player_status=str(raw_status) if raw_status is not None else None
+                is_inactive="inactive" in (player_status or "").casefold()
                 out.append({"game_id":gid,"official_game_id":gid,"provider_game_id":gid,
                     "player_id":person_id,"official_player_id":person_id,"provider_player_id":person_id,
                     "identity_status":"VERIFIED","identity_source_url":source_url,
                     "identity_source_sha256":source_sha256,
                     "name":player.get("name"),"team_id":str(team.get("teamId")),"team_name":team.get("teamName"),
-                    "date_taipei":taipei_date,"status":"INACTIVE" if "inactive" in raw_status.casefold() else "DNP",
-                    "dnp_reason":raw_status,"stats":{},"quality":{},"incidents":[],
+                    "date_taipei":taipei_date,"status":"INACTIVE" if is_inactive else "DNP",
+                    "player_status":player_status,"dnp_reason":None,
+                    "stats":{},"quality":{},"incidents":[],
                     "source_quality":"NBA_OFFICIAL_ENDPOINT"})
                 continue
             raw=player.get("statistics",{})
