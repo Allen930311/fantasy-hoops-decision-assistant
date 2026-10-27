@@ -52,10 +52,27 @@ def main() -> int:
         if not isinstance(team_players, list):
             errors.append(f"{team_id}: players must be a list")
             continue
-        if len(team_players) != expected_roster:
+        # A screenshot can prove DROP without identifying the next ADD. Record the
+        # missing baseline entries explicitly rather than pretending the dropped
+        # player is still owned or inventing a replacement.
+        pending = team.get("pending_baseline_departures", [])
+        if not isinstance(pending, list):
+            errors.append(f"{team_id}: pending_baseline_departures must be a list")
+            pending = []
+        deficit = expected_roster - len(team_players)
+        if deficit < 0 or len(pending) != max(deficit, 0):
             errors.append(
-                f"{team_id}: expected {expected_roster} players, found {len(team_players)}"
+                f"{team_id}: {len(team_players)} baseline players vs expected {expected_roster}; "
+                f"pending departures {len(pending)} must equal documented deficit"
             )
+        for item in pending:
+            if not isinstance(item, dict) or any(
+                not isinstance(item.get(key), str) or not item[key].strip()
+                for key in ("player", "date", "source")
+            ):
+                errors.append(f"{team_id}: invalid pending baseline departure evidence")
+            elif item["player"] in team_players:
+                errors.append(f"{team_id}: pending departure still in roster: {item['player']}")
         players.extend(team_players)
         additional = team.get("additional_owned_players", [])
         if not isinstance(additional, list) or any(
@@ -70,6 +87,19 @@ def main() -> int:
         errors.append(f"duplicate team_ids: {duplicate_team_ids}")
 
     all_known_owned = players + extra_owned
+    pending_departures = [
+        item.get("player")
+        for team in teams
+        for item in (team.get("pending_baseline_departures") or [])
+        if isinstance(item, dict)
+    ]
+    if len(pending_departures) != len(set(pending_departures)):
+        errors.append("duplicate pending departure records across teams")
+    if set(pending_departures).intersection(all_known_owned):
+        errors.append(
+            f"pending DROP still present in team ownership: "
+            f"{sorted(set(pending_departures).intersection(all_known_owned))}"
+        )
     duplicate_players = sorted({x for x in set(all_known_owned) if all_known_owned.count(x) > 1})
     if duplicate_players:
         errors.append(f"duplicate team-attributed owned players: {duplicate_players}")

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-25",
+  "as_of": "2026-10-27",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -56,13 +56,21 @@
         "Cameron Boozer",
         "Kawhi Leonard",
         "Kel'el Ware",
-        "Luke Kornet",
         "Ausar Thompson",
         "Fred VanVleet",
         "Kyshawn George",
         "Cade Cunningham",
         "Klay Thompson",
         "Naji Marshall"
+      ],
+      "pending_baseline_departures": [
+        {
+          "player": "Luke Kornet",
+          "date": "2026-10-27",
+          "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+          "source_image": "IMG_2829.png",
+          "meaning": "baseline reconciliation pending; not proof of active slot vacancy"
+        }
       ]
     },
     {
@@ -182,7 +190,7 @@
         "Darius Acuff Jr.",
         "Trevon Brazile",
         "Yves Missi",
-        "DeMar DeRozan"
+        "Derrick Jones Jr."
       ]
     },
     {
@@ -195,7 +203,6 @@
         "Desmond Bane",
         "Jaden McDaniels",
         "Domantas Sabonis",
-        "Cason Wallace",
         "Jusuf Nurkic",
         "Bobby Portis Jr.",
         "Damian Lillard",
@@ -206,6 +213,15 @@
       ],
       "additional_owned_players": [
         "Aaron Wiggins"
+      ],
+      "pending_baseline_departures": [
+        {
+          "player": "Cason Wallace",
+          "date": "2026-10-26",
+          "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+          "source_image": "IMG_2832.png",
+          "meaning": "baseline reconciliation pending; not proof of active slot vacancy"
+        }
       ]
     },
     {
@@ -242,10 +258,10 @@
         "Zach Edey",
         "Myles Turner",
         "Tari Eason",
-        "Scoot Henderson",
         "Julian Champagnie",
         "Jared McCain",
-        "Jaylon Tyson"
+        "Jaylon Tyson",
+        "Tre Johnson"
       ]
     },
     {
@@ -304,8 +320,8 @@
         "Immanuel Quickley",
         "Peyton Watson",
         "Brandin Podziemski",
-        "Sam Hauser",
-        "Duncan Robinson"
+        "Duncan Robinson",
+        "Ronald Holland II"
       ]
     },
     {
@@ -330,14 +346,17 @@
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-25",
-    "team_id": "team_09",
-    "out": "Mitchell Robinson",
-    "in": "Trevon Brazile",
-    "authority": "owner_provided_yahoo_chat_screenshot_2026-10-25_1145_taipei",
-    "mapping_basis": "Mitchell Robinson uniquely belonged to team_09 in pre-transaction roster; screenshot explicitly pairs that DROP with Trevon Brazile ADD",
-    "displayed_time": "5m ago on screenshot at 11:45 Asia/Taipei (approximate relative time; not an exact exchange timestamp)",
-    "note": "Yahoo confirmed completed ADD/DROP. Do not infer current free-agent or waiver availability of the released player."
+    "date": "2026-10-27",
+    "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+    "note": "17 distinct events, including 5 uniquely attributable roster updates; team_02 unchanged",
+    "source_images": [
+      "IMG_2828.png",
+      "IMG_2829.png",
+      "IMG_2830.png",
+      "IMG_2832.png",
+      "IMG_2833.png"
+    ],
+    "duplicate_overlap": "IMG_2831.png"
   },
   "transaction_notes": [
     {
@@ -386,6 +405,56 @@
       "mapping_basis": "Mitchell Robinson uniquely belonged to team_09 in pre-transaction roster; screenshot explicitly pairs that DROP with Trevon Brazile ADD",
       "displayed_time": "5m ago on screenshot at 11:45 Asia/Taipei (approximate relative time; not an exact exchange timestamp)",
       "note": "Yahoo confirmed completed ADD/DROP. Do not infer current free-agent or waiver availability of the released player."
+    },
+    {
+      "date": "2026-10-26",
+      "team_id": "team_09",
+      "out": "DeMar DeRozan",
+      "in": "Derrick Jones Jr.",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2833.png",
+      "mapping_basis": "unique prior roster membership of DROP",
+      "note": "confirmed paired ADD/DROP"
+    },
+    {
+      "date": "2026-10-26",
+      "team_id": "team_10",
+      "out": "Cason Wallace",
+      "in": null,
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2832.png",
+      "mapping_basis": "unique prior roster membership of DROP",
+      "note": "confirmed DROP-only, no invented replacement"
+    },
+    {
+      "date": "2026-10-27",
+      "team_id": "team_15",
+      "out": "Sam Hauser",
+      "in": "Ronald Holland II",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2830.png",
+      "mapping_basis": "unique prior roster membership of DROP",
+      "note": "confirmed paired ADD/DROP"
+    },
+    {
+      "date": "2026-10-27",
+      "team_id": "team_03",
+      "out": "Luke Kornet",
+      "in": null,
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2829.png",
+      "mapping_basis": "unique prior roster membership of DROP",
+      "note": "confirmed DROP-only, no invented replacement"
+    },
+    {
+      "date": "2026-10-27",
+      "team_id": "team_12",
+      "out": "Scoot Henderson",
+      "in": "Tre Johnson",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
+      "source_image": "IMG_2828.png",
+      "mapping_basis": "unique prior roster membership of DROP",
+      "note": "confirmed paired ADD/DROP"
     }
   ]
 }
