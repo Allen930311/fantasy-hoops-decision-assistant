@@ -52,6 +52,8 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
                 "game_date_et":bundle["game_date_et"],"game_date_taipei":bundle["game_date_taipei"],
                 "periods":bundle.get("periods"),"overtime":bundle.get("overtime"),
                 "played_player_rows":len([p for p in bundle["players"] if p["status"]=="PLAYED"]),
+                "dnp_player_rows":len([p for p in bundle["players"] if p["status"]=="DNP"]),
+                "inactive_player_rows":len([p for p in bundle["players"] if p["status"]=="INACTIVE"]),
                 "player_rows":len(bundle["players"]),
                 "source_records":[{k:r[k] for k in ("provider","url","fetched_at","http_status","schema_version","raw_sha256","normalized_sha256","fetched_with_normalizer_version","fetched_with_normalizer_code_sha256","replayed_with_normalizer_version","replayed_with_normalizer_code_sha256","publication_rights","raw_snapshot_path") if k in r} for r in bundle["source_records"]],
                 "normalized_sha256":bundle["normalized_sha256"],
@@ -100,6 +102,8 @@ def run(dates: list[str], snapshot_dir: Path, root: Path, replay: bool=False) ->
         "rosters_blob_sha256":hashlib.sha256((root/"seasons/2026-27/rosters.json").read_bytes()).hexdigest(),
         "ownership_blob_sha256":hashlib.sha256((root/"seasons/2026-27/ownership/current-state.json").read_bytes()).hexdigest(),
         "dates":date_rows,"player_rows":len(all_players),"played_rows":len(traces),
+        "dnp_rows":len([p for p in all_players if p["status"]=="DNP"]),
+        "inactive_rows":len([p for p in all_players if p["status"]=="INACTIVE"]),
         "verified_fp":verified,"partial_fp":partial,"blocked_fp":blocked,
         "fp_conflicts":[{"game_id":p["game_id"],"player_id":p["official_player_id"],"name":p["name"],"missing":t["missing"],"quality":t["quality"]}
                          for p,t in traces if t["status"]!="VERIFIED_FP"],
@@ -123,7 +127,9 @@ def main():
     print(json.dumps({"output":str(args.output),"dates":len(evidence["dates"]),
         "final_games":sum(x["final_expected"] for x in evidence["dates"]),
         "fetched_games":sum(x["final_fetched"] for x in evidence["dates"]),
-        "played_rows":evidence["played_rows"],"verified_fp":evidence["verified_fp"],
+        "player_rows":evidence["player_rows"],"played_rows":evidence["played_rows"],
+        "dnp_rows":evidence["dnp_rows"],"inactive_rows":evidence["inactive_rows"],
+        "verified_fp":evidence["verified_fp"],
         "partial_fp":evidence["partial_fp"],"blocked_fp":evidence["blocked_fp"],
         "fetch_errors":len(evidence["fetch_errors"]),"cases":{k:{"game_id":v["game_id"],"player_id":v["player_id"],"fp":v["fp"],"status":v["status"]} for k,v in evidence["cases"].items()}},ensure_ascii=False,indent=2))
 

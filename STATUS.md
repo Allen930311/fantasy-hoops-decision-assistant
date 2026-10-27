@@ -21,8 +21,8 @@
 - **Draft PR #16 / Issue #15**：保留未驗收的球探資料庫、Skill 入口、報告 validator 與產品工作；Daily 共用 NBA adapter / FP calculator 已拆到獨立工程 PR，PR #16 仍須獨立球探與產品驗收。
 - canonical SOP：`seasons/2026-27/scouting/README.md`；Skill 入口僅路由。Watchlist 的 `QUEUED` 不代表已完成球探。
 - `IMPLEMENTATION_IN_REVIEW`；本地 unit/integration 與手動真實資料取得不等於 GitHub CI、production 或 scheduled E2E。
-- 每日報告：官方 NBA 真實資料三日 replay 為 24/24 場完賽資料；657 筆已上場球員列有 649 `VERIFIED_FP`、8 `PARTIAL_FP`（TECH 衝突）。來源權利盤點見 `docs/data-publication-audit-2026-10-27.md`；既有公開報告標 `HISTORICAL_PUBLIC_REVIEW_REQUIRED`，新增公開發布維持 `ARCHIVE_BLOCKED`。
-- 2026-10-27 私人更正報告 SHA-256：`91c34382a48ebb6db172983903597c53ca869eb3f1eb0455e659ed0573ee90ae`。PR #21 兩版舊報告標記 `SUPERSEDED`；更正報告目前只在私人工作區，不能稱為 GitHub 歸檔。
+- 每日報告：原始 NBA 回應於 2026-10-27 實際取得，之後用正確 `played` parser 重播：三日 24/24 場完賽、657 個 box-score roster rows，其中 539 `PLAYED`、118 `DNP`；上場者有 531 `VERIFIED_FP`、8 `PARTIAL_FP`（TECH 衝突）。逐日：10/24 170 上場 / 49 DNP / 166 VERIFIED / 4 PARTIAL；10/25 157 / 36 / 154 / 3；10/26 212 / 33 / 211 / 1。修正前把字串 `"0"` 當 True 的 649/657 統計已撤銷，不可引用。修復後 E2E receipt SHA-256 `69b44baf0514c54c10502bf01465ce7935283d197b22254e66545bd7e6c9a82c` 保存在私人工作區。來源權利盤點見 `docs/data-publication-audit-2026-10-27.md`；既有公開報告標 `HISTORICAL_PUBLIC_REVIEW_REQUIRED`，新增公開發布維持 `ARCHIVE_BLOCKED`。
+- 2026-10-27 私人更正報告 SHA-256：`63acbf5774ec1ec04e4488cda0849d225ae9a64d7a7f80d1bc6e42819d6c1723`。PR #21 兩版舊報告標記 `SUPERSEDED`；更正報告目前只在私人工作區，不能稱為 GitHub 歸檔。
 - 15:00 排程：保留既有 Asia/Taipei task，不建立重複排程。尚無證據證明它已呼叫 `generate_daily_report.py` 並交付檔案內容；本次工作階段沒有排程控制工具，Cloud Environment 回報的可用 runtime capabilities 為空。狀態 `SCHEDULED_PRODUCTION_PENDING`。
 - `SCOUTING_E2E_NOT_RUN`、`FRESH_AGENT_NOT_RUN`；如果無法執行真正隔離的 Fresh Agent A/B，標 `BLOCKED_FRESH_AGENT_RUNTIME`，不冒稱 PASS。未完成 QA 前不得接 15:00 排程。
 

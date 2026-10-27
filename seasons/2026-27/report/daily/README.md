@@ -41,6 +41,7 @@
 ## NBA Data Adapter 與計分
 
 - 共用版本化入口為 `scripts/nba_data_adapter.py`；Daily 與 Scouting 共用同一 `calculate_custom_fp` 實作和 `league.json`。排程優先使用 NBA 官方 dated `scoreboardv3`，失敗改用 NBA 官方靜態賽程 CDN，再以嚴格條件嘗試 ESPN；比賽資料使用官方 NBA Live Data box score 與 PBP。逐筆保存 URL、provider、取得時間、schema 版本、HTTP 狀態、原始 / 正規化 SHA-256、快照與錯誤歷程；`GAME_ID` / `PLAYER_ID` 不以姓名或日期推測。
+- NBA Live box score 的 `played` 可能是布林、數字或字串；字串 `"0"` 必須是 DNP，不是 True 或 VERIFIED_ZERO。未知 `played` 值令該來源 schema 失敗並觸發合法 fallback，不可當作出賽、DNP 或零 FP。
 - NBA 官方來源失敗後可用 ESPN public JSON 做具明確 GAME_ID、兩隊 tricodes 和 tipoff 的交叉比對；ESPN 玩家 ID 沒有明確 NBA ID crosswalk 時不得冒認為官方 ID，資料保持 `PARTIAL_FP`。資料可讀不等於授權；未取得公開 GitHub 再發布權時，標記 `PRIVATE_RESEARCH_ONLY`。
 - 報告中的單場統計事實、依 `league.json` 算出的 Fantasy Points、原創評論、原始供應商回應屬不同資料類別，但任何一類都不得預設已取得來源授權。既有公開報告清冊與 NBA 條款查核見 `docs/data-publication-audit-2026-10-27.md`；舊檔標記待權利複核，新報告在書面授權或合約確認前保持私有。
 - FP 唯一規則仍讀當季 `league.json`。逐欄品質為 `VERIFIED_VALUE` / `VERIFIED_ZERO` / `THIRD_PARTY_RECONSTRUCTED` / `CONFLICTING` / `UNKNOWN`；每場輸出 `VERIFIED_FP` / `PARTIAL_FP` / `BLOCKED`。`FTA` 使用罰球出手數；OREB + DREB 對帳 REB；TECH / EJCT / FF 用穩定事件 ID 去重；DD / TD 由官方統計導出並依季規則累加。計算採 Decimal，`ROUND_HALF_UP` 至 0.01。

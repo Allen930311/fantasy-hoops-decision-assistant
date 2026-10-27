@@ -34,8 +34,28 @@ response snapshots for the new adapter's private E2E are stored outside this
 public repository. A source URL, a hash, or an official-looking endpoint is
 provenance evidence; none of them is a redistribution grant.
 
+The three main-branch report blobs also occur byte-for-byte on public refs:
+2026-10-24 appears on the 10/24–10/27 `fantasy-report` branches, `feat/player-scout-2026-27`,
+`feature/daily-fa-exclusion-overlay-20261024`, the three 10/25 ownership branches,
+and `roster/owner-champagnie-20261025`; 2026-10-25 appears on the 10/25–10/27
+`fantasy-report` branches, `feat/player-scout-2026-27`, and the owner-Champagnie
+roster branch; 2026-10-26 appears on the 10/26–10/27 `fantasy-report` branches
+and `feat/player-scout-2026-27`. These are duplicate public refs, not additional
+unique report content. PR #21 also carries inherited copies of the 10/24–10/26
+files in addition to its two unique 10/27 draft reports and supersession note.
+The audit therefore counts five unique report versions plus one metadata note,
+not one publication per duplicate ref.
+
+The three distinct main-branch report files entered main through merged PR #12
+(10/24), #18 (10/25), and #20 (10/26). Their branch copies remain publicly
+reachable after those merges.
+
+The older reports link NBA.com in some source lists, but a quick scan did not
+establish consistent prominent attribution in connection with each use.
+Attribution compliance remains unverified.
+
 The corrected private 2026-10-27 report is identified by SHA-256
-`91c34382a48ebb6db172983903597c53ca869eb3f1eb0455e659ed0573ee90ae`. It is not
+`63acbf5774ec1ec04e4488cda0849d225ae9a64d7a7f80d1bc6e42819d6c1723`. It is not
 published in this repository. PR #21's two report versions must be treated as
 `SUPERSEDED`; the private report hash is a traceable correction reference, not a
 public archive location.
@@ -45,24 +65,31 @@ public archive location.
 Fetched 2026-10-27 13:27 UTC (21:27 Asia/Taipei):
 
 - [NBA.com Terms of Use](https://www.nba.com/termsofuse), HTTP 200, page states
-  last updated 2026-07-13. Retrieved-response SHA-256:
-  `bcf618ed7a46177b9d9036ec6f173d54236b794d60f0a3ea4f5483ff32ff309b`. Its
-  definition of “Basketball Content” includes statistics and updated scores and
-  its use section restricts reproduction, republication and related reuse absent
-  written permission. It also describes only limited personal, noncommercial
-  downloading where a download function is provided.
+  last updated 2026-07-13. Section 1 defines “Basketball Content” to include
+  statistics and updated scores and restricts reproduction/republication absent
+  written permission. Section 9, “NBA Statistics,” says use/display/publication
+  must include prominent NBA.com attribution and may only be for legitimate news
+  reporting or private, noncommercial purposes; it also says NBA Statistics may
+  not be used in connection with any fantasy game or other commercial product or
+  service. The project's personal Fantasy decision-support use intersects with
+  that specific restriction; the personal-noncommercial wording does not
+  unambiguously resolve it. Keep access/publication rights `UNVERIFIED` pending
+  permission or a licensed source. The rendered page's whole-response hash
+  changed between same-day reads, so no unstable HTML hash is treated as a
+  stable terms-version fingerprint.
 - [NBA Subscriber Agreement](https://www.nba.com/subscriberagreement), HTTP 200,
-  page states last updated June 2023. Retrieved-response SHA-256:
-  `11c9495025bcfad9cbdd5dac19c1e33b40ccc7a74427cf8f90418f14857a605a`. Its
-  content section limits use/viewing to personal, noncommercial use and
-  restricts copying, distribution, publishing and circulation without express
-  prior written consent.
+  page states last updated June 2023. Its content section limits use/viewing to
+  personal, noncommercial use and restricts copying, distribution, publishing
+  and circulation without express prior written consent. A League Pass
+  subscription is not evidence of a programmatic statistics license or a public
+  report republication grant.
 
-These are the general website and subscriber terms reviewed for this audit. No
-separate license for automated access to the NBA Live Data / Stats endpoints, or
-for public republication of their outputs, was found in this review. The Terms of
-Use do not resolve the legal status of a standalone factual statistic, an
-independently calculated FP value, or original commentary in every jurisdiction.
+No separate license for automated access to the NBA Live Data / Stats endpoints,
+or for public republication of their outputs, was found in this review. This
+audit distinguishes source responses, single-game statistical facts, custom FP
+derived from those facts, and original commentary; it does not conclude that
+these categories have identical legal status. Section 9's fantasy-game language
+means this specific use remains unresolved even though the project is personal.
 This is an operational rights gate, not a legal determination.
 
 ## Handling rule
