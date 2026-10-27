@@ -51,11 +51,11 @@ The current bootstrap snapshot lives under:
 
 Do not overwrite an old season to represent a new one. Create a new season directory and explicitly define that season's rosters and scoring rules.
 
-Until a read-only Yahoo reconciliation is authorized and complete, the owner-provided season snapshot is the bootstrap ownership-state source. If Yahoo access is later authorized, Yahoo becomes league-state truth; the season-scoped owner scoring configuration remains decision truth.
+Until Yahoo read-only reconciliation is complete, the owner-provided season snapshot is the bootstrap ownership-state source. Once validated, Yahoo becomes league-state truth; the season-scoped owner scoring configuration remains decision truth.
 
 ## Status
 
-The Yahoo Fantasy API application submitted on 2026-10-04 was denied on 2026-10-19. The repository uses owner-confirmed roster snapshots and an effective ownership overlay until a new lawful read-only source is authorized and reconciled. Do not treat an unlisted player as confirmed Yahoo FA/waiver availability.
+Repository initialized. Yahoo Fantasy API access is being requested before implementation begins.
 
 A season-scoped **2026–2027** 16-team bootstrap roster and custom scoring configuration are now available for decision-support work before live Yahoo ingestion is validated.
 
@@ -71,10 +71,3 @@ Do not commit Yahoo OAuth client secrets, refresh tokens, access tokens, cookies
 The recurring Fantasy monitor is repository-driven. Its stable bootstrap is [SCHEDULED-RUN.md](SCHEDULED-RUN.md).
 
 The schedule itself must not contain a hard-coded roster or scoring model. Update the repository's current season state instead, and the next run will read the new truth.
-
-## Player scouting (2026–27)
-
-- [Player Scouting Skill / 球探資料庫](seasons/2026-27/scouting/README.md)：球員觀察清單、完整球探報告模板、研究檔案與獨立 SOP。
-- Codex：`.agents/skills/player-scout/SKILL.md`；Claude Code：`.claude/skills/player-scout/SKILL.md`。
-- 研究與每日戰報分離；球探不執行 Yahoo 交易、不改名冊，亦不將研究對象自動視為自由球員。
-- Scouting and Daily Reports share `scripts/nba_data_adapter.py` and `calculate_custom_fp`; `league.json` remains the sole scoring configuration.

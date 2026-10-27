@@ -27,33 +27,20 @@ Owner-defined scoring remains decision truth even after Yahoo ingestion.
 
 Read `STATUS.md` fresh.
 
-The 2026-10-04 Yahoo Fantasy API application was denied on 2026-10-19. This
-does not establish that future applications will be denied, but there is no
-current authorization or authenticated read-only Yahoo integration.
+As of the current remote status, Yahoo Fantasy API access has been submitted
+and is awaiting review. No production integration exists yet.
 
-Current legal next action:
+Legal next action before approval:
 - maintain/reconcile owner-confirmed bootstrap state when Allen supplies a real
   roster transaction;
 - research players/current NBA context for recommendations;
-- do not describe the denied application as pending or pretend Yahoo live state
-  was read; keep unverified FA/waiver availability `UNKNOWN`.
+- do not pretend Yahoo live state was read.
 
-If a new authorization is obtained:
+After access is granted:
 - configure OAuth locally without committing secrets;
 - implement/validate **read-only** league-state ingestion first;
 - reconcile Yahoo state against the season bootstrap before treating it as live
   authority.
-
-Scouting and daily reports share `scripts/nba_data_adapter.py` and its
-`calculate_custom_fp` implementation. `seasons/2026-27/league.json` remains the
-only scoring configuration; do not create a parallel data or scoring registry.
-Public NBA endpoint access does not by itself authorize public GitHub
-redistribution of report data.
-
-For the current public-report inventory and rights gate, read
-`docs/data-publication-audit-2026-10-27.md`. Historical public files remain
-under review; new public NBA-derived report uploads stay blocked until a
-source-specific grant is documented.
 
 Roster/waiver/trade actions remain manual owner actions unless a future
 explicit contract changes that boundary.
@@ -79,7 +66,3 @@ scoring rules are season-scoped.
 3. Read current roster/bootstrap state before recommending adds/drops/trades.
 4. Check fresh NBA player/news evidence when a recommendation depends on current
    roles, injuries or transactions.
-
-## Player scouting (independent SOP)
-
-When asked to scout a player, track research candidates, or compare a long-term replacement, use the **single canonical SOP** at active-season `scouting/README.md`, accessed through `.agents/skills/player-scout/SKILL.md`. Claude Code can discover the equivalent `.claude/skills/player-scout/SKILL.md` entrance. Both Codex and Claude Code skill entrypoints are wrappers only; neither defines a second SOP. This is separate from the scheduled daily battle report. Never label a candidate CONFIRMED_FA solely because the name is absent from `rosters.json`; read the season ownership SOP and current effective overlay.
