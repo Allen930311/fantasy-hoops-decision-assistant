@@ -71,3 +71,9 @@ Do not commit Yahoo OAuth client secrets, refresh tokens, access tokens, cookies
 The recurring Fantasy monitor is repository-driven. Its stable bootstrap is [SCHEDULED-RUN.md](SCHEDULED-RUN.md).
 
 The schedule itself must not contain a hard-coded roster or scoring model. Update the repository's current season state instead, and the next run will read the new truth.
+
+## Player scouting (2026–27)
+
+- [Player Scouting Skill / 球探資料庫](seasons/2026-27/scouting/README.md)：球員觀察清單、完整球探報告模板、研究檔案與獨立 SOP。
+- Codex：`.agents/skills/player-scout/SKILL.md`；Claude Code：`.claude/skills/player-scout/SKILL.md`。
+- 研究與每日戰報分離；球探不執行 Yahoo 交易、不改名冊，亦不將研究對象自動視為自由球員。
