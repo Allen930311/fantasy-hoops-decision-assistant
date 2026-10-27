@@ -27,7 +27,9 @@ SHORT_APPEARANCE_WATCH_SECONDS=5*60
 
 
 def _name_key(value: str) -> str:
-    return " ".join(unicodedata.normalize("NFKC",value).casefold().split())
+    folded=unicodedata.normalize("NFKD",value).casefold()
+    unmarked="".join(char for char in folded if unicodedata.category(char)!="Mn")
+    return " ".join(unmarked.split())
 
 
 def _minutes_seconds(value: str | None) -> int | None:
@@ -163,21 +165,30 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
     source_urls=_record_sources(client.history)
     if schedule_source_url and schedule_source_url not in source_urls: source_urls.insert(0,schedule_source_url)
     owned_by={}
+    roster_name_by_key={}
     for team in rosters["teams"]:
         for name in [*team.get("players",[]),*team.get("additional_owned_players",[])]:
             key=_name_key(name)
             if key in owned_by and owned_by[key]!=team["team_id"]: raise ValueError(f"ambiguous current roster identity: {name}")
+            if key in roster_name_by_key and roster_name_by_key[key]!=name:
+                raise ValueError(f"ambiguous normalized roster name: {roster_name_by_key[key]} / {name}")
             owned_by[key]=team["team_id"]
+            roster_name_by_key[key]=name
     unassigned={_name_key(x if isinstance(x,str) else x["name"])
                 for x in ownership.get("unassigned_confirmed_owned_players",[])}
     released={_name_key(x["name"]) for x in ownership.get("released_availability_unverified",[]) if x.get("name")}
     alias_to_roster={_name_key(x["box_name"]):x["roster_name"] for x in alias_rows}
-    aliases_by_name={_name_key(x["box_name"]):x for x in alias_rows}
     rows=[]
     for game in games:
         for row in game["players"]:
             key=_name_key(row["name"] or "")
-            canonical=alias_to_roster.get(key,row["name"])
+            canonical=alias_to_roster.get(key) or roster_name_by_key.get(key) or row["name"]
+            if canonical!=row["name"] and row["status"]=="played":
+                alias_key=(row["name"],canonical)
+                if not any((x["box_name"],x["roster_name"])==alias_key for x in alias_rows):
+                    alias_rows.append({"box_name":row["name"],"roster_name":canonical,
+                        "source":f"NBA official box-score display name; PLAYER_ID {row.get('official_player_id') or row.get('player_id')}; {game.get('source_url')}"})
+                alias_to_roster[key]=canonical
             rows.append({"game":game,"row":row,"name":canonical,"source_name":row["name"],
                          "team_id":owned_by.get(_name_key(canonical)),"key":_name_key(canonical)})
     scores={};row_by_name={};quality_gaps=[]
