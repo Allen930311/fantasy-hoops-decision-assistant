@@ -19,6 +19,12 @@ class Response:
     def __enter__(self): return self
     def __exit__(self,*args): return False
 
+class StatusResponse(Response):
+    def __init__(self,status,headers,body=b''):
+        super().__init__(body)
+        self.status=status
+        self.headers=headers
+
 class AdapterTests(unittest.TestCase):
     def test_raw_hash_and_snapshot_manifest(self):
         body=b'{"events":[]}'
@@ -96,6 +102,95 @@ class AdapterTests(unittest.TestCase):
         c=adapter.JsonClient(retries=1,sleep=waits.append,opener=opener)
         _,r=c.get_json("x","https://x","v1")
         self.assertEqual(r["http_status"],200);self.assertEqual(waits,[2])
+
+    def test_429_http_date_retry_after_is_parsed(self):
+        import urllib.error
+        from datetime import datetime,timedelta,timezone
+        from email.utils import format_datetime
+        calls=[]; waits=[]
+        retry_at=format_datetime(datetime.now(timezone.utc)+timedelta(seconds=5),usegmt=True)
+        def opener(*a,**k):
+            calls.append(1)
+            if len(calls)==1:
+                raise urllib.error.HTTPError("https://x",429,"Rate limit",{"Retry-After":retry_at},None)
+            return Response(b'{"ok":true}')
+        c=adapter.JsonClient(retries=1,sleep=waits.append,opener=opener)
+        _,r=c.get_json("x","https://x","v1")
+        self.assertEqual(r["http_status"],200)
+        self.assertEqual(len(calls),2)
+        self.assertEqual(len(waits),1)
+        self.assertGreaterEqual(waits[0],3)
+        self.assertEqual(c.history[0]["retry_action"],"RETRY")
+
+    def test_429_response_object_uses_same_retry_after_handler(self):
+        calls=[]; waits=[]
+        def opener(*a,**k):
+            calls.append(1)
+            if len(calls)==1:return StatusResponse(429,{"Retry-After":"2"})
+            return Response(b'{"ok":true}')
+        c=adapter.JsonClient(retries=1,sleep=waits.append,opener=opener)
+        _,result=c.get_json("x","https://x","v1")
+        self.assertEqual(result["http_status"],200)
+        self.assertEqual(len(calls),2)
+        self.assertEqual(waits[0],2)
+        self.assertGreaterEqual(sum(waits),2)
+        self.assertEqual(c.history[0]["retry_action"],"RETRY")
+
+    def test_429_response_object_with_long_retry_after_stops_source(self):
+        calls=[]; waits=[]
+        def opener(*a,**k):
+            calls.append(1)
+            return StatusResponse(429,{"Retry-After":"45"})
+        c=adapter.JsonClient(retries=2,sleep=waits.append,opener=opener)
+        with self.assertRaisesRegex(adapter.SourceError,"stop provider and fall back"):
+            c.get_json("x","https://x","v1")
+        self.assertEqual(len(calls),1)
+        self.assertEqual(waits,[])
+        self.assertEqual(c.history[0]["retry_action"],"STOP_PROVIDER_AND_FALL_BACK")
+
+    def test_429_long_retry_after_stops_provider_instead_of_retrying_early(self):
+        import urllib.error
+        calls=[]; waits=[]
+        def opener(*a,**k):
+            calls.append(1)
+            raise urllib.error.HTTPError("https://x",429,"Rate limit",{"Retry-After":"45"},None)
+        c=adapter.JsonClient(retries=2,sleep=waits.append,opener=opener)
+        with self.assertRaisesRegex(adapter.SourceError,"stop provider and fall back"):
+            c.get_json("x","https://x","v1")
+        self.assertEqual(len(calls),1)
+        self.assertEqual(waits,[])
+        self.assertEqual(c.history[0]["retry_action"],"STOP_PROVIDER_AND_FALL_BACK")
+
+    def test_real_nba_played_string_zero_is_dnp_and_unknown_fails_closed(self):
+        stats={"minutes":"PT00M00.00S","points":0,"threePointersMade":0,"reboundsOffensive":0,
+            "reboundsDefensive":0,"reboundsTotal":0,"assists":0,"steals":0,"blocks":0,
+            "turnovers":0,"freeThrowsAttempted":0,"freeThrowsMade":0,"foulsPersonal":0,"foulsTechnical":0}
+        def payload(played,with_stats):
+            player={"personId":1641707,"name":"Taylor Hendricks","played":played,"status":"ACTIVE"}
+            if with_stats: player["statistics"]=stats
+            return {"game":{"gameId":"0022600126","gameStatus":3,
+                "homeTeam":{"teamId":1610612762,"teamName":"Utah Jazz","players":[player]},
+                "awayTeam":{"teamId":1610612750,"teamName":"Minnesota Timberwolves","players":[]}}}
+        dnp=payload("0",True)
+        self.assertTrue(adapter._valid_nba_boxscore(dnp))
+        normalized=adapter.normalize_nba_boxscore(dnp,None)
+        self.assertEqual(normalized[0]["status"],"DNP")
+        self.assertEqual(normalized[0]["player_status"],"ACTIVE")
+        self.assertIsNone(normalized[0]["dnp_reason"])
+        self.assertEqual(normalized[0]["stats"],{})
+        self.assertEqual(normalized[0]["quality"],{})
+        self.assertTrue(adapter._valid_nba_boxscore(payload("0",False)))
+        for value in (0,False,"false"):
+            self.assertIs(adapter.parse_nba_played(value),False)
+        for value in (1,True,"1","true"):
+            self.assertIs(adapter.parse_nba_played(value),True)
+        played=payload("1",True)
+        self.assertTrue(adapter._valid_nba_boxscore(played))
+        self.assertEqual(adapter.normalize_nba_boxscore(played,None)[0]["status"],"PLAYED")
+        unknown=payload("unknown",False)
+        self.assertFalse(adapter._valid_nba_boxscore(unknown))
+        with self.assertRaisesRegex(ValueError,"unknown played status"):
+            adapter.normalize_nba_boxscore(unknown,None)
 
     def test_schema_and_invalid_json_errors_are_classified(self):
         c=adapter.JsonClient(sleep=lambda _:None,opener=lambda *a,**k:Response(b"not-json"))

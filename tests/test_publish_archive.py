@@ -2,7 +2,9 @@
 import base64
 import importlib.util
 import json
+import os
 import sys
+import subprocess
 import tempfile
 import unittest
 import urllib.parse
@@ -186,10 +188,24 @@ class PublisherTests(unittest.TestCase):
             f=artifact(tmp)
             body=f.read_text().replace('"AUTHORIZED_FOR_GITHUB"','"PRIVATE_RESEARCH_ONLY"')
             f.write_text(body)
-            with self.assertRaisesRegex(ValueError,"not authorized for public GitHub"):
+            with self.assertRaisesRegex(module.ArchiveBlockedError,"PRIVATE_RESEARCH_ONLY"):
                 module.read_artifact(f)
         self.assertEqual(module.parse_archive_filename("2026-10-27.provisional.v2.md"),
                          ("2026-10-27","PROVISIONAL",2))
+
+    def test_cli_reports_rights_block_before_token_or_remote_access(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            f=artifact(tmp)
+            f.write_text(f.read_text().replace('"AUTHORIZED_FOR_GITHUB"','"PRIVATE_RESEARCH_ONLY"'))
+            env=os.environ.copy()
+            env.pop("GITHUB_TOKEN",None)
+            result=subprocess.run([sys.executable,str(SCRIPT),str(f)],capture_output=True,
+                                  text=True,env=env,check=False)
+            self.assertEqual(result.returncode,0,result.stderr)
+            body=json.loads(result.stdout)
+            self.assertEqual(body["state"],"ARCHIVE_BLOCKED")
+            self.assertIn("PRIVATE_RESEARCH_ONLY",body["reason"])
+            self.assertFalse(body["github_request_made"])
 
     def test_writer_filename_roundtrips_through_publisher_parser(self):
         with tempfile.TemporaryDirectory() as tmp:

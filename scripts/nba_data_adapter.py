@@ -16,6 +16,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from email.utils import parsedate_to_datetime
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
@@ -33,7 +34,8 @@ BONUSES = ("DD", "TD")
 QUALITY = {"VERIFIED_VALUE", "VERIFIED_ZERO", "THIRD_PARTY_RECONSTRUCTED", "CONFLICTING", "UNKNOWN"}
 NBA_TRADITIONAL_FIELDS={"minutes","points","threePointersMade","reboundsOffensive","reboundsDefensive","reboundsTotal",
     "assists","steals","blocks","turnovers","freeThrowsAttempted","freeThrowsMade","foulsPersonal","foulsTechnical"}
-NORMALIZER_VERSION="2.1.0"
+NORMALIZER_VERSION="2.2.0"
+MAX_RETRY_AFTER_SECONDS=30
 
 def normalizer_code_sha256() -> str:
     return hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
@@ -47,6 +49,32 @@ class SourceError(RuntimeError):
     def as_dict(self) -> dict[str, Any]:
         return {"provider": self.provider, "url": self.url, "kind": self.kind,
                 "http_status": self.status, "message": str(self)}
+
+
+def parse_nba_played(value: Any) -> bool | None:
+    """Parse NBA's boolean or 0/1 string field without treating '0' as truthy."""
+    if isinstance(value,bool): return value
+    if isinstance(value,int) and value in (0,1): return value == 1
+    if isinstance(value,str):
+        normalized=value.strip().casefold()
+        if normalized in ("1","true","yes"): return True
+        if normalized in ("0","false","no"): return False
+    return None
+
+
+def _retry_after_seconds(value: str | None, now: datetime | None = None) -> float | None:
+    """Parse RFC Retry-After delta seconds or HTTP date; None means absent/invalid."""
+    if value is None: return None
+    value=value.strip()
+    if not value: return None
+    if value.isdigit(): return float(value)
+    try:
+        target=parsedate_to_datetime(value)
+    except (TypeError,ValueError,OverflowError):
+        return None
+    if target.tzinfo is None: target=target.replace(tzinfo=timezone.utc)
+    now=now or datetime.now(timezone.utc)
+    return max(0.0,(target.astimezone(timezone.utc)-now.astimezone(timezone.utc)).total_seconds())
 
 
 class JsonClient:
@@ -77,7 +105,7 @@ class JsonClient:
                     raw = response.read()
                     headers = response.headers
                 if status == 429:
-                    raise SourceError(provider, url, "RATE_LIMIT", "HTTP 429", 429)
+                    raise urllib.error.HTTPError(url,429,"Rate limit",headers,None)
                 if status >= 400:
                     raise SourceError(provider, url, "HTTP_ERROR", f"HTTP {status}", status)
                 try:
@@ -104,13 +132,28 @@ class JsonClient:
                 status = exc.code
                 kind = "RATE_LIMIT" if status == 429 else "FORBIDDEN" if status == 403 else "HTTP_ERROR"
                 err = SourceError(provider, url, kind, f"HTTP {status}", status)
-                self.history.append({**err.as_dict(), "fetched_at": fetched_at, "attempt": attempt + 1})
-                if status == 429 and attempt < self.retries:
-                    try: delay = min(30, max(0, int(exc.headers.get("Retry-After", "1"))))
-                    except (ValueError, AttributeError): delay = 1
+                if status == 429:
+                    header=exc.headers.get("Retry-After") if exc.headers else None
+                    requested=_retry_after_seconds(header)
+                    row={**err.as_dict(),"fetched_at":fetched_at,"attempt":attempt+1,
+                         "retry_after_header":header,"retry_after_seconds":requested}
+                    if attempt >= self.retries:
+                        row["retry_action"]="STOP_RETRIES_EXHAUSTED"
+                        self.history.append(row)
+                        raise err from exc
+                    if requested is not None and requested > MAX_RETRY_AFTER_SECONDS:
+                        row["retry_action"]="STOP_PROVIDER_AND_FALL_BACK"
+                        row["message"]=(f"HTTP 429 Retry-After {requested:.0f}s exceeds "
+                                        f"{MAX_RETRY_AFTER_SECONDS}s bound; stop provider and fall back")
+                        self.history.append(row)
+                        raise SourceError(provider,url,"RATE_LIMIT",row["message"],429) from exc
+                    delay=requested if requested is not None else min(8,2**attempt)
+                    row["retry_action"]="RETRY"
+                    self.history.append(row)
                     self.sleep(delay)
                     attempt += 1
                     continue
+                self.history.append({**err.as_dict(), "fetched_at": fetched_at, "attempt": attempt + 1})
                 if status >= 500 and attempt < self.retries:
                     self.sleep(min(8, 2 ** attempt + random.random()))
                     attempt += 1
@@ -118,10 +161,6 @@ class JsonClient:
                 raise err from exc
             except SourceError as exc:
                 self.history.append({**exc.as_dict(), "fetched_at": fetched_at, "attempt": attempt + 1})
-                if exc.kind == "RATE_LIMIT" and attempt < self.retries:
-                    self.sleep(1)
-                    attempt += 1
-                    continue
                 raise
             except (TimeoutError, OSError, urllib.error.URLError) as exc:
                 err = SourceError(provider, url, "TIMEOUT" if isinstance(exc, TimeoutError) else "NETWORK_ERROR", str(exc))
@@ -176,7 +215,9 @@ def _valid_nba_boxscore(payload):
         team=game.get(side)
         if not isinstance(team,dict) or not isinstance(team.get("players"),list): return False
         for player in team["players"]:
-            if player.get("played") and not NBA_TRADITIONAL_FIELDS.issubset(player.get("statistics",{})): return False
+            played=parse_nba_played(player.get("played"))
+            if played is None: return False
+            if played and not NBA_TRADITIONAL_FIELDS.issubset(player.get("statistics",{})): return False
     return True
 
 
@@ -473,16 +514,21 @@ def normalize_nba_boxscore(boxscore_payload: dict[str, Any], pbp_payload: dict[s
         for player in team.get("players",[]):
             person_id=str(player.get("personId", ""))
             if not person_id.isdigit(): raise ValueError("NBA player row lacks official personId")
-            played=bool(player.get("played"))
-            if not played:
-                raw_status=str(player.get("status") or "DNP")
+            played=parse_nba_played(player.get("played"))
+            if played is None:
+                raise ValueError(f"NBA player row has unknown played status for {person_id}")
+            if played is False:
+                raw_status=player.get("status")
+                player_status=str(raw_status) if raw_status is not None else None
+                is_inactive="inactive" in (player_status or "").casefold()
                 out.append({"game_id":gid,"official_game_id":gid,"provider_game_id":gid,
                     "player_id":person_id,"official_player_id":person_id,"provider_player_id":person_id,
                     "identity_status":"VERIFIED","identity_source_url":source_url,
                     "identity_source_sha256":source_sha256,
                     "name":player.get("name"),"team_id":str(team.get("teamId")),"team_name":team.get("teamName"),
-                    "date_taipei":taipei_date,"status":"INACTIVE" if "inactive" in raw_status.casefold() else "DNP",
-                    "dnp_reason":raw_status,"stats":{},"quality":{},"incidents":[],
+                    "date_taipei":taipei_date,"status":"INACTIVE" if is_inactive else "DNP",
+                    "player_status":player_status,"dnp_reason":None,
+                    "stats":{},"quality":{},"incidents":[],
                     "source_quality":"NBA_OFFICIAL_ENDPOINT"})
                 continue
             raw=player.get("statistics",{})

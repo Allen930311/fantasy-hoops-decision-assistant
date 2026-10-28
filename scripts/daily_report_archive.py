@@ -14,6 +14,7 @@ import argparse
 import hashlib
 import json
 import re
+import unicodedata
 from pathlib import Path
 from datetime import date as Date
 from urllib.parse import urlparse
@@ -23,6 +24,19 @@ from report_archive_naming import next_archive_path
 STATS = ("PTS","3PTM","OREB","DREB","AST","STL","BLK","TO","FTA","PF","TECH","EJCT","FF")
 BONUSES = ("DD","TD")
 QUALITY_STATES = {"VERIFIED_VALUE","VERIFIED_ZERO","THIRD_PARTY_RECONSTRUCTED","CONFLICTING","UNKNOWN"}
+
+def player_name_key(value):
+    """Normalize harmless display differences while leaving identity explicit.
+
+    Accents, case, whitespace, and periods (notably the ``Jr.`` suffix) do not
+    distinguish NBA player identities. Other punctuation is preserved. Every
+    roster/overlay collision is checked before this key is used for ownership.
+    """
+    if not isinstance(value,str):
+        raise ValueError("player identity must be a string")
+    folded=unicodedata.normalize("NFKD",value).casefold()
+    unmarked="".join(char for char in folded if unicodedata.category(char)!="Mn")
+    return " ".join(unmarked.replace(".","").split())
 
 def score(stats, scoring):
     result=calculate_custom_fp(stats,scoring)
@@ -40,11 +54,16 @@ def _transactions_and_ownership(rosters, report, overlay):
     if len({t["team_id"] for t in teams}) != len(teams):
         raise ValueError("duplicate fantasy team ids")
     ownership = {}
+    ownership_by_key = {}
     for t in teams:
         for name in list(t.get("players", [])) + list(t.get("additional_owned_players", [])):
             if name in ownership:
                 raise ValueError(f"duplicate roster ownership: {name}")
+            key=player_name_key(name)
+            if key in ownership_by_key:
+                raise ValueError(f"ambiguous normalized roster identity: {ownership_by_key[key]} / {name}")
             ownership[name] = t["team_id"]
+            ownership_by_key[key] = name
     for tx in report.get("confirmed_transactions", []):
         if tx.get("status") != "completed" or not all(
             tx.get(k) for k in ("team_id", "add", "confirmed_at", "source")
@@ -55,28 +74,34 @@ def _transactions_and_ownership(rosters, report, overlay):
             raise ValueError(f"unknown transaction team: {team_id}")
         drop = tx.get("drop")
         if drop:
-            if ownership.get(drop) != team_id:
+            drop_key=player_name_key(drop)
+            actual_drop=ownership_by_key.get(drop_key)
+            if actual_drop is None or ownership.get(actual_drop) != team_id:
                 raise ValueError(f"transaction drop not owned by team: {drop}")
-            del ownership[drop]
+            del ownership[actual_drop]
+            del ownership_by_key[drop_key]
         added = tx["add"]
-        if added in ownership:
+        added_key=player_name_key(added)
+        if added_key in ownership_by_key:
             raise ValueError(f"transaction add already owned: {added}")
         ownership[added] = team_id
+        ownership_by_key[added_key] = added
     # Current effective ADD overlay is authoritative; do not union dated files.
     unassigned=[]
     for player in overlay.get("unassigned_confirmed_owned_players", []):
         name = player if isinstance(player, str) else player.get("name")
         if not name: raise ValueError("invalid unassigned ownership entry")
-        unassigned.append(name)
+        unassigned.append(player_name_key(name))
     if len(unassigned) != len(set(unassigned)):
         raise ValueError("duplicate unassigned confirmed ownership")
-    if set(unassigned) & set(ownership):
+    if set(unassigned) & set(ownership_by_key):
         raise ValueError("unassigned ownership conflicts with roster ownership")
     # Legacy exclusions are only valid for FA filtering, not owner coverage.
     exclusions = report.get("confirmed_unsynced_adds", [])
-    if len(exclusions) != len(set(exclusions)):
+    exclusion_keys=[player_name_key(name) for name in exclusions]
+    if len(exclusion_keys) != len(set(exclusion_keys)):
         raise ValueError("duplicate unsynced ADD exclusions")
-    return ownership, set(exclusions) | set(unassigned)
+    return ownership, set(exclusion_keys) | set(unassigned)
 
 
 def _player_rows(games, report_date):
@@ -168,6 +193,7 @@ def validate(payload):
     if unknown:
         raise ValueError(f"unsupported scoring categories: {sorted(unknown)}")
     ownership, exclusions = _transactions_and_ownership(rosters, report, overlay)
+    ownership_by_key={player_name_key(name):team for name,team in ownership.items()}
     _check_schedule(payload)
     source_failures=report.get("source_failures", [])
     if not isinstance(source_failures,list):
@@ -185,7 +211,7 @@ def validate(payload):
         raise ValueError("report quality_gaps must be a list")
     rows = _apply_identity_aliases(_player_rows(games, report["date"]), report, ownership)
     owner = league["owner_team_id"]
-    expected = {p for p in rows if ownership.get(p) == owner}
+    expected = {p for p in rows if ownership_by_key.get(player_name_key(p)) == owner}
     observed = report["owner_players"]
     if len(observed) != len(set(observed)) or set(observed) != expected:
         raise ValueError(f"owner coverage mismatch missing={sorted(expected-set(observed))} extra={sorted(set(observed)-expected)}")
@@ -195,9 +221,9 @@ def validate(payload):
         raise ValueError("duplicate featured players")
     if set(observed) & set(others + free) or set(others) & set(free):
         raise ValueError("player duplicated across report sections")
-    if any(ownership.get(p) in (None, owner) for p in others):
+    if any(ownership_by_key.get(player_name_key(p)) in (None, owner) for p in others):
         raise ValueError("other-team pick not owned by another fantasy team")
-    if any(p in ownership or p in exclusions for p in free):
+    if any(player_name_key(p) in ownership_by_key or player_name_key(p) in exclusions for p in free):
         raise ValueError("rostered or confirmed unsynced ADD misclassified as free agent")
     claimability=report.get("free_agent_claimability", {})
     for name in free:

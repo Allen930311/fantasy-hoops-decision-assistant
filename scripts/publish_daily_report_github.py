@@ -26,6 +26,9 @@ class GithubError(Exception):
         self.status = status
         super().__init__(message)
 
+class ArchiveBlockedError(ValueError):
+    """The artifact is valid locally but lacks authorization for public upload."""
+
 def read_artifact(path):
     content = path.read_bytes()
     text = content.decode("utf-8")
@@ -50,7 +53,7 @@ def read_artifact(path):
     if meta["status"] not in ("VALIDATED","PROVISIONAL"):
         raise ValueError("report is not validated/provisional")
     if meta["data_rights_status"] != "AUTHORIZED_FOR_GITHUB":
-        raise ValueError("source data is not authorized for public GitHub archival")
+        raise ArchiveBlockedError("PRIVATE_RESEARCH_ONLY; public GitHub rights are unverified")
     filename = path.name
     filename_date, filename_status, _ = parse_archive_filename(filename)
     if filename_date != meta["report_date_taipei"]:
@@ -170,8 +173,16 @@ def main():
     p.add_argument("--verify-main",action="store_true")
     p.add_argument("--repo",default=REPO)
     args=p.parse_args()
+    try:
+        path,content,_=read_artifact(args.artifact)
+    except ArchiveBlockedError as exc:
+        print(json.dumps({"state":"ARCHIVE_BLOCKED","reason":str(exc),
+                          "artifact_sha256":_sha(args.artifact.read_bytes()),
+                          "github_request_made":False},ensure_ascii=False))
+        return 0
     gh=Github(os.getenv("GITHUB_TOKEN"),args.repo)
     result=verify_main(gh,args.artifact) if args.verify_main else stage_draft_pr(gh,args.artifact)
     print(json.dumps(result,ensure_ascii=False))
+    return 0
 if __name__=="__main__":
-    main()
+    raise SystemExit(main())

@@ -34,8 +34,7 @@ Current baseline:
 ## Integrity snapshot
 
 - Teams: **16**
-- Players per team: **13**
-- Total rostered players: **208**
+- Original baseline: **13** players per team, **208** across league. This is historical baseline integrity, not a guarantee every current team has 13 after confirmed DROP-only events.
 - Duplicate rostered players in the imported snapshot: **0**
 
 ## Validation
@@ -46,4 +45,8 @@ Run the season integrity check after roster or scoring edits:
 python scripts/validate_season_state.py seasons/2026-27
 ```
 
-The validator checks team count, roster size, unique rostered players, exactly one owner team, season alignment, and scoring presence.
+The validator checks team count, baseline roster sizes or documented `pending_baseline_departures` for screenshot-confirmed DROP-only events, unique ownership, exactly one owner team, season alignment, and scoring presence. A pending baseline departure records an unresolved snapshot replacement, **not** a proven vacant live Yahoo roster slot; `additional_owned_players` remain valid known ownership.
+
+## 2026-10-27 snapshot reconciliation
+
+Owner supplied six overlapping Yahoo transaction chat screenshots: **17 distinct dated transaction events** after deduplication. Five uniquely attributable roster corrections affect teams 03, 09, 10, 12 and 15. The owner's team_02 is unchanged. Team 03 (Luke Kornet) and team 10 (Cason Wallace) have DROP-only evidence with no verified replacement, recorded as `pending_baseline_departures`; never retain a dropped player simply to fill 13 slots. Team 10 retains Aaron Wiggins as confirmed extra ownership with unknown active/IL role. Unknown-team ADDs and unresolved FA/waiver releases belong only in `ownership/current-state.json`. No live Yahoo ownership or waiver status was queried.
