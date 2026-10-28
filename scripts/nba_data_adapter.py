@@ -52,6 +52,16 @@ class SourceError(RuntimeError):
                 "http_status": self.status, "message": str(self)}
 
 
+def _source_use_block(client: Any,provider: str,url: str,message: str) -> SourceError:
+    """Record a source-policy stop as an acquisition failure without making a request."""
+    error=SourceError(provider,url,"SOURCE_USE_UNVERIFIED",message)
+    history=getattr(client,"history",None)
+    if isinstance(history,list):
+        history.append({**error.as_dict(),"fetched_at":datetime.now(timezone.utc).isoformat(),
+                        "attempt":0,"retry_action":"STOP_SOURCE_USE_UNVERIFIED"})
+    return error
+
+
 def parse_nba_played(value: Any) -> bool | None:
     """Parse NBA's boolean or 0/1 string field without treating '0' as truthy."""
     if isinstance(value,bool): return value
@@ -327,7 +337,7 @@ def acquire_schedule(date_yyyymmdd: str, client: JsonClient) -> dict[str, Any]:
         errors.append(SourceError("nba_static_schedule",NBA_STATIC_SCHEDULE,"SCHEMA_DRIFT",str(exc)).as_dict())
     url = ESPN_SCOREBOARD.format(date=date_yyyymmdd)
     if not getattr(client,"espn_use_attestation",None):
-        raise SourceError("espn",url,"SOURCE_USE_UNVERIFIED",
+        raise _source_use_block(client,"espn",url,
             "automated ESPN access is disabled until a source-specific use attestation is supplied")
     payload, record = client.get_json("espn", url, "espn-scoreboard-v2",
                                      lambda x: isinstance(x, dict) and isinstance(x.get("events"), list))
@@ -359,7 +369,7 @@ def acquire_boxscore(*, nba_game_id: str | None, provider_event_id: str | None,
             raise SourceError(first["provider"],first["url"],first["kind"],first["message"],first.get("http_status"))
         raise SourceError("nba_cdn", "", "IDENTITY_UNRESOLVED", "no verified NBA boxscore and no provider event ID")
     if not getattr(client,"espn_use_attestation",None):
-        raise SourceError("espn",ESPN_SUMMARY.format(event_id=provider_event_id),"SOURCE_USE_UNVERIFIED",
+        raise _source_use_block(client,"espn",ESPN_SUMMARY.format(event_id=provider_event_id),
             "automated ESPN access is disabled until a source-specific use attestation is supplied")
     url = ESPN_SUMMARY.format(event_id=urllib.parse.quote(provider_event_id, safe=""))
     payload, record = client.get_json("espn", url, "espn-summary-v2",

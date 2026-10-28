@@ -322,12 +322,23 @@ class AdapterTests(unittest.TestCase):
         calls=[]
         class Client:
             espn_use_attestation=None
+            history=[]
             def get_json(self,provider,url,schema_version,validator=None):
                 calls.append(provider)
                 raise adapter.SourceError(provider,url,"FORBIDDEN","HTTP 403",403)
         with self.assertRaises(adapter.SourceError) as ctx:adapter.acquire_schedule("20261027",Client())
         self.assertEqual(ctx.exception.kind,"SOURCE_USE_UNVERIFIED")
         self.assertNotIn("espn",calls)
+
+    def test_unverified_espn_fallback_is_recorded_without_network_access(self):
+        calls=[]
+        client=adapter.JsonClient(opener=lambda *a,**k:calls.append(1))
+        with self.assertRaises(adapter.SourceError) as ctx:adapter.acquire_schedule("20261027",client)
+        self.assertEqual(ctx.exception.provider,"espn")
+        self.assertEqual([x["provider"] for x in client.history],["nba_stats","nba_static_schedule","espn"])
+        self.assertTrue(all(x["kind"]=="SOURCE_USE_UNVERIFIED" for x in client.history))
+        self.assertTrue(all(x["retry_action"]=="STOP_SOURCE_USE_UNVERIFIED" for x in client.history))
+        self.assertEqual(calls,[])
 
     def test_protected_data_requests_stop_before_network_without_source_use_attestation(self):
         calls=[]
