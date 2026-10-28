@@ -4,9 +4,14 @@ on:
   pull_request:
     paths:
       - "scripts/daily_report_archive.py"
+      - "scripts/generate_daily_report.py"
+      - "scripts/nba_data_adapter.py"
+      - "scripts/report_archive_naming.py"
       - "scripts/publish_daily_report_github.py"
       - "tests/test_daily_report_archive.py"
       - "tests/test_publish_archive.py"
+      - "tests/test_nba_data_adapter.py"
+      - "tests/test_generate_daily_report.py"
       - "tests/fixtures/**"
       - ".github/workflows/daily-report-archive-tests.yml"
   push:
@@ -14,9 +19,14 @@ on:
       - feature/daily-fantasy-report-archive-20261022
     paths:
       - "scripts/daily_report_archive.py"
+      - "scripts/generate_daily_report.py"
+      - "scripts/nba_data_adapter.py"
+      - "scripts/report_archive_naming.py"
       - "scripts/publish_daily_report_github.py"
       - "tests/test_daily_report_archive.py"
       - "tests/test_publish_archive.py"
+      - "tests/test_nba_data_adapter.py"
+      - "tests/test_generate_daily_report.py"
       - "tests/fixtures/**"
       - ".github/workflows/daily-report-archive-tests.yml"
 
@@ -33,6 +43,6 @@ jobs:
         with:
           python-version: "3.11"
       - name: Syntax validation
-        run: python -m py_compile scripts/daily_report_archive.py scripts/publish_daily_report_github.py tests/test_daily_report_archive.py tests/test_publish_archive.py
+        run: python -m py_compile scripts/daily_report_archive.py scripts/generate_daily_report.py scripts/nba_data_adapter.py scripts/report_archive_naming.py scripts/publish_daily_report_github.py tests/test_daily_report_archive.py tests/test_publish_archive.py tests/test_nba_data_adapter.py tests/test_generate_daily_report.py
       - name: Unit and contract tests
-        run: python -m unittest discover -s tests -p 'test_*archive.py' -v
+        run: python -m unittest discover -s tests -p 'test_*archive.py' -v && python -m unittest discover -s tests -p 'test_nba_data_adapter.py' -v && python -m unittest discover -s tests -p 'test_generate_daily_report.py' -v
