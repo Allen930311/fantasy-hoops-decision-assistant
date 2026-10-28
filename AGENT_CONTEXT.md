@@ -27,20 +27,27 @@ Owner-defined scoring remains decision truth even after Yahoo ingestion.
 
 Read `STATUS.md` fresh.
 
-As of the current remote status, Yahoo Fantasy API access has been submitted
-and is awaiting review. No production integration exists yet.
+The Yahoo Fantasy API application submitted on 2026-10-04 was denied on
+2026-10-19. No authenticated read-only Yahoo integration is currently
+authorized or validated.
 
-Legal next action before approval:
+Current boundary:
 - maintain/reconcile owner-confirmed bootstrap state when Allen supplies a real
   roster transaction;
 - research players/current NBA context for recommendations;
-- do not pretend Yahoo live state was read.
+- do not describe the denied application as pending, or pretend Yahoo live
+  ownership/waiver state was read. Unverified availability remains `UNKNOWN`.
 
-After access is granted:
+If a new authorization is obtained:
 - configure OAuth locally without committing secrets;
 - implement/validate **read-only** league-state ingestion first;
 - reconcile Yahoo state against the season bootstrap before treating it as live
   authority.
+
+Daily Report and Scouting share `scripts/nba_data_adapter.py` and
+`calculate_custom_fp`; `seasons/2026-27/league.json` remains the only scoring
+configuration. PR #23 is merged to main. This does not prove the ChatGPT 15:00
+task can invoke Python or that source-use rights are established.
 
 Roster/waiver/trade actions remain manual owner actions unless a future
 explicit contract changes that boundary.
