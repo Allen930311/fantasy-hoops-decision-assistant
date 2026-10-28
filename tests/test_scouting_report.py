@@ -20,11 +20,22 @@ class ScoutingReportTests(unittest.TestCase):
         (self.season / "ownership").mkdir(parents=True)
         for name in ("league.json", "rosters.json"):
             (self.season / name).write_bytes((ROOT / "seasons/2026-27" / name).read_bytes())
-        (self.season / "ownership/current-state.json").write_bytes(
-            (ROOT / "seasons/2026-27/ownership/current-state.json").read_bytes())
+        ownership_path = self.season / "ownership/current-state.json"
+        self.overlay = json.loads(
+            (ROOT / "seasons/2026-27/ownership/current-state.json").read_text())
+        # This unit case exercises the unassigned-ADD gate without rewriting
+        # the current repository ownership truth (Keon Ellis was later dropped).
+        self.overlay["released_availability_unverified"] = [
+            p for p in self.overlay.get("released_availability_unverified", [])
+            if p.get("name") != "Keon Ellis"
+        ]
+        self.overlay.setdefault("unassigned_confirmed_owned_players", []).append({
+            "name": "Keon Ellis", "team_id": None,
+            "source": "SYNTHETIC TEST OVERLAY — not current ownership evidence",
+        })
+        ownership_path.write_text(json.dumps(self.overlay, ensure_ascii=False), encoding="utf-8")
         self.roster = json.loads((self.season / "rosters.json").read_text())
         self.score = json.loads((self.season / "league.json").read_text())["scoring"]
-        self.overlay = json.loads((self.season / "ownership/current-state.json").read_text())
         self.folder = self.season / "scouting/reports/current-owner-player"
         self.folder.mkdir(parents=True)
         self.path = self.folder / "2026-10-25.v1.json"

@@ -40,7 +40,6 @@
       }
     ]
   },
-  "ownership": {"season":"2026-27","unassigned_confirmed_owned_players":[],"released_availability_unverified":[]},
   "games": [
     {
       "id": "0042400407",
@@ -50,8 +49,6 @@
       "players": [
         {
           "name": "Shai Gilgeous-Alexander",
-          "status":"played",
-          "game_id":"0042400407","player_id":"NBA-203999",
           "stats": {
             "MIN": "40:11",
             "PTS": 29,
@@ -68,8 +65,6 @@
         },
         {
           "name": "Jalen Williams",
-          "status":"played",
-          "game_id":"0042400407","player_id":"NBA-1631114",
           "stats": {
             "MIN": "38:13",
             "PTS": 20,
@@ -105,8 +100,6 @@
       "roster_commit_sha": "historical-mini-snapshot",
       "rosters_blob_sha": "historical-mini-snapshot",
       "league_blob_sha": "historical-scoring-fixture",
-      "ownership_blob_sha":"historical-ownership-fixture",
-      "data_rights_status":"PRIVATE_RESEARCH_ONLY",
       "data_cutoff_taipei": "2025-06-23T15:00:00+08:00",
       "generated_at_taipei": "2026-10-22T15:45:00+08:00"
     }

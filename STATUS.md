@@ -18,7 +18,7 @@
 
 ## Scouting 目前狀態 / gates
 
-- **Draft PR #16 / Issue #15**：包含研究資料庫、Codex/Claude Skill 入口、報告 sidecar validator，以及共用 NBA adapter / FP calculator 的整合；PR 仍須 CI、獨立審查與產品驗收。
+- **PR #16 / Issue #15**：PR 已同步最新 main；只保留 Scouting SOP、Codex/Claude Skill 入口、報告 sidecar validator 與 Scouting CI。Daily NBA adapter / FP calculator 已由 main 的 PR #23 提供，Scouting 共用它而不複製。PR 仍須 CI、獨立審查與產品驗收。
 - canonical SOP：`seasons/2026-27/scouting/README.md`；Skill 入口僅路由。Watchlist 的 `QUEUED` 不代表已完成球探。
 - `IMPLEMENTATION_IN_REVIEW`；本地 unit/integration 與手動真實資料取得不等於 GitHub CI、production 或 scheduled E2E。
 - 每日報告：官方 NBA 真實資料的三日 replay 已完成；來源公開再發布權未證實，故 GitHub report archive 仍 `ARCHIVE_BLOCKED`，不可將本機 `VALIDATED` 稱為 `ARCHIVED`。
