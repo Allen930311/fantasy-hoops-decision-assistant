@@ -16,9 +16,11 @@ import json
 import re
 import unicodedata
 from pathlib import Path
-from datetime import date as Date
+from datetime import date as Date, datetime
+from decimal import Decimal
 from urllib.parse import urlparse
 from nba_data_adapter import calculate_custom_fp
+from nba_data_adapter import provider_game_key, scoring_trace
 from report_archive_naming import next_archive_path
 
 STATS = ("PTS","3PTM","OREB","DREB","AST","STL","BLK","TO","FTA","PF","TECH","EJCT","FF")
@@ -128,9 +130,20 @@ def _player_rows(games, report_date):
                 raise ValueError(f"{name or 'player'}: unknown game participation status {p.get('status')!r}")
             if not name or not isinstance(p.get("stats"), dict):
                 raise ValueError("player row without name or stats")
-            if (p.get("game_id") != game.get("id") or not p.get("player_id") or
-                    not str(game.get("id", "")).isdigit() or len(str(game.get("id"))) != 10):
+            game_id=str(game.get("id", ""))
+            official_game_id=game.get("official_game_id") or (game_id if game_id.isdigit() and len(game_id)==10 else None)
+            if p.get("game_id") != game_id or not p.get("player_id"):
                 raise ValueError(f"{name}: missing or mismatched GAME_ID/PLAYER_ID")
+            if official_game_id:
+                if not (official_game_id==game_id and official_game_id.isdigit() and len(official_game_id)==10):
+                    raise ValueError(f"{name}: official GAME_ID does not match game identity")
+            else:
+                provider=str(game.get("provider") or "")
+                provider_game_id=str(game.get("provider_game_id") or "")
+                try: expected_key=provider_game_key(provider,provider_game_id)
+                except ValueError as exc: raise ValueError(f"{name}: invalid provider game identity") from exc
+                if game_id!=expected_key or p.get("provider")!=provider or not p.get("provider_player_id"):
+                    raise ValueError(f"{name}: provider-scoped game/player identity mismatch")
             if name in rows:
                 raise ValueError(f"duplicate same-day player row: {name}")
             stats=dict(p["stats"])
@@ -141,6 +154,14 @@ def _player_rows(games, report_date):
             stats["__identity_source_sha256__"]=p.get("identity_source_sha256")
             stats["__provider_player_id__"]=p.get("provider_player_id", p.get("player_id"))
             stats["__player_id__"]=p.get("player_id")
+            stats["__provider__"]=p.get("provider",game.get("provider"))
+            stats["__provider_game_id__"]=game.get("provider_game_id")
+            stats["__game_id__"]=game_id
+            stats["__provider_game_crosswalk__"]=game.get("provider_game_crosswalk")
+            stats["__provider_team_id__"]=p.get("provider_team_id")
+            stats["__provider_team_side__"]=p.get("provider_team_side")
+            stats["__provider_team_tricode__"]=p.get("provider_team_tricode")
+            stats["__incidents__"]=p.get("incidents")
             stats["__game_source_url__"]=game.get("source_url")
             stats["__game_source_sha256__"]=game.get("raw_source_sha256")
             rows[name] = stats
@@ -155,10 +176,22 @@ def _check_schedule(payload):
         raise ValueError("missing independent NBA schedule/game-status evidence")
     for x in schedule:
         gid=str(x.get("id", ""))
-        if not gid.isdigit() or len(gid) != 10:
-            raise ValueError("schedule row lacks official NBA GAME_ID")
+        official_id=x.get("official_game_id") or (gid if gid.isdigit() and len(gid)==10 else None)
+        if official_id:
+            if not (official_id==gid and str(official_id).isdigit() and len(str(official_id))==10):
+                raise ValueError("schedule row has mismatched official NBA GAME_ID")
+        else:
+            try: expected=provider_game_key(str(x.get("provider") or ""),str(x.get("provider_game_id") or ""))
+            except ValueError as exc: raise ValueError("schedule row lacks a valid provider-scoped game ID") from exc
+            if gid!=expected:
+                raise ValueError("schedule provider ID does not match namespaced game ID")
         if x.get("status") not in ("final","live","scheduled","Final","Live","Scheduled"):
             raise ValueError(f"unknown schedule game status: {x.get('status')}")
+        if x.get("provider")=="espn" and not x.get("official_game_id"):
+            team_ids={str(x.get("home_provider_team_id") or ""),str(x.get("away_provider_team_id") or "")}
+            if (len(team_ids)!=2 or not all(team_id.isdigit() for team_id in team_ids) or
+                    not x.get("home_team_tricode") or not x.get("away_team_tricode")):
+                raise ValueError("ESPN schedule lacks distinct provider team IDs or tricodes")
     expected = [x["id"] for x in schedule if str(x.get("status","")).casefold() == "final"]
     if len(expected) != len(set(expected)):
         raise ValueError("duplicate games in schedule")
@@ -167,6 +200,57 @@ def _check_schedule(payload):
         raise ValueError("duplicate completed game ids")
     if set(supplied) != set(expected):
         raise ValueError(f"schedule coverage mismatch missing={sorted(set(expected)-set(supplied))} unexpected={sorted(set(supplied)-set(expected))}")
+    schedule_by_id={str(x["id"]):x for x in schedule}
+    for game in payload.get("games",[]):
+        if str(game.get("status","")).casefold()!="final" or game.get("provider")!="espn":
+            continue
+        gid=str(game.get("id"))
+        scheduled=schedule_by_id.get(gid) or {}
+        if game.get("official_game_id"):
+            crosswalk=game.get("provider_game_crosswalk") or {}
+            try:
+                official_start=datetime.fromisoformat(str(scheduled.get("game_time_utc","")).replace("Z","+00:00"))
+                mapped_official_start=datetime.fromisoformat(str(crosswalk.get("official_tipoff_utc","")).replace("Z","+00:00"))
+                provider_start=datetime.fromisoformat(str(crosswalk.get("provider_tipoff_utc","")).replace("Z","+00:00"))
+                times_match=(official_start.utcoffset() is not None and mapped_official_start.utcoffset() is not None and
+                    provider_start.utcoffset() is not None and abs(official_start.timestamp()-mapped_official_start.timestamp())<=1 and
+                    abs(official_start.timestamp()-provider_start.timestamp())<=120)
+            except (TypeError,ValueError,OverflowError):
+                times_match=False
+            schedule_url=str(crosswalk.get("schedule_source_url") or "")
+            schedule_parsed=urlparse(schedule_url)
+            provider_team_ids={str(crosswalk.get("home_provider_team_id") or ""),
+                str(crosswalk.get("away_provider_team_id") or "")}
+            provider_team_ids_valid=(len(provider_team_ids)==2 and
+                all(team_id.isdigit() for team_id in provider_team_ids) and
+                all(str(row.get("provider_team_id") or "") in provider_team_ids for row in game.get("players",[])))
+            source_record_match=any(isinstance(record,dict) and record.get("provider")=="espn" and
+                record.get("url")==schedule_url and record.get("raw_sha256")==crosswalk.get("schedule_raw_sha256")
+                for record in game.get("source_records",[]))
+            if not (crosswalk.get("nba_game_id")==gid and crosswalk.get("provider")=="espn" and
+                    crosswalk.get("provider_event_id")==game.get("provider_game_id") and
+                    crosswalk.get("join_rule")=="exact_home_away_tricode_plus_utc_start_within_120s" and
+                    crosswalk.get("home_team_tricode")==scheduled.get("home_team_tricode") and
+                    crosswalk.get("away_team_tricode")==scheduled.get("away_team_tricode") and times_match and
+                    provider_team_ids_valid and source_record_match and
+                    schedule_parsed.scheme=="https" and schedule_parsed.hostname and
+                    bool(re.fullmatch(r"[0-9a-f]{64}",str(crosswalk.get("schedule_raw_sha256") or "")))):
+                raise ValueError(f"ESPN provider event crosswalk does not bind official GAME_ID {gid}")
+            expected_team_sides={
+                "home":(str(crosswalk.get("home_provider_team_id") or ""),str(crosswalk.get("home_team_tricode") or "").upper()),
+                "away":(str(crosswalk.get("away_provider_team_id") or ""),str(crosswalk.get("away_team_tricode") or "").upper())}
+        else:
+            if (scheduled.get("provider")!="espn" or scheduled.get("provider_game_id")!=game.get("provider_game_id")):
+                raise ValueError(f"ESPN provider game identity does not match schedule row {gid}")
+            expected_team_sides={
+                "home":(str(scheduled.get("home_provider_team_id") or ""),str(scheduled.get("home_team_tricode") or "").upper()),
+                "away":(str(scheduled.get("away_provider_team_id") or ""),str(scheduled.get("away_team_tricode") or "").upper())}
+        for player in game.get("players",[]):
+            side=player.get("provider_team_side")
+            expected=expected_team_sides.get(side)
+            if (expected is None or str(player.get("provider_team_id") or "")!=expected[0] or
+                    str(player.get("provider_team_tricode") or "").upper()!=expected[1]):
+                raise ValueError(f"ESPN player team side does not match game crosswalk for {player.get('name')}")
 
 
 def _apply_identity_aliases(rows, report, ownership):
@@ -250,11 +334,6 @@ def validate(payload):
         if not stats.get("MIN"):
             missing[name] = "missing MIN"
             continue
-        try:
-            scores[name] = score(stats, scoring)
-        except (TypeError, ValueError) as exc:
-            missing[name] = str(exc)
-            continue
         quality=stats.get("__quality__") or {}
         if stats.get("REB") is not None and stats.get("OREB") is not None and stats.get("DREB") is not None and stats["REB"]!=stats["OREB"]+stats["DREB"]:
             quality={**quality,"OREB":"CONFLICTING","DREB":"CONFLICTING"}
@@ -269,13 +348,38 @@ def validate(payload):
         same_provider_id=(str(stats.get("__provider_player_id__"))==str(official_id)==str(stats.get("__player_id__")))
         identity_evidence=(parsed.scheme=="https" and parsed.hostname in allowed_hosts and same_game_source and
                            bool(re.fullmatch(r"[0-9a-f]{64}",str(source_hash or ""))))
-        if not (official_id and str(official_id).isdigit() and stats.get("__identity_status__")=="VERIFIED" and same_provider_id and identity_evidence):
+        official_identity=(official_id and str(official_id).isdigit() and
+            stats.get("__identity_status__")=="VERIFIED" and same_provider_id and identity_evidence)
+        provider=str(stats.get("__provider__") or "")
+        provider_player_id=str(stats.get("__provider_player_id__") or "")
+        provider_game_id=str(stats.get("__provider_game_id__") or "")
+        crosswalk=stats.get("__provider_game_crosswalk__") or {}
+        try:
+            provider_game_match=(stats.get("__game_id__")==provider_game_key(provider,provider_game_id) or
+                (crosswalk.get("provider")==provider and crosswalk.get("provider_event_id")==provider_game_id and
+                 crosswalk.get("nba_game_id")==stats.get("__game_id__")))
+        except ValueError: provider_game_match=False
+        provider_identity=(bool(provider) and
+            stats.get("__identity_status__")=="VERIFIED_PROVIDER_IDENTITY" and
+            stats.get("__player_id__")==f"{provider}:{provider_player_id}" and
+            bool(re.fullmatch(r"[A-Za-z0-9._-]+",provider_player_id)) and parsed.scheme=="https" and
+            bool(parsed.hostname) and parsed.username is None and parsed.password is None and
+            same_game_source and bool(re.fullmatch(r"[0-9a-f]{64}",str(source_hash or ""))) and provider_game_match)
+        if not official_identity:
             invalid["NBA_PLAYER_ID"]="UNKNOWN"
-        bad_states={k:v for k,v in invalid.items() if v not in QUALITY_STATES and k != "NBA_PLAYER_ID"}
+        if provider_identity:
+            invalid["PROVIDER_PLAYER_ID"]="THIRD_PARTY_RECONSTRUCTED"
+        bad_states={k:v for k,v in invalid.items() if v not in QUALITY_STATES and k not in ("NBA_PLAYER_ID",)}
         if bad_states:
             raise ValueError(f"invalid field quality for {name}: {bad_states}")
-        if invalid:
-            missing[name]="PARTIAL_FP: unverified fields " + ",".join(sorted(invalid))
+        trace=scoring_trace(stats,quality,scoring,events=stats.get("__incidents__"))
+        if trace["status"]=="BLOCKED":
+            missing[name]="BLOCKED_FP: unknown fields " + ",".join(sorted(set(invalid)|set(trace["missing"])))
+            continue
+        scores[name]=Decimal(trace["value"])
+        if invalid or trace["status"]!="VERIFIED_FP":
+            gaps=sorted(set(invalid)|set(trace["missing"]))
+            missing[name]="PARTIAL_FP: unverified fields " + ",".join(gaps)
     return scores, missing
 
 
