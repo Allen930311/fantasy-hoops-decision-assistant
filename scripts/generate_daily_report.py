@@ -99,6 +99,7 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
     schedule_games=[]
     games=[]
     schedule_provider=None
+    schedule_status="FAILED"
     fallback_errors=[]
     try:
         schedule_result=acquire_schedule(nba_date_et,client)
@@ -107,9 +108,12 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
         fallback_errors=schedule_result.get("errors",[])
         normalized=normalize_schedule(schedule_result["events"],schedule_provider)
         if schedule_provider=="espn" and any(not row.get("official_game_id") for row in normalized):
+            schedule_status="PARTIAL"
             source_failures.append(_failure({"provider":"espn","url":schedule_source_url,
                 "kind":"OFFICIAL_GAME_ID_UNRESOLVED","message":"ESPN schedule has no sourced NBA GAME_ID; refusing to infer a game identity"},impact="OWNER_COVERAGE_UNKNOWN"))
             normalized=[]
+        else:
+            schedule_status="COMPLETE"
         schedule_games=[{"id":row["official_game_id"],"status":row["status"],
                          "date_taipei":row["game_date_taipei"],"game_time_utc":row["game_time_utc"]}
                         for row in normalized if row.get("official_game_id")]
@@ -278,7 +282,8 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
         "report":report}
     acquisition={"generated_at_taipei":generated,"report_date_taipei":report_date,
         "nba_date_et":f"{nba_date_et[:4]}-{nba_date_et[4:6]}-{nba_date_et[6:]}",
-        "schedule_provider":schedule_provider,"schedule_games":schedule_games,
+        "schedule_provider":schedule_provider,"schedule_source_url":schedule_source_url,
+        "schedule_status":schedule_status,"schedule_games":schedule_games,
         "source_records":client.history,"source_failures":source_failures,"fallback_errors":fallback_errors,
         "quality_gaps":quality_gaps,
         "normalizer_version":NORMALIZER_VERSION,

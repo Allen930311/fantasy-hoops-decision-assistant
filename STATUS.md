@@ -1,56 +1,28 @@
-# STATUS
+# STATUS — Fantasy Hoops Decision Assistant
 
-**Project:** Fantasy Hoops Decision Assistant  
-**Status:** Yahoo Fantasy API access submitted — awaiting review  
-**Lifecycle:** Active  
-**Repository:** `Allen930311/fantasy-hoops-decision-assistant`
+**Lifecycle:** Active　｜　**Last reviewed:** 2026-10-28 (Asia/Taipei)　｜　**Current season:** 2026–27
 
-## Current objective
+## Current authority
 
-Wait for Yahoo Fantasy Sports API approval, then validate a read-only R0 against the owner's Fantasy Basketball league and reconcile it against the season-scoped bootstrap snapshot.
+- `seasons/2026-27/league.json` is the sole custom Fantasy scoring authority.
+- `rosters.json` (`players` and `additional_owned_players`) plus `ownership/current-state.json` are the current owner-confirmed bootstrap and effective overlay. They are not live Yahoo reads.
+- Yahoo API application submitted 2026-10-04 was denied 2026-10-19. No current authenticated read-only Yahoo integration is validated; uncertain FA/waiver status remains `UNKNOWN`.
+- `SCHEDULED-RUN.md` is the authority for the existing 15:00 Asia/Taipei report task. Do not create another schedule.
 
-## API access state
+## Daily report implementation and acceptance
 
-Yahoo Fantasy Sports API access application was successfully submitted on 2026-10-04.
+- PR #23 merged to main as `2be255188ab186e0934c6b12fd4225a4e749592b`. The shared NBA adapter, `league.json` FP calculator, generator, validator, and rights-gated publisher are in main.
+- Offline tests: 89/89 pass; three-date official-source replay was completed before merge. This is not proof of the scheduled task invoking Python.
+- Issue #11's 2026-10-28 revision separates source/use permission, runtime/numerical validation, delivery/storage, and public publication. The existing 15:00 task remains the only schedule; its prompt now requires report delivery independent of save/publication and prohibits unverified public GitHub writes.
+- No supported Python runner or GitHub Actions dispatch is exposed to the scheduled task. The last recorded run was scheduled for 15:00 on 2026-10-27 but started at 14:38 and ended at 14:41 Taipei. `SCHEDULED_PRODUCTION_E2E_PENDING`.
+- NBA endpoint use for this Fantasy workflow remains `UNVERIFIED`; do not infer permission from public HTTP endpoints, `nba_api`, or League Pass. Public release remains blocked separately. See `docs/data-publication-audit-2026-10-27.md`.
+- Google Drive write was denied with `ACCESS_TOKEN_SCOPE_INSUFFICIENT`. Task result history can be checked as a private delivery/readback surface, but only mark storage `STORED` after complete, untruncated exact readback and SHA-256 comparison. A workspace file is not a scheduled persistent save.
+- Current engineering work adds a run-receipt contract for independent `content_status`, `runtime_status`, `execution_mode`, `delivery_status`, `storage_status`, `source_use_status`, and `publication_rights_status` / `publication_status`; its tests are synthetic and do not prove production execution or source rights.
 
-Yahoo currently provides read access only. Write access is not available at this time.
+## Next gates
 
-The application is now waiting for review by the Yahoo Fantasy Sports team.
+1. Configure an authorized current-season provider that permits automated private Fantasy analytics, then verify real schema, IDs, rate limits, and required fields.
+2. Obtain a platform-supported Python runner or authenticated dispatch plus result return channel for the existing task.
+3. Demonstrate a genuine scheduled run, Owner delivery, and retrievable private report readback with matching SHA-256.
 
-## Available bootstrap state
-
-The repository contains a season-scoped **2026–2027** bootstrap league snapshot under `seasons/2026-27/`:
-
-- 16 teams;
-- 13 rostered players per team;
-- 208 unique rostered players;
-- `team_02` is the owner's team;
-- owner-defined 2026–2027 scoring rules are stored separately from roster state;
-- latest owner-confirmed roster change: Marcus Smart out, Pelle Larsson in on 2026-10-04.
-
-The roster file is intentionally mutable so confirmed adds, drops, and trades can be reflected without changing the scoring configuration. Future seasons must use a separate season directory because both roster composition and league scoring may change.
-
-This bootstrap state does **not** replace the planned Yahoo source-of-truth integration.
-
-## R0 acceptance
-
-R0 is complete when the project can:
-
-1. authenticate successfully;
-2. identify the target Fantasy Basketball league;
-3. retrieve the full league team/roster state;
-4. retrieve the current available / waiver player pool;
-5. normalize ownership state;
-6. reconcile that ownership state against the existing fantasy dataset without unexplained mismatches.
-
-## Current boundary
-
-No production integration has been implemented yet. Do not build around assumed Yahoo write access. The first implementation target is read-only league-state ingestion and analysis.
-
-Until R0 reconciliation is complete, `seasons/2026-27/rosters.json` is a manual bootstrap snapshot, not a live Yahoo authority.
-
-## Next action
-
-Wait for Yahoo's approval response. Once credentials / access are granted, configure OAuth locally without committing secrets, begin live league-read validation, and reconcile Yahoo state against the 2026–2027 bootstrap snapshot.
-
-_Last reviewed: 2026-10-04_
+Keep Issue #11 open until the scheduled-run acceptance criteria pass. Keep Scouting Issue #15 and Yahoo roster transactions outside this gate.

@@ -102,12 +102,29 @@ This scheduled monitor is read-only. It must not edit the repository, execute Ya
 
 ## 8. Daily report vs conditional alert (2026–27)
 
-The scheduled **15:00 Asia/Taipei** daily battle report is a separate delivery obligation from the conditional notification gate in section 6. If one or more NBA games have completed by the data cutoff, produce the complete daily report even when there is no actionable ADD/DROP/TRADE alert. Section 6 governs only **extra GM action alerts**, not daily report delivery.
+The **15:00 Asia/Taipei** daily report is unconditional and separate from the section 6 notification gate. Deliver the report even when there are no GM alerts or no completed games. State an empty slate, Live/Scheduled games, data gaps, and unavailable sources accurately; Live or Scheduled is never DNP.
 
-Daily reports cover every owner-roster player who played, curated highlights from other 15 teams, and selected truly unrostered free agents. Use fresh main rosters (including `additional_owned_players`), current ownership overlay and season scoring. Explicitly confirmed but unsynced completed adds are temporary ownership exclusions; mere trade intentions are not.
+Use current main's `rosters.json` (both player lists), `ownership/current-state.json`, and `league.json`. Cover every Owner player actually found in Final games; if schedule/box-score acquisition is incomplete, disclose unknown coverage rather than claiming 100%. Other teams are curated. FA candidates exclude rostered and confirmed unsynced ADD players; without current Yahoo evidence, claimability is `UNKNOWN`.
 
-**Read-only separation:** The monitor itself remains read-only with respect to rosters, Yahoo, waivers and trades. The independently tested report archival writer may only create immutable files beneath `seasons/<season>/report/daily/`, on a review branch/PR; it has no authority to change rosters, scoring, or transact. Owner explicitly waived the Fresh Agent comparison **for this daily-report archive integration only** on 2026-10-22. This is a WAIVER, not Fresh Agent PASS. After successful code CI, GitHub authorization/readback smoke test, and merge of the reviewed archive implementation, the existing daily scheduled task may invoke the independently scoped report archive flow. Treat a branch commit as PR_PENDING; report ARCHIVED only after a verified main readback. Failure to archive must not suppress the daily report. On writer failure, still deliver the report with an archive failure label; never claim archival success prematurely.
+Report delivery must not wait for storage or public publication. Do not change Yahoo, roster, ownership, scoring, or schedule. An inability to invoke the Python runtime must be reported while still delivering the fullest report supported by authorized data.
 
 ## 9. One-time acceptance decision for PR #9 (2026-10-22)
 
 Owner: Fresh Agent A/B is **not required for this feature**; this does **not** repeal Fresh Agent requirements for any other workflow. Standard automated tests, complete provenance, write/readback verification, and fail-closed report publication remain required. The daily report remains a separate delivery from archiving. A successful draft PR alone is not proof that the report is already in main.
+
+## 10. Issue #11 run status and persistence contract (Owner-approved 2026-10-28)
+
+Every run records independent fields:
+
+- `content_status=VALIDATED|PROVISIONAL` — numerical/identity quality only.
+- `runtime_status=EXECUTED_CANONICAL|RUNTIME_INTEGRATION_BLOCKED|NOT_EXECUTED` — only say `EXECUTED_CANONICAL` when the actual task invoked the latest main runtime.
+- `execution_mode=SCHEDULED_PRODUCTION|MANUAL_REPLAY|CI|SYNTHETIC|UNKNOWN` — record the actual trigger. Scheduled acceptance also needs the existing task ID and a recorded run ID/time corroborated from automation history; caller-supplied fields or a shell/CI replay are not proof. Record early/on-time/late start against 15:00 Asia/Taipei; an early result is not a 15:00 report.
+- `delivery_status=DELIVERED|FAILED` — only say `DELIVERED` when the readable report is present in the Owner-facing task result.
+- `storage_status=STORED|STORAGE_BLOCKED` — `STORED` requires an Owner-accessible persistent destination, complete readback, exact UTF-8 equality, and SHA-256 match. Do not assume Drive write scopes or workspace durability. The task result history may count only when the full, untruncated result is read back and hashed.
+- `publication_rights_status=AUTHORIZED|UNVERIFIED|BLOCKED` is independent of source-use permission. `publication_status=PUBLISHED|PR_PENDING|PUBLICATION_BLOCKED|NOT_REQUESTED` — public GitHub writes remain blocked for NBA-derived artifacts until both source/use and publication rights are established. This status never blocks report delivery or permitted private storage.
+
+`scripts/daily_report_run_receipt.py` assembles these fields from caller-provided evidence. Its unit tests are synthetic; its assertions are not a platform signature or an independent verification of a storage account. A real receipt must be checked against the corresponding task history, runtime commit, storage adapter, full readback, and hashes.
+
+The canonical scripts are in main after PR #23. The current scheduled-task tool surface has not demonstrated a Python invocation or GitHub Actions dispatch path. Do not use `run_now`, a hand replay, or CI as scheduled-production evidence; preserve the existing schedule and leave Issue #11 open until a genuine scheduled result, delivery, authorized save/readback, and complete receipt exist.
+
+Source acquisition/use permission is separate from private storage and public redistribution. Use only sources whose terms cover the intended automated Fantasy research. Do not bypass provider controls. If no authorized source is available, report the exact data gap and still deliver whatever can be substantiated without those fields.
