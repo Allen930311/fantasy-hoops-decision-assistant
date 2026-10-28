@@ -5,6 +5,7 @@ This directory contains the owner-specific league state and scoring configuratio
 ## Files
 
 - `league.json` — season metadata and the owner-defined scoring system.
+- [`scouting/README.md`](scouting/README.md) — 球探 Skill 的當季獨立研究資料庫，含待研究名單、正式模板與版本化報告；不會改變 roster／ownership。
 - `rosters.json` — mutable 16-team roster snapshot; `teams[].additional_owned_players` records confirmed same-team ADDs with unknown active/IL slot, not an invented DROP.
 - [`ownership/README.md`](ownership/README.md) — Yahoo transaction attribution SOP (known team vs unknown team, ADD-only, DROP precedence).
 - [`ownership/current-state.json`](ownership/current-state.json) — effective unassigned-confirmed-ADD exclusions and releases awaiting Yahoo FA/waiver verification; newer evidence overrides historical dated overlays.

@@ -1,0 +1,57 @@
+name: Fantasy scouting governance and dossier contract
+
+on:
+  pull_request:
+    paths:
+      - ".agents/skills/player-scout/**"
+      - ".claude/skills/player-scout/**"
+      - "seasons/*/scouting/**"
+      - "seasons/*/ownership/**"
+      - "seasons/*/league.json"
+      - "seasons/*/rosters.json"
+      - "scripts/validate_scouting_contract.py"
+      - "scripts/validate_scouting_report.py"
+      - "scripts/nba_data_adapter.py"
+      - "tests/test_scouting_contract.py"
+      - "tests/test_scouting_report.py"
+      - "tests/fresh-agent/scouting/**"
+      - "STATUS.md"
+      - "AGENT_CONTEXT.md"
+      - ".github/workflows/scouting-contract-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".agents/skills/player-scout/**"
+      - ".claude/skills/player-scout/**"
+      - "seasons/*/scouting/**"
+      - "seasons/*/ownership/**"
+      - "seasons/*/league.json"
+      - "seasons/*/rosters.json"
+      - "scripts/validate_scouting_contract.py"
+      - "scripts/validate_scouting_report.py"
+      - "scripts/nba_data_adapter.py"
+      - "tests/test_scouting_contract.py"
+      - "tests/test_scouting_report.py"
+      - "tests/fresh-agent/scouting/**"
+      - "STATUS.md"
+      - "AGENT_CONTEXT.md"
+      - ".github/workflows/scouting-contract-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  scouting-governance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Python syntax checks
+        run: python -m py_compile scripts/nba_data_adapter.py scripts/validate_scouting_contract.py scripts/validate_scouting_report.py tests/test_scouting_contract.py tests/test_scouting_report.py
+      - name: Watchlist integrity
+        run: python scripts/validate_scouting_contract.py seasons/2026-27
+      - name: Governance and adversarial tests
+        run: python -m unittest discover -s tests -p 'test_scouting*.py' -v
