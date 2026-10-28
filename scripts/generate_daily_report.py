@@ -18,7 +18,7 @@ from zoneinfo import ZoneInfo
 
 from daily_report_archive import validate, render, write_immutable, player_name_key as _name_key
 from nba_data_adapter import (NBA_BOXSCORE, NORMALIZER_VERSION, JsonClient, SourceError,
-    acquire_game_bundle_with_fallback, acquire_schedule, normalize_schedule,
+    acquire_game_bundle_with_fallback, acquire_provider_game_bundle, acquire_schedule, normalize_schedule,
     normalizer_code_sha256, scoring_trace)
 
 TAIPEI=ZoneInfo("Asia/Taipei")
@@ -83,7 +83,9 @@ def _failure(row: dict, *, impact: str) -> dict:
 
 def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
                      snapshot_dir: Path, aliases: list[dict] | None=None,
-                     replay_cache: bool=False, client: JsonClient | None=None) -> tuple[dict,dict]:
+                     replay_cache: bool=False, client: JsonClient | None=None,
+                     espn_use_attestation: str | None=None,
+                     source_use_attestations: dict[str,str] | None=None) -> tuple[dict,dict]:
     """Acquire every Final game and build the canonical validator input."""
     report_day=date.fromisoformat(report_date)
     if report_day.isoformat()!=report_date: raise ValueError("report date must be YYYY-MM-DD")
@@ -93,7 +95,9 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
     rosters=_read_pinned_json(root,source_commit_sha,"seasons/2026-27/rosters.json")
     ownership=_read_pinned_json(root,source_commit_sha,"seasons/2026-27/ownership/current-state.json")
     alias_rows=aliases or []
-    client=client or JsonClient(snapshot_dir,replay=replay_cache)
+    client=client or JsonClient(snapshot_dir,replay=replay_cache,
+        espn_use_attestation=espn_use_attestation,
+        source_use_attestations=source_use_attestations)
     source_failures=[]
     schedule_source_url=None
     schedule_games=[]
@@ -107,40 +111,57 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
         schedule_source_url=schedule_result["record"]["url"]
         fallback_errors=schedule_result.get("errors",[])
         normalized=normalize_schedule(schedule_result["events"],schedule_provider)
-        if schedule_provider=="espn" and any(not row.get("official_game_id") for row in normalized):
-            schedule_status="PARTIAL"
-            source_failures.append(_failure({"provider":"espn","url":schedule_source_url,
-                "kind":"OFFICIAL_GAME_ID_UNRESOLVED","message":"ESPN schedule has no sourced NBA GAME_ID; refusing to infer a game identity"},impact="OWNER_COVERAGE_UNKNOWN"))
-            normalized=[]
-        else:
-            schedule_status="COMPLETE"
-        schedule_games=[{"id":row["official_game_id"],"status":row["status"],
-                         "date_taipei":row["game_date_taipei"],"game_time_utc":row["game_time_utc"]}
-                        for row in normalized if row.get("official_game_id")]
+        provider_scoped=[row for row in normalized if not row.get("official_game_id")]
+        schedule_status="PARTIAL_PROVIDER_IDENTITY" if provider_scoped else "COMPLETE"
+        if provider_scoped:
+            source_failures.append(_failure({"provider":schedule_provider,"url":schedule_source_url,
+                "kind":"OFFICIAL_GAME_ID_UNAVAILABLE",
+                "message":f"retained {len(provider_scoped)} provider-scoped game IDs; no NBA GAME_ID was inferred"},
+                impact="FIELD_QUALITY_REVIEW"))
+        schedule_games=[{"id":row.get("official_game_id") or row["id"],
+                         "provider":row["provider"],"provider_game_id":row["provider_game_id"],
+                         "official_game_id":row.get("official_game_id"),"status":row["status"],
+                         "date_taipei":row["game_date_taipei"],"game_time_utc":row["game_time_utc"],
+                         "home_team_tricode":row.get("home_team_tricode"),
+                         "away_team_tricode":row.get("away_team_tricode"),
+                         "home_provider_team_id":row.get("home_provider_team_id"),
+                         "away_provider_team_id":row.get("away_provider_team_id"),
+                         "source_quality":row.get("source_quality")}
+                        for row in normalized]
         for scheduled in normalized:
             if scheduled["status"]!="Final": continue
-            gid=scheduled["official_game_id"]
-            if not gid: continue
+            gid=scheduled.get("official_game_id") or scheduled["id"]
             errors_before=len(client.history)
             try:
-                bundle=acquire_game_bundle_with_fallback(scheduled,client)
+                bundle=(acquire_game_bundle_with_fallback(scheduled,client)
+                        if scheduled.get("official_game_id") else acquire_provider_game_bundle(scheduled,client))
                 if bundle.get("status")!="Final":
-                    raise SourceError("nba_cdn",bundle.get("boxscore_source_url", ""),"NOT_FINAL",
-                                      f"schedule says Final but box score status is {bundle.get('status')}")
+                    raise SourceError(bundle.get("provider","nba_cdn"),bundle.get("boxscore_source_url", ""),"NOT_FINAL",
+                                      f"schedule says Final but provider box score status is {bundle.get('status')}")
                 if bundle.get("game_id")!=gid:
-                    raise SourceError("nba_cdn",bundle.get("boxscore_source_url", ""),"WRONG_GAME_ID",
-                                      f"box score identity does not match scheduled NBA GAME_ID {gid}")
+                    raise SourceError(bundle.get("provider","nba_cdn"),bundle.get("boxscore_source_url", ""),"WRONG_GAME_ID",
+                                      f"box score identity does not match scheduled game identity {gid}")
                 rows=[]
                 for player in bundle["players"]:
                     rows.append({"name":player.get("name"),"status":"played" if player["status"]=="PLAYED" else player["status"].casefold(),
                         "game_id":player["game_id"],"player_id":player["player_id"],
                         "official_player_id":player.get("official_player_id"),
+                        "provider":player.get("provider",bundle.get("provider",scheduled["provider"])),
+                        "provider_team_id":player.get("provider_team_id"),
+                        "provider_team_side":player.get("provider_team_side"),
+                        "provider_team_tricode":player.get("provider_team_tricode"),
                         "provider_player_id":player.get("provider_player_id",player.get("player_id")),
                         "identity_status":player.get("identity_status"),
                         "identity_source_url":player.get("identity_source_url"),
                         "identity_source_sha256":player.get("identity_source_sha256"),
+                        "incidents":player.get("incidents"),
                         "stats":player.get("stats",{}),"quality":player.get("quality",{})})
-                games.append({"id":gid,"status":"final","date_taipei":bundle["game_date_taipei"],
+                games.append({"id":gid,"provider":bundle.get("provider",scheduled["provider"]),
+                    "provider_game_id":bundle.get("provider_game_id") or scheduled.get("provider_game_id"),
+                    "official_game_id":bundle.get("official_game_id",scheduled.get("official_game_id")),
+                    "provider_game_crosswalk":bundle.get("game_id_crosswalk"),
+                    "source_records":bundle.get("source_records",[]),
+                    "status":"final","date_taipei":bundle["game_date_taipei"],
                     "source_url":bundle["boxscore_source_url"],"raw_source_sha256":bundle["boxscore_raw_sha256"],
                     "players":rows,"periods":bundle.get("periods"),"overtime":bundle.get("overtime",False)})
                 for error in bundle.get("source_errors",[]):
@@ -155,7 +176,10 @@ def generate_payload(*, root: Path, report_date: str, nba_date_et: str,
                 for error in entries:
                     source_failures.append(_failure({**error,"game_id":gid},impact="OWNER_COVERAGE_UNKNOWN"))
                 games.append({"id":gid,"status":"final","date_taipei":scheduled["game_date_taipei"],
-                    "source_url":NBA_BOXSCORE.format(game_id=gid),"fetch_error":{"kind":entries[-1].get("kind")},"players":[]})
+                    "provider":scheduled["provider"],"provider_game_id":scheduled.get("provider_game_id"),
+                    "official_game_id":scheduled.get("official_game_id"),
+                    "source_url":schedule_source_url or NBA_BOXSCORE.format(game_id=gid),
+                    "fetch_error":{"kind":entries[-1].get("kind")},"players":[]})
     except (SourceError,ValueError,KeyError) as exc:
         errors=[x for x in client.history if x.get("kind")]
         if not errors:
@@ -299,6 +323,9 @@ def main() -> int:
     parser.add_argument("--snapshot-dir",type=Path,required=True)
     parser.add_argument("--output-dir",type=Path,required=True)
     parser.add_argument("--identity-aliases",type=Path,help="Optional explicit JSON alias rows: box_name, roster_name, source")
+    parser.add_argument("--espn-use-attestation",help="Opaque operator attestation ID; adapter records it but does not verify rights")
+    parser.add_argument("--source-use-attestation",action="append",default=[],metavar="PROVIDER=ID",
+        help="Non-secret operator attestation ID; does not prove or verify source rights")
     parser.add_argument("--replay-cache",action="store_true")
     parser.add_argument("--repo-root",type=Path,default=Path(__file__).resolve().parents[1])
     args=parser.parse_args()
@@ -308,8 +335,16 @@ def main() -> int:
     report_day=date.fromisoformat(args.report_date_taipei)
     nba_date_et=args.nba_date_et or (report_day-timedelta(days=1)).strftime("%Y%m%d")
     aliases=_load_aliases(args.identity_aliases)
+    source_use_attestations={}
+    for value in args.source_use_attestation:
+        provider,sep,reference=value.partition("=")
+        if not sep or not provider or not reference or provider in source_use_attestations:
+            parser.error("--source-use-attestation must be unique PROVIDER=ID entries")
+        source_use_attestations[provider]=reference
     payload,acquisition=generate_payload(root=root,report_date=args.report_date_taipei,
-        nba_date_et=nba_date_et,snapshot_dir=snapshot_dir,aliases=aliases,replay_cache=args.replay_cache)
+        nba_date_et=nba_date_et,snapshot_dir=snapshot_dir,aliases=aliases,replay_cache=args.replay_cache,
+        espn_use_attestation=args.espn_use_attestation,
+        source_use_attestations=source_use_attestations)
     scores,missing=validate(payload)
     text,status=render(payload,scores,missing)
     output_dir.mkdir(parents=True,exist_ok=True)

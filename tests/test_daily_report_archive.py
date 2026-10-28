@@ -52,6 +52,44 @@ class ArchiveTests(unittest.TestCase):
         self.assertIn('"completed_games": 0',text)
         self.assertEqual(text.count("| A |"),0)
 
+    def test_provider_scoped_identity_can_score_but_never_be_verified_fp(self):
+        p=fixture();players=p["games"][0]["players"];gid="espn:401909879";url="https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401909879"
+        p["schedule_games"]=[{"id":gid,"provider":"espn","provider_game_id":"401909879",
+            "official_game_id":None,"home_provider_team_id":"24","away_provider_team_id":"23",
+            "home_team_tricode":"SAS","away_team_tricode":"SAC","status":"Final"}]
+        p["games"]=[{"id":gid,"provider":"espn","provider_game_id":"401909879","official_game_id":None,
+            "status":"final","date_taipei":"2026-10-22","source_url":url,"raw_source_sha256":"a"*64,
+            "players":players}]
+        for row in p["games"][0]["players"]:
+            row.update({"game_id":gid,"player_id":f"espn:{row['player_id']}","provider":"espn",
+                "provider_player_id":row["provider_player_id"],"official_player_id":None,
+                "provider_team_id":"24" if row["name"]=="A" else "23",
+                "provider_team_side":"home" if row["name"]=="A" else "away",
+                "provider_team_tricode":"SAS" if row["name"]=="A" else "SAC",
+                "identity_status":"VERIFIED_PROVIDER_IDENTITY","identity_source_url":url,
+                "identity_source_sha256":"a"*64})
+            row["quality"]={key:"THIRD_PARTY_RECONSTRUCTED" for key in row["quality"]}
+            row["quality"].update({"TECH":"UNKNOWN","EJCT":"UNKNOWN","FF":"UNKNOWN"})
+            row["stats"].update({"TECH":None,"EJCT":None,"FF":None})
+        p["games"][0]["players"][0]["provider_player_id"]="1001"
+        p["games"][0]["players"][1]["provider_player_id"]="1002"
+        p["games"][0]["players"][0]["player_id"]="espn:1001"
+        p["games"][0]["players"][1]["player_id"]="espn:1002"
+        p["report"]["source_urls"]=[url]
+        scores,missing=module.validate(p)
+        self.assertIn("A",scores)
+        self.assertIn("A",missing)
+        self.assertIn("PARTIAL_FP",missing["A"])
+        self.assertIn("TECH",missing["A"])
+        self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
+
+    def test_provider_id_mismatch_is_rejected_before_scoring(self):
+        p=fixture();p["schedule_games"]=[{"id":"espn:401909879","provider":"espn",
+            "provider_game_id":"401909878","home_provider_team_id":"24","away_provider_team_id":"23",
+            "home_team_tricode":"SAS","away_team_tricode":"SAC","status":"Final"}]
+        with self.assertRaisesRegex(ValueError,"provider ID does not match"):
+            module.validate(p)
+
     def test_boxscore_failure_emits_provisional_with_unknown_owner_coverage(self):
         p=fixture();missing_id="0022601001"
         p["schedule_games"].append({"id":missing_id,"status":"final"})
@@ -90,8 +128,9 @@ class ArchiveTests(unittest.TestCase):
         p=fixture()
         del p["games"][0]["players"][0]["stats"]["PF"]
         scores,missing=module.validate(p)
-        self.assertEqual(scores,{})
+        self.assertIn("A",scores)
         self.assertIn("A",missing)
+        self.assertIn("PF",missing["A"])
         self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
     def test_owner_missing_fails(self):
         p=fixture()
@@ -241,8 +280,9 @@ class ArchiveTests(unittest.TestCase):
     def test_reb_mismatch_never_becomes_verified_fp(self):
         p=fixture();p["games"][0]["players"][0]["stats"]["REB"]=1
         scores,missing=module.validate(p)
-        self.assertNotIn("A",scores)
-        self.assertIn("conflicting REB total",missing["A"])
+        self.assertIn("A",scores)
+        self.assertIn("OREB",missing["A"])
+        self.assertIn("PARTIAL_FP",missing["A"])
         self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")
 
     def test_identity_source_and_id_must_be_bound_to_game_blob(self):
@@ -276,7 +316,7 @@ class ArchiveTests(unittest.TestCase):
             row["quality"]["TECH"]="UNKNOWN"
         scores,missing=module.validate(p)
         for name in ["A","B"]:
-            self.assertNotIn(name,scores)
+            self.assertIn(name,scores)
             self.assertIn(name,missing)
             self.assertIn("TECH",missing[name])
         self.assertEqual(module.render(p,scores,missing)[1],"PROVISIONAL")

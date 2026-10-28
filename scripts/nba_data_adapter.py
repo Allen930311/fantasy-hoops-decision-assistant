@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import random
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -34,7 +35,7 @@ BONUSES = ("DD", "TD")
 QUALITY = {"VERIFIED_VALUE", "VERIFIED_ZERO", "THIRD_PARTY_RECONSTRUCTED", "CONFLICTING", "UNKNOWN"}
 NBA_TRADITIONAL_FIELDS={"minutes","points","threePointersMade","reboundsOffensive","reboundsDefensive","reboundsTotal",
     "assists","steals","blocks","turnovers","freeThrowsAttempted","freeThrowsMade","foulsPersonal","foulsTechnical"}
-NORMALIZER_VERSION="2.2.0"
+NORMALIZER_VERSION="2.3.0"
 MAX_RETRY_AFTER_SECONDS=30
 
 def normalizer_code_sha256() -> str:
@@ -49,6 +50,16 @@ class SourceError(RuntimeError):
     def as_dict(self) -> dict[str, Any]:
         return {"provider": self.provider, "url": self.url, "kind": self.kind,
                 "http_status": self.status, "message": str(self)}
+
+
+def _source_use_block(client: Any,provider: str,url: str,message: str) -> SourceError:
+    """Record a source-policy stop as an acquisition failure without making a request."""
+    error=SourceError(provider,url,"SOURCE_USE_UNVERIFIED",message)
+    history=getattr(client,"history",None)
+    if isinstance(history,list):
+        history.append({**error.as_dict(),"fetched_at":datetime.now(timezone.utc).isoformat(),
+                        "attempt":0,"retry_action":"STOP_SOURCE_USE_UNVERIFIED"})
+    return error
 
 
 def parse_nba_played(value: Any) -> bool | None:
@@ -80,15 +91,33 @@ def _retry_after_seconds(value: str | None, now: datetime | None = None) -> floa
 class JsonClient:
     """Small bounded HTTP client that records raw and normalized hashes."""
     def __init__(self, snapshot_dir: Path | None = None, timeout: float = 12, retries: int = 2,
-                 sleep=time.sleep, opener=urllib.request.urlopen, replay: bool = False):
+                 sleep=time.sleep, opener=urllib.request.urlopen, replay: bool = False,
+                 *, espn_use_attestation: str | None = None,
+                 source_use_attestations: dict[str,str] | None=None):
         self.snapshot_dir, self.timeout, self.retries = snapshot_dir, timeout, retries
         self.sleep, self.opener = sleep, opener
         self.replay=replay
+        self.source_use_attestations=dict(source_use_attestations or {})
+        if espn_use_attestation:
+            self.source_use_attestations.setdefault("espn",espn_use_attestation)
+        for provider,reference in self.source_use_attestations.items():
+            if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._/-]{1,127}",str(reference)):
+                raise ValueError(f"{provider} source-use attestation must be a non-secret opaque identifier")
+        # This is an operator opt-in only. The adapter cannot verify a contract,
+        # license, or terms interpretation from an opaque reference.
+        self.espn_use_attestation=self.source_use_attestations.get("espn")
         self.history: list[dict[str, Any]] = []
         self._last_request = 0.0
 
     def get_json(self, provider: str, url: str, schema_version: str,
                  validator=None) -> tuple[Any, dict[str, Any]]:
+        if provider in {"nba_stats","nba_static_schedule","nba_cdn","espn"} and not self.source_use_attestations.get(provider):
+            fetched_at=datetime.now(timezone.utc).isoformat()
+            err=SourceError(provider,url,"SOURCE_USE_UNVERIFIED",
+                f"automated use of {provider} is disabled until an explicit source-use attestation is supplied")
+            self.history.append({**err.as_dict(),"fetched_at":fetched_at,"attempt":0,
+                                 "retry_action":"STOP_SOURCE_USE_UNVERIFIED"})
+            raise err
         if self.replay:
             return self._replay(provider,url,schema_version,validator)
         attempt = 0
@@ -124,6 +153,10 @@ class JsonClient:
                        "source_quality": "NBA_OFFICIAL_ENDPOINT" if provider in ("nba_cdn","nba_stats","nba_static_schedule") else "THIRD_PARTY_UNVERIFIED_TERMS",
                        "publication_rights": "UNVERIFIED",
                        "response_bytes": len(raw), "error_history": []}
+                if provider in self.source_use_attestations:
+                    rec["source_use_status"]="ATTESTED_UNVERIFIED"
+                    rec["source_use_attestation_reference"]=self.source_use_attestations[provider]
+                    rec["source_use_note"]="Operator attestation is recorded; this program does not verify rights or terms."
                 self.history.append(rec)
                 if self.snapshot_dir:
                     self._snapshot(provider, raw_hash, raw, rec)
@@ -217,7 +250,19 @@ def _valid_nba_boxscore(payload):
         for player in team["players"]:
             played=parse_nba_played(player.get("played"))
             if played is None: return False
-            if played and not NBA_TRADITIONAL_FIELDS.issubset(player.get("statistics",{})): return False
+            if played:
+                stats=player.get("statistics",{})
+                if not NBA_TRADITIONAL_FIELDS.issubset(stats): return False
+                if not str(player.get("personId","")).isdigit(): return False
+                if stats.get("minutes") in (None,""): return False
+                try: _minutes(stats["minutes"])
+                except (TypeError,ValueError): return False
+                for field in NBA_TRADITIONAL_FIELDS-{"minutes"}:
+                    value=stats.get(field)
+                    if isinstance(value,bool) or value is None: return False
+                    try: number=Decimal(str(value))
+                    except Exception: return False
+                    if not number.is_finite() or number<0 or number!=number.to_integral_value(): return False
     return True
 
 
@@ -261,7 +306,7 @@ def _static_schedule_events(payload, date_yyyymmdd):
 
 
 def acquire_schedule(date_yyyymmdd: str, client: JsonClient) -> dict[str, Any]:
-    """Try NBA Stats, NBA's public CDN schedule, then ESPN without inventing NBA IDs."""
+    """Try official schedules, then an explicit ESPN opt-in (rights remain unverified)."""
     errors = []
     try:
         yyyy,mm,dd=date_yyyymmdd[:4],date_yyyymmdd[4:6],date_yyyymmdd[6:]
@@ -291,9 +336,14 @@ def acquire_schedule(date_yyyymmdd: str, client: JsonClient) -> dict[str, Any]:
     except (KeyError,TypeError,ValueError) as exc:
         errors.append(SourceError("nba_static_schedule",NBA_STATIC_SCHEDULE,"SCHEMA_DRIFT",str(exc)).as_dict())
     url = ESPN_SCOREBOARD.format(date=date_yyyymmdd)
+    if not getattr(client,"espn_use_attestation",None):
+        raise _source_use_block(client,"espn",url,
+            "automated ESPN access is disabled until a source-specific use attestation is supplied")
     payload, record = client.get_json("espn", url, "espn-scoreboard-v2",
                                      lambda x: isinstance(x, dict) and isinstance(x.get("events"), list))
     record["source_quality"] = "THIRD_PARTY_UNVERIFIED_TERMS"
+    record["source_use_status"]="ATTESTED_UNVERIFIED"
+    record["source_use_attestation_reference"] = client.espn_use_attestation
     return {"provider": "espn", "record": record, "events": payload["events"], "errors": errors}
 
 
@@ -301,7 +351,7 @@ def acquire_boxscore(*, nba_game_id: str | None, provider_event_id: str | None,
                      client: JsonClient) -> dict[str, Any]:
     """Fetch a box score by explicit source ID; never infer IDs from team/date."""
     errors = []
-    if nba_game_id:
+    if nba_game_id and not provider_event_id:
         if not (nba_game_id.isdigit() and len(nba_game_id) == 10):
             raise ValueError("NBA GAME_ID must be an explicit 10-digit ID")
         url = NBA_BOXSCORE.format(game_id=urllib.parse.quote(nba_game_id, safe=""))
@@ -318,6 +368,9 @@ def acquire_boxscore(*, nba_game_id: str | None, provider_event_id: str | None,
             first=errors[0]
             raise SourceError(first["provider"],first["url"],first["kind"],first["message"],first.get("http_status"))
         raise SourceError("nba_cdn", "", "IDENTITY_UNRESOLVED", "no verified NBA boxscore and no provider event ID")
+    if not getattr(client,"espn_use_attestation",None):
+        raise _source_use_block(client,"espn",ESPN_SUMMARY.format(event_id=provider_event_id),
+            "automated ESPN access is disabled until a source-specific use attestation is supplied")
     url = ESPN_SUMMARY.format(event_id=urllib.parse.quote(provider_event_id, safe=""))
     payload, record = client.get_json("espn", url, "espn-summary-v2",
         lambda x: isinstance(x, dict) and isinstance(x.get("boxscore", {}).get("players"), list))
@@ -364,17 +417,29 @@ def normalize_schedule(events: list[dict[str, Any]], provider: str) -> list[dict
             competition = (event.get("competitions") or [{}])[0]
             raw_start = event.get("date")
             game_dt = datetime.fromisoformat(raw_start.replace("Z", "+00:00")) if raw_start else None
+            if game_dt is None or game_dt.utcoffset() is None:
+                raise ValueError("ESPN schedule row lacks a timezone-aware tipoff")
             et = game_dt.astimezone(ZoneInfo("America/New_York")).date().isoformat() if game_dt else None
             taipei = game_dt.astimezone(ZoneInfo("Asia/Taipei")).date().isoformat() if game_dt else None
             state = competition.get("status", {}).get("type", {}).get("state")
             status = {"pre": "Scheduled", "in": "Live", "post": "Final"}.get(state, "Unknown")
             if not eid.isdigit(): raise ValueError("ESPN schedule row has invalid provider event ID")
-            out.append({"id":None,"provider": provider, "provider_game_id": eid, "official_game_id": None,
+            competitors=competition.get("competitors",[])
+            if len(competitors)!=2 or {str(c.get("homeAway")) for c in competitors}!={"home","away"}:
+                raise ValueError("ESPN schedule row must contain exactly one home and away team")
+            teams={str(c.get("homeAway")):c.get("team") or {} for c in competitors}
+            if any(not str(teams[side].get("id","")).isdigit() or
+                   not str(teams[side].get("abbreviation","")).strip() for side in ("home","away")):
+                raise ValueError("ESPN schedule row lacks provider team IDs or tricodes")
+            out.append({"id":f"{provider}:{eid}","provider": provider, "provider_game_id": eid,
+                        "provider_event_id":eid,"official_game_id": None,
                         "game_date_et": et, "game_date_taipei": taipei, "status": status,
-                        "home_team_name": next((c.get("team", {}).get("displayName") for c in competition.get("competitors", []) if c.get("homeAway") == "home"), None),
-                        "away_team_name": next((c.get("team", {}).get("displayName") for c in competition.get("competitors", []) if c.get("homeAway") == "away"), None),
-                        "home_team_tricode":next((str(c.get("team",{}).get("abbreviation","")) for c in competition.get("competitors",[]) if c.get("homeAway")=="home"),""),
-                        "away_team_tricode":next((str(c.get("team",{}).get("abbreviation","")) for c in competition.get("competitors",[]) if c.get("homeAway")=="away"),""),
+                        "home_team_name":teams["home"].get("displayName"),
+                        "away_team_name":teams["away"].get("displayName"),
+                        "home_team_tricode":str(teams["home"]["abbreviation"]),
+                        "away_team_tricode":str(teams["away"]["abbreviation"]),
+                        "home_provider_team_id":str(teams["home"]["id"]),
+                        "away_provider_team_id":str(teams["away"]["id"]),
                         "game_time_utc":raw_start,
                         "source_quality": "THIRD_PARTY_UNVERIFIED_TERMS"})
         else:
@@ -404,32 +469,115 @@ def resolve_provider_event_id(official_game: dict[str,Any],provider_events: list
     if not gid.isdigit() or len(gid)!=10: raise ValueError("official schedule row lacks NBA GAME_ID")
     start=official_game.get("game_time_utc")
     if not start: raise ValueError("official schedule row lacks start timestamp")
-    target=datetime.fromisoformat(str(start).replace("Z","+00:00")).timestamp()
+    official_start=datetime.fromisoformat(str(start).replace("Z","+00:00"))
+    if official_start.utcoffset() is None: raise ValueError("official schedule start must include timezone")
+    target=official_start.timestamp()
     home=str(official_game.get("home_team_tricode","")).upper()
     away=str(official_game.get("away_team_tricode","")).upper()
     matches=[]
     for event in provider_events:
         event_id=str(event.get("id", "")); comps=(event.get("competitions") or [{}])[0]
-        pairs={str(c.get("homeAway")):str(c.get("team",{}).get("abbreviation","")).upper() for c in comps.get("competitors",[])}
+        competitors=comps.get("competitors",[])
+        if len(competitors)!=2 or {str(c.get("homeAway")) for c in competitors}!={"home","away"}:
+            continue
+        teams={str(c.get("homeAway")):c.get("team",{}) for c in competitors}
+        pairs={side:str(team.get("abbreviation") or "").upper() for side,team in teams.items()}
         stamp=event.get("date")
-        try: delta=abs(datetime.fromisoformat(str(stamp).replace("Z","+00:00")).timestamp()-target)
+        try:
+            provider_start=datetime.fromisoformat(str(stamp).replace("Z","+00:00"))
+            if provider_start.utcoffset() is None: continue
+            delta=abs(provider_start.timestamp()-target)
         except (TypeError,ValueError): continue
         if pairs.get("home")==home and pairs.get("away")==away and delta<=120 and event_id.isdigit():
-            matches.append((event_id,stamp))
+            if not all(str(teams[side].get("id","")).isdigit() for side in ("home","away")):
+                continue
+            matches.append((event_id,stamp,teams))
     if len(matches)!=1:
         raise SourceError("espn","","IDENTITY_UNRESOLVED",f"expected one tricode/time match for NBA GAME_ID {gid}, found {len(matches)}")
-    event_id,stamp=matches[0]
+    event_id,stamp,teams=matches[0]
     return {"nba_game_id":gid,"provider":"espn","provider_event_id":event_id,
             "home_team_tricode":home,"away_team_tricode":away,
+            "home_provider_team_id":str(teams["home"]["id"]),
+            "away_provider_team_id":str(teams["away"]["id"]),
             "official_tipoff_utc":str(start),"provider_tipoff_utc":str(stamp),
             "join_rule":"exact_home_away_tricode_plus_utc_start_within_120s"}
 
 
+def provider_game_key(provider: str, provider_game_id: str) -> str:
+    """Return a namespaced provider identity without claiming it is an NBA ID."""
+    provider=provider.strip().casefold()
+    provider_game_id=str(provider_game_id).strip()
+    if not re.fullmatch(r"[a-z][a-z0-9_-]{1,31}",provider):
+        raise ValueError("invalid provider namespace")
+    if not provider_game_id or not re.fullmatch(r"[A-Za-z0-9._-]+",provider_game_id):
+        raise ValueError("invalid provider event ID")
+    return f"{provider}:{provider_game_id}"
+
+
+def _provider_event_matches_schedule(scheduled: dict[str,Any], header: dict[str,Any]) -> bool:
+    """Bind a provider summary to its schedule row by event ID, teams and tipoff."""
+    provider=str(scheduled.get("provider",""))
+    event_id=str(scheduled.get("provider_event_id") or scheduled.get("provider_game_id") or "")
+    if provider!="espn" or not event_id or str(header.get("id",""))!=event_id:
+        return False
+    competitions=header.get("competitions") or []
+    if len(competitions)!=1: return False
+    competition=competitions[0]
+    competitors=competition.get("competitors") or []
+    if len(competitors)!=2: return False
+    teams={str(x.get("homeAway")):x.get("team",{}) for x in competitors}
+    if set(teams)!={"home","away"}: return False
+    home,away=teams["home"],teams["away"]
+    for side,team in (("home",home),("away",away)):
+        expected_id=str(scheduled.get(f"{side}_provider_team_id") or "")
+        expected_tri=str(scheduled.get(f"{side}_team_tricode") or "").upper()
+        if expected_id and str(team.get("id",""))!=expected_id: return False
+        if expected_tri and str(team.get("abbreviation") or "").upper()!=expected_tri: return False
+    expected_time=scheduled.get("game_time_utc")
+    actual_time=competition.get("date") or header.get("competitions",[{}])[0].get("date")
+    try:
+        if not expected_time or not actual_time: return False
+        expected_dt=datetime.fromisoformat(str(expected_time).replace("Z","+00:00"))
+        actual_dt=datetime.fromisoformat(str(actual_time).replace("Z","+00:00"))
+        if expected_dt.utcoffset() is None or actual_dt.utcoffset() is None: return False
+        delta=abs(expected_dt.timestamp()-actual_dt.timestamp())
+    except (TypeError,ValueError,OverflowError): return False
+    return delta<=120
+
+
 def normalize_espn_summary(payload: dict[str, Any], *, nba_game_id: str | None = None,
-                           taipei_date: str | None = None) -> list[dict[str, Any]]:
-    """Normalize ESPN traditional stats; TECH/EJCT/FF stay UNKNOWN until PBP validated."""
+                           taipei_date: str | None = None, scheduled: dict[str,Any] | None = None,
+                           source_url: str | None = None, source_sha256: str | None = None) -> list[dict[str, Any]]:
+    """Normalize provider-ID stats; official NBA identity is never inferred."""
+    header=payload.get("header") or {}
+    event_id=str(header.get("id") or "")
+    if scheduled is not None and not _provider_event_matches_schedule(scheduled,header):
+        raise ValueError("provider summary does not match scheduled provider event, teams and tipoff")
+    if not nba_game_id and not event_id:
+        raise ValueError("provider summary is missing provider event ID")
+    game_key=(str(nba_game_id) if nba_game_id else provider_game_key("espn",event_id))
     normalized = []
+    seen_player_ids=set()
+    seen_team_ids=set()
     for team in payload["boxscore"]["players"]:
+        team_id=str((team.get("team") or {}).get("id") or "")
+        expected_ids={str(scheduled.get(k) or "") for k in
+                      ("home_provider_team_id","away_provider_team_id")} if scheduled else set()
+        if scheduled and (not team_id or team_id not in expected_ids):
+            raise ValueError("ESPN box-score team is not one of the scheduled event teams")
+        team_side=None
+        team_tricode=None
+        if scheduled:
+            if team_id==str(scheduled.get("home_provider_team_id") or ""):
+                team_side="home"
+            elif team_id==str(scheduled.get("away_provider_team_id") or ""):
+                team_side="away"
+            if not team_side:
+                raise ValueError("ESPN box-score team has no unique scheduled side")
+            team_tricode=str(scheduled.get(f"{team_side}_team_tricode") or "").upper()
+        if team_id in seen_team_ids:
+            raise ValueError("ESPN box-score has duplicate team group for provider event")
+        seen_team_ids.add(team_id)
         for group in team.get("statistics", []):
             keys = group.get("keys", [])
             for row in group.get("athletes", []):
@@ -437,26 +585,45 @@ def normalize_espn_summary(payload: dict[str, Any], *, nba_game_id: str | None =
                 if len(vals) != len(keys):
                     raise ValueError("ESPN player stat schema length mismatch")
                 raw = dict(zip(keys, vals))
-                if raw.get("minutes") == "--" or row.get("didNotPlay"):
+                if row.get("didNotPlay") is True:
                     continue
-                try:
-                    fg3 = int(raw["threePointFieldGoalsMade-threePointFieldGoalsAttempted"].split("-")[0])
-                    ft_pair = raw["freeThrowsMade-freeThrowsAttempted"].split("-")
-                    stats = {"MIN": raw["minutes"], "PTS": int(raw["points"]), "3PTM": fg3,
-                             "OREB": int(raw["offensiveRebounds"]), "DREB": int(raw["defensiveRebounds"]),
-                             "REB": int(raw["rebounds"]),
-                             "AST": int(raw["assists"]), "STL": int(raw["steals"]), "BLK": int(raw["blocks"]),
-                             "TO": int(raw["turnovers"]), "FTA": int(ft_pair[1]), "PF": int(raw["fouls"]),
-                             "TECH": None, "EJCT": None, "FF": None}
-                except (KeyError, ValueError, IndexError) as exc:
-                    raise ValueError(f"invalid ESPN boxscore fields: {exc}") from exc
+                if raw.get("minutes") in (None,"", "--"):
+                    raise ValueError("ESPN athlete has no minutes and no explicit didNotPlay status")
+                stats={"MIN":raw.get("minutes")}
+                def number(key,source):
+                    try: stats[key]=int(raw[source])
+                    except (KeyError,TypeError,ValueError): stats[key]=None
+                try: stats["3PTM"]=int(str(raw["threePointFieldGoalsMade-threePointFieldGoalsAttempted"]).split("-")[0])
+                except (KeyError,TypeError,ValueError,IndexError): stats["3PTM"]=None
+                try: stats["FTA"]=int(str(raw["freeThrowsMade-freeThrowsAttempted"]).split("-")[1])
+                except (KeyError,TypeError,ValueError,IndexError): stats["FTA"]=None
+                for key,source in (("PTS","points"),("OREB","offensiveRebounds"),("DREB","defensiveRebounds"),
+                    ("REB","rebounds"),("AST","assists"),("STL","steals"),("BLK","blocks"),
+                    ("TO","turnovers"),("PF","fouls")):
+                    number(key,source)
+                stats.update({"TECH":None,"EJCT":None,"FF":None})
                 player = row["athlete"]
-                normalized.append({"game_id":nba_game_id,"official_game_id": nba_game_id,"provider_game_id": str(payload.get("header", {}).get("id", "")),
-                    "player_id":str(player["id"]),"official_player_id": None, "provider_player_id": str(player["id"]),
+                provider_player_id=str(player.get("id") or "")
+                if not provider_player_id: raise ValueError("ESPN athlete row lacks provider player ID")
+                if provider_player_id in seen_player_ids:
+                    raise ValueError("ESPN box-score has duplicate provider player ID")
+                seen_player_ids.add(provider_player_id)
+                player_key=f"espn:{provider_player_id}"
+                normalized.append({"game_id":game_key,"official_game_id":nba_game_id,"provider_game_id": event_id,
+                    "provider":"espn","provider_team_id":team_id,
+                    "provider_team_side":team_side,"provider_team_tricode":team_tricode,
+                    "player_id":player_key,"official_player_id": None, "provider_player_id": provider_player_id,
                     "name": player["displayName"], "team_name": team["team"].get("displayName"),"status":"PLAYED",
                     "date_taipei": taipei_date, "stats": stats,
                     "quality": {k: ("THIRD_PARTY_RECONSTRUCTED" if v is not None else "UNKNOWN") for k, v in stats.items() if k != "MIN"},
-                    "identity_status": "UNRESOLVED_OFFICIAL_PLAYER_ID", "source_quality": "THIRD_PARTY_UNVERIFIED_TERMS"})
+                    "identity_status": "VERIFIED_PROVIDER_IDENTITY" if provider_player_id.isdigit() and team_id else "UNRESOLVED_PROVIDER_PLAYER_ID",
+                    "identity_source_url":source_url,"identity_source_sha256":source_sha256,
+                    "incidents":None,"source_quality": "THIRD_PARTY_UNVERIFIED_TERMS"})
+    if scheduled:
+        expected_ids={str(scheduled.get(k) or "") for k in ("home_provider_team_id","away_provider_team_id")}
+        expected_ids.discard("")
+        if len(expected_ids)!=2 or seen_team_ids!=expected_ids:
+            raise ValueError("ESPN box-score team coverage does not match both scheduled teams")
     return normalized
 
 
@@ -577,12 +744,29 @@ def acquire_game_bundle(nba_game_id: str, client: JsonClient,
         raw_date=comp.get("date")
         played=datetime.fromisoformat(str(raw_date).replace("Z","+00:00"))
         taipei=played.astimezone(ZoneInfo("Asia/Taipei")).date().isoformat()
-        players=normalize_espn_summary(box["payload"],nba_game_id=nba_game_id,taipei_date=taipei)
         if event_crosswalk and str(box["payload"].get("header",{}).get("id"))!=provider_event_id:
             raise SourceError("espn",box["record"]["url"],"WRONG_GAME_ID","fallback event ID crosswalk mismatch")
+        summary_schedule=None
+        if event_crosswalk:
+            # Re-check the summary itself after the scoreboard join. A valid
+            # ESPN event ID alone cannot prove that its summary still names
+            # the same ordered teams and tipoff as the NBA schedule.
+            summary_schedule={"id":provider_game_key("espn",provider_event_id),
+                "provider":"espn","provider_game_id":provider_event_id,
+                "provider_event_id":provider_event_id,
+                "home_provider_team_id":event_crosswalk.get("home_provider_team_id"),
+                "away_provider_team_id":event_crosswalk.get("away_provider_team_id"),
+                "home_team_tricode":event_crosswalk.get("home_team_tricode"),
+                "away_team_tricode":event_crosswalk.get("away_team_tricode"),
+                "game_time_utc":event_crosswalk.get("provider_tipoff_utc")}
+        players=normalize_espn_summary(box["payload"],nba_game_id=nba_game_id,taipei_date=taipei,
+                                      scheduled=summary_schedule,source_url=box["record"]["url"],
+                                      source_sha256=box["record"].get("raw_sha256"))
         digest=hashlib.sha256(json.dumps(players,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
         status_type=comp.get("status",{}).get("type",{}).get("state")
-        return {"game_id":nba_game_id,"game_date_et":played.astimezone(ZoneInfo("America/New_York")).date().isoformat(),
+        return {"game_id":nba_game_id,"provider":"espn","provider_game_id":provider_event_id,
+                "official_game_id":nba_game_id,
+                "game_date_et":played.astimezone(ZoneInfo("America/New_York")).date().isoformat(),
                 "game_date_taipei":taipei,"status":"Final" if status_type=="post" else "Unknown",
                 "periods":None,"overtime":None,
                 "source_records":[box["record"]],"source_errors":box["errors"],
@@ -598,10 +782,16 @@ def acquire_game_bundle(nba_game_id: str, client: JsonClient,
     played=datetime.fromisoformat(game["gameTimeUTC"].replace("Z","+00:00"))
     taipei=played.astimezone(ZoneInfo("Asia/Taipei")).date().isoformat()
     periods=int(game.get("period") or 0)
-    players=normalize_nba_boxscore(box["payload"],pbp["payload"] if pbp else None,taipei_date=taipei,
-        source_url=box["record"]["url"],source_sha256=box["record"]["raw_sha256"])
+    try:
+        players=normalize_nba_boxscore(box["payload"],pbp["payload"] if pbp else None,taipei_date=taipei,
+            source_url=box["record"]["url"],source_sha256=box["record"]["raw_sha256"])
+    except (ValueError,TypeError,KeyError,OverflowError) as exc:
+        raise SourceError("nba_cdn",box["record"]["url"],"NORMALIZATION_ERROR",
+            f"official box-score normalization rejected source fields: {exc}") from exc
     digest=hashlib.sha256(json.dumps(players,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
-    return {"game_id":nba_game_id,"game_date_et":game.get("gameEt"),"game_date_taipei":taipei,
+    return {"game_id":nba_game_id,"provider":"nba_cdn","provider_game_id":nba_game_id,
+            "official_game_id":nba_game_id,
+            "game_date_et":game.get("gameEt"),"game_date_taipei":taipei,
             "status":"Final" if game.get("gameStatus")==3 else game.get("gameStatusText","Unknown"),
             "periods":periods,"overtime":periods>4,
             "source_records":[box["record"]]+([pbp["record"]] if pbp else []),
@@ -628,8 +818,44 @@ def acquire_game_bundle_with_fallback(official_game:dict[str,Any],client:JsonCli
         bundle=acquire_game_bundle(gid,client,crosswalk)
         bundle["source_errors"]=[primary.as_dict()]+bundle.get("source_errors",[])
         bundle["source_records"].append(record)
-        bundle["game_id_crosswalk"]=crosswalk
+        bundle["game_id_crosswalk"]={**crosswalk,
+            "schedule_source_url":record.get("url"),
+            "schedule_raw_sha256":record.get("raw_sha256")}
         return bundle
+
+
+def acquire_provider_game_bundle(scheduled:dict[str,Any],client:JsonClient)->dict[str,Any]:
+    """Fetch a source-scoped event without pretending its ID is an NBA GAME_ID."""
+    provider=str(scheduled.get("provider") or "")
+    provider_id=str(scheduled.get("provider_event_id") or scheduled.get("provider_game_id") or "")
+    if not provider or not provider_id or not scheduled.get("id"):
+        raise SourceError(provider or "unknown","","IDENTITY_UNRESOLVED","provider schedule row lacks provider event identity")
+    if provider=="espn":
+        box=acquire_boxscore(nba_game_id=None,provider_event_id=provider_id,client=client)
+        header=box["payload"].get("header") or {}
+        if not _provider_event_matches_schedule(scheduled,header):
+            raise SourceError("espn",box["record"]["url"],"EVENT_IDENTITY_MISMATCH",
+                "summary did not match schedule event ID, ordered teams and UTC tipoff")
+        comp=(header.get("competitions") or [{}])[0]
+        started=datetime.fromisoformat(str(comp.get("date")).replace("Z","+00:00"))
+        taipei=started.astimezone(ZoneInfo("Asia/Taipei")).date().isoformat()
+        state=comp.get("status",{}).get("type",{}).get("state")
+        if state!="post":
+            return {"id":scheduled["id"],"provider":"espn","provider_game_id":provider_id,
+                "official_game_id":None,"status":{"pre":"Scheduled","in":"Live"}.get(state,"Unknown"),
+                "game_date_taipei":taipei,"game_time_utc":comp.get("date"),"players":[],
+                "boxscore_source_url":box["record"]["url"],"boxscore_raw_sha256":box["record"]["raw_sha256"],
+                "source_records":[box["record"]],"source_errors":box["errors"]}
+        players=normalize_espn_summary(box["payload"],taipei_date=taipei,scheduled=scheduled,
+            source_url=box["record"]["url"],source_sha256=box["record"]["raw_sha256"])
+        digest=hashlib.sha256(json.dumps(players,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+        return {"id":scheduled["id"],"game_id":scheduled["id"],"provider":"espn","provider_game_id":provider_id,
+            "official_game_id":None,"game_date_et":started.astimezone(ZoneInfo("America/New_York")).date().isoformat(),
+            "game_date_taipei":taipei,"game_time_utc":comp.get("date"),"status":"Final",
+            "periods":None,"overtime":None,"source_records":[box["record"]],"source_errors":box["errors"],
+            "boxscore_source_url":box["record"]["url"],"boxscore_raw_sha256":box["record"]["raw_sha256"],
+            "normalized_sha256":digest,"players":players,"source_quality":"THIRD_PARTY_UNVERIFIED_TERMS"}
+    raise SourceError(provider,"","UNSUPPORTED_PROVIDER","provider has no registered event adapter")
 
 
 def calculate_custom_fp(stats: dict[str, Any], scoring: dict[str, Any]) -> dict[str, Any]:
@@ -706,6 +932,17 @@ def scoring_trace(stats: dict[str, Any], quality: dict[str, str], scoring: dict[
         # Still return a computable known subtotal; never call it a complete FP.
         components = {k: str(Decimal(str(stats[k])) * Decimal(str(w))) for k, w in scoring.items()
                       if k not in BONUSES and quality.get(k) in ("VERIFIED_VALUE", "VERIFIED_ZERO", "THIRD_PARTY_RECONSTRUCTED") and stats.get(k) is not None}
+        double_digit_inputs=("PTS","OREB","DREB","AST","STL","BLK")
+        if all(stats.get(k) is not None and quality.get(k) in ("VERIFIED_VALUE","VERIFIED_ZERO","THIRD_PARTY_RECONSTRUCTED")
+               for k in double_digit_inputs):
+            categories=[Decimal(str(stats[k])) for k in ("PTS","AST","STL","BLK")]
+            categories.insert(1,Decimal(str(stats["OREB"]))+Decimal(str(stats["DREB"])))
+            qualifying=sum(int(value>=10) for value in categories)
+            partial_bonuses={"DD":int(qualifying>=2),"TD":int(qualifying>=3)}
+            for key in BONUSES:
+                components[key]=str(Decimal(partial_bonuses[key])*Decimal(str(scoring[key])))
+        else:
+            bad.extend(k for k in ("DD","TD") if k in scoring and k not in bad)
         subtotal = sum((Decimal(v) for v in components.values()), Decimal("0"))
         state = "BLOCKED" if len(components) == 0 else "PARTIAL_FP"
         return {"status": state, "value": str(subtotal.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)),

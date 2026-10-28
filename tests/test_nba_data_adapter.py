@@ -29,10 +29,14 @@ class AdapterTests(unittest.TestCase):
     def test_raw_hash_and_snapshot_manifest(self):
         body=b'{"events":[]}'
         with tempfile.TemporaryDirectory() as tmp:
-            c=adapter.JsonClient(Path(tmp),sleep=lambda _:None,opener=lambda *a,**k:Response(body))
+            attestations={"espn":"terms-review-accepted-for-test"}
+            c=adapter.JsonClient(Path(tmp),sleep=lambda _:None,opener=lambda *a,**k:Response(body),source_use_attestations=attestations)
             payload,record=c.get_json("espn","https://example.test/data","test-v1",lambda x:"events" in x)
             self.assertEqual(payload,{"events":[]})
             self.assertEqual(record["raw_sha256"],hashlib.sha256(body).hexdigest())
+            self.assertEqual(record["source_use_status"],"ATTESTED_UNVERIFIED")
+            self.assertEqual(record["source_use_attestation_reference"],"terms-review-accepted-for-test")
+            self.assertNotIn("source_use_authorization_reference",record)
             raw=Path(tmp)/"espn"/(record["raw_sha256"]+".json")
             manifest=raw.with_name(raw.stem+".manifest.json")
             self.assertEqual(raw.read_bytes(),body)
@@ -40,7 +44,7 @@ class AdapterTests(unittest.TestCase):
             self.assertEqual(json.loads(manifest.read_text())["schema_version"],"test-v1")
             self.assertEqual(json.loads(manifest.read_text())["fetched_with_normalizer_version"],adapter.NORMALIZER_VERSION)
             self.assertRegex(json.loads(manifest.read_text())["fetched_with_normalizer_code_sha256"],r"^[0-9a-f]{64}$")
-            replay=adapter.JsonClient(Path(tmp),replay=True)
+            replay=adapter.JsonClient(Path(tmp),replay=True,source_use_attestations=attestations)
             cached,meta=replay.get_json("espn","https://example.test/data","test-v1",lambda x:"events" in x)
             self.assertEqual(cached,payload);self.assertTrue(meta["cache_replay"])
             self.assertEqual(meta["raw_sha256"],record["raw_sha256"])
@@ -75,7 +79,7 @@ class AdapterTests(unittest.TestCase):
         calls=[]
         def opener(*a,**k):
             calls.append(1);raise urllib.error.HTTPError("https://x",403,"Forbidden",{},None)
-        c=adapter.JsonClient(sleep=lambda _:None,opener=opener)
+        c=adapter.JsonClient(sleep=lambda _:None,opener=opener,source_use_attestations={"nba_cdn":"contract-test-ref"})
         with self.assertRaises(adapter.SourceError) as ctx:c.get_json("nba_cdn","https://x","v1")
         self.assertEqual(ctx.exception.kind,"FORBIDDEN");self.assertEqual(len(calls),1)
 
@@ -85,7 +89,7 @@ class AdapterTests(unittest.TestCase):
             calls.append(1)
             if len(calls)<3: raise TimeoutError("simulated timeout")
             return Response(b'{"ok":true}')
-        c=adapter.JsonClient(retries=2,sleep=lambda _:None,opener=opener)
+        c=adapter.JsonClient(retries=2,sleep=lambda _:None,opener=opener,source_use_attestations={"nba_cdn":"contract-test-ref"})
         _,record=c.get_json("nba_cdn","https://example.test/timeout","test-v1")
         self.assertEqual(record["http_status"],200)
         self.assertEqual(len(calls),3)
@@ -216,13 +220,145 @@ class AdapterTests(unittest.TestCase):
         official={"id":"0022600122","home_team_tricode":"MIA","away_team_tricode":"DAL",
                   "game_time_utc":"2026-10-26T23:30:00Z"}
         events=[{"id":"401909871","date":"2026-10-26T23:30:00Z","competitions":[{"competitors":[
-            {"homeAway":"home","team":{"abbreviation":"MIA"}},
-            {"homeAway":"away","team":{"abbreviation":"DAL"}}]}]}]
+            {"homeAway":"home","team":{"id":"14","abbreviation":"MIA"}},
+            {"homeAway":"away","team":{"id":"6","abbreviation":"DAL"}}]}]}]
         cross=adapter.resolve_provider_event_id(official,events)
         self.assertEqual(cross["provider_event_id"],"401909871")
         self.assertEqual(cross["nba_game_id"],"0022600122")
+        self.assertEqual(cross["home_provider_team_id"],"14")
+        self.assertEqual(cross["away_provider_team_id"],"6")
         events.append(dict(events[0],id="401999999"))
         with self.assertRaises(adapter.SourceError):adapter.resolve_provider_event_id(official,events)
+
+    def test_official_to_espn_fallback_revalidates_summary_teams_and_tipoff(self):
+        official={"id":"0022600122","home_team_tricode":"MIA","away_team_tricode":"DAL",
+            "game_time_utc":"2026-10-26T23:30:00Z"}
+        event={"id":"401909871","date":"2026-10-26T23:30:00Z","competitions":[{"competitors":[
+            {"homeAway":"home","team":{"id":"14","abbreviation":"MIA"}},
+            {"homeAway":"away","team":{"id":"6","abbreviation":"DAL"}}]}]}
+        crosswalk=adapter.resolve_provider_event_id(official,[event])
+        summary={"header":{"id":"401909871","competitions":[{"date":"2026-10-26T23:30:00Z",
+            "status":{"type":{"state":"post"}},"competitors":[
+                {"homeAway":"home","team":{"id":"14","abbreviation":"MIA"}},
+                {"homeAway":"away","team":{"id":"6","abbreviation":"DAL"}}]}]},
+            "boxscore":{"players":[{"team":{"id":"14"},"statistics":[{"keys":["minutes","points",
+                "threePointFieldGoalsMade-threePointFieldGoalsAttempted","offensiveRebounds","defensiveRebounds",
+                "rebounds","assists","steals","blocks","turnovers","freeThrowsMade-freeThrowsAttempted","fouls"],
+                "athletes":[{"athlete":{"id":"1642264","displayName":"Stephon Castle"},
+                    "stats":["27","15","3-8","0","5","5","5","1","0","3","4-4","2"],
+                    "didNotPlay":False}]}]},
+                {"team":{"id":"6"},"statistics":[]}]}}
+        box={"provider":"espn","payload":summary,"record":{"url":"https://site.api.espn.com/summary?event=401909871",
+            "raw_sha256":"a"*64},"errors":[]}
+        with patch.object(adapter,"acquire_boxscore",return_value=box):
+            result=adapter.acquire_game_bundle("0022600122",object(),crosswalk)
+        self.assertEqual(result["game_id"],"0022600122")
+        self.assertEqual(result["provider"],"espn")
+        self.assertEqual(result["provider_game_id"],"401909871")
+        self.assertEqual(result["official_game_id"],"0022600122")
+        self.assertEqual(result["players"][0]["game_id"],"0022600122")
+        self.assertEqual(result["players"][0]["player_id"],"espn:1642264")
+        self.assertIsNone(result["players"][0]["official_player_id"])
+        summary["header"]["competitions"][0]["competitors"][1]["team"]["id"]="999"
+        with patch.object(adapter,"acquire_boxscore",return_value=box):
+            with self.assertRaisesRegex(ValueError,"does not match scheduled provider event"):
+                adapter.acquire_game_bundle("0022600122",object(),crosswalk)
+
+    def test_espn_schedule_preserves_namespaced_provider_event_id(self):
+        event={"id":"401909879","date":"2026-10-28T00:00:00Z","competitions":[{
+            "status":{"type":{"state":"post"}},"competitors":[
+                {"homeAway":"home","team":{"id":"24","abbreviation":"SAS","displayName":"San Antonio Spurs"}},
+                {"homeAway":"away","team":{"id":"23","abbreviation":"SAC","displayName":"Sacramento Kings"}}]}]}
+        row=adapter.normalize_schedule([event],"espn")[0]
+        self.assertEqual(row["id"],"espn:401909879")
+        self.assertEqual(row["provider_game_id"],"401909879")
+        self.assertIsNone(row["official_game_id"])
+        self.assertEqual(row["status"],"Final")
+        self.assertEqual(row["game_date_taipei"],"2026-10-28")
+        self.assertEqual(row["home_provider_team_id"],"24")
+
+    def test_espn_schedule_rejects_missing_team_or_timezone_identity(self):
+        base={"id":"401909879","date":"2026-10-28T00:00:00Z","competitions":[{"competitors":[
+            {"homeAway":"home","team":{"id":"24","abbreviation":"SAS"}},
+            {"homeAway":"away","team":{"id":"23","abbreviation":"SAC"}}]}]}
+        bad_team={**base,"competitions":[{"competitors":[
+            {"homeAway":"home","team":{"id":"24","abbreviation":"SAS"}},
+            {"homeAway":"away","team":{"id":"","abbreviation":"SAC"}}]}]}
+        with self.assertRaisesRegex(ValueError,"team IDs or tricodes"):
+            adapter.normalize_schedule([bad_team],"espn")
+        with self.assertRaisesRegex(ValueError,"timezone-aware tipoff"):
+            adapter.normalize_schedule([{**base,"date":"2026-10-28T00:00:00"}],"espn")
+
+    def test_espn_summary_is_bound_to_event_teams_time_and_provider_player_id(self):
+        scheduled={"id":"espn:401909879","provider":"espn","provider_game_id":"401909879",
+            "provider_event_id":"401909879","official_game_id":None,
+            "home_provider_team_id":"24","away_provider_team_id":"23",
+            "home_team_tricode":"SAS","away_team_tricode":"SAC",
+            "game_time_utc":"2026-10-28T00:00:00Z"}
+        header={"id":"401909879","competitions":[{"date":"2026-10-28T00:01:00Z","competitors":[
+            {"homeAway":"home","team":{"id":"24","abbreviation":"SAS"}},
+            {"homeAway":"away","team":{"id":"23","abbreviation":"SAC"}}]}]}
+        keys=["minutes","points","threePointFieldGoalsMade-threePointFieldGoalsAttempted",
+            "offensiveRebounds","defensiveRebounds","rebounds","assists","steals","blocks",
+            "turnovers","freeThrowsMade-freeThrowsAttempted","fouls"]
+        vals=["27","15","3-8","0","5","5","5","1","0","3","4-4","2"]
+        payload={"header":header,"boxscore":{"players":[{"team":{"id":"24","displayName":"San Antonio Spurs"},
+            "statistics":[{"keys":keys,"athletes":[{"athlete":{"id":"1642264","displayName":"Stephon Castle"},
+                "stats":vals,"didNotPlay":False}]}]},
+            {"team":{"id":"23","displayName":"Sacramento Kings"},"statistics":[]}]}}
+        rows=adapter.normalize_espn_summary(payload,scheduled=scheduled,taipei_date="2026-10-28",
+            source_url="https://site.api.espn.com/summary?event=401909879",source_sha256="a"*64)
+        self.assertEqual(rows[0]["game_id"],"espn:401909879")
+        self.assertEqual(rows[0]["player_id"],"espn:1642264")
+        self.assertEqual(rows[0]["official_player_id"],None)
+        self.assertEqual(rows[0]["stats"]["FTA"],4)
+        self.assertEqual(rows[0]["stats"]["TECH"],None)
+        self.assertEqual(rows[0]["identity_status"],"VERIFIED_PROVIDER_IDENTITY")
+        bad={**header,"competitions":[{**header["competitions"][0],"date":"2026-10-28T00:05:00Z"}]}
+        with self.assertRaisesRegex(ValueError,"does not match scheduled provider event"):
+            adapter.normalize_espn_summary({**payload,"header":bad},scheduled=scheduled)
+
+    def test_espn_automated_schedule_fallback_requires_explicit_source_use_attestation(self):
+        calls=[]
+        class Client:
+            espn_use_attestation=None
+            history=[]
+            def get_json(self,provider,url,schema_version,validator=None):
+                calls.append(provider)
+                raise adapter.SourceError(provider,url,"FORBIDDEN","HTTP 403",403)
+        with self.assertRaises(adapter.SourceError) as ctx:adapter.acquire_schedule("20261027",Client())
+        self.assertEqual(ctx.exception.kind,"SOURCE_USE_UNVERIFIED")
+        self.assertNotIn("espn",calls)
+
+    def test_unverified_espn_fallback_is_recorded_without_network_access(self):
+        calls=[]
+        client=adapter.JsonClient(opener=lambda *a,**k:calls.append(1))
+        with self.assertRaises(adapter.SourceError) as ctx:adapter.acquire_schedule("20261027",client)
+        self.assertEqual(ctx.exception.provider,"espn")
+        self.assertEqual([x["provider"] for x in client.history],["nba_stats","nba_static_schedule","espn"])
+        self.assertTrue(all(x["kind"]=="SOURCE_USE_UNVERIFIED" for x in client.history))
+        self.assertTrue(all(x["retry_action"]=="STOP_SOURCE_USE_UNVERIFIED" for x in client.history))
+        self.assertEqual(calls,[])
+
+    def test_protected_data_requests_stop_before_network_without_source_use_attestation(self):
+        calls=[]
+        c=adapter.JsonClient(opener=lambda *a,**k:calls.append(1))
+        for provider in ("nba_stats","nba_cdn","espn"):
+            with self.subTest(provider=provider):
+                with self.assertRaises(adapter.SourceError) as ctx:
+                    c.get_json(provider,"https://example.test/data","v1")
+                self.assertEqual(ctx.exception.kind,"SOURCE_USE_UNVERIFIED")
+        self.assertEqual(calls,[])
+
+    def test_provider_summary_rejects_extra_competitor_even_if_home_away_keys_repeat(self):
+        scheduled={"id":"espn:401909879","provider":"espn","provider_game_id":"401909879",
+            "provider_event_id":"401909879","home_provider_team_id":"24","away_provider_team_id":"23",
+            "home_team_tricode":"SAS","away_team_tricode":"SAC","game_time_utc":"2026-10-28T00:00:00Z"}
+        competitors=[{"homeAway":"home","team":{"id":"24","abbreviation":"SAS"}},
+            {"homeAway":"away","team":{"id":"23","abbreviation":"SAC"}},
+            {"homeAway":"away","team":{"id":"23","abbreviation":"SAC"}}]
+        header={"id":"401909879","competitions":[{"date":"2026-10-28T00:00:00Z","competitors":competitors}]}
+        self.assertFalse(adapter._provider_event_matches_schedule(scheduled,header))
 
     def test_official_boxscore_schema_requires_all_scoring_inputs(self):
         data={"game":{"gameId":"0022600001","homeTeam":{"players":[{"played":True,"statistics":{
@@ -239,6 +375,60 @@ class AdapterTests(unittest.TestCase):
                 payload={"game":{"gameId":"0022600001","homeTeam":{"players":[{"played":True,"statistics":stats}]},
                     "awayTeam":{"players":[]}}}
                 self.assertFalse(adapter._valid_nba_boxscore(payload))
+
+    def test_null_official_scoring_field_uses_espn_fallback_and_stays_partial(self):
+        game_id="0022600122"; event_id="401909871"
+        stats={"minutes":"PT27M0.00S","points":15,"threePointersMade":3,
+            "reboundsOffensive":0,"reboundsDefensive":5,"reboundsTotal":5,"assists":5,
+            "steals":1,"blocks":0,"turnovers":3,"freeThrowsAttempted":4,"freeThrowsMade":4,
+            "foulsPersonal":2,"foulsTechnical":None}
+        official_box={"game":{"gameId":game_id,"gameStatus":3,"gameTimeUTC":"2026-10-26T23:30:00Z",
+            "homeTeam":{"teamId":1610612748,"teamName":"Miami Heat","players":[
+                {"personId":1642264,"name":"Stephon Castle","played":True,"statistics":stats}]},
+            "awayTeam":{"teamId":1610612742,"teamName":"Dallas Mavericks","players":[]}}}
+        event={"id":event_id,"date":"2026-10-26T23:30:00Z","competitions":[{"status":{"type":{"state":"post"}},
+            "competitors":[{"homeAway":"home","team":{"id":"14","abbreviation":"MIA","displayName":"Miami Heat"}},
+                {"homeAway":"away","team":{"id":"6","abbreviation":"DAL","displayName":"Dallas Mavericks"}}]}]}
+        keys=["minutes","points","threePointFieldGoalsMade-threePointFieldGoalsAttempted",
+            "offensiveRebounds","defensiveRebounds","rebounds","assists","steals","blocks",
+            "turnovers","freeThrowsMade-freeThrowsAttempted","fouls"]
+        summary={"header":{"id":event_id,"competitions":[{"date":"2026-10-26T23:30:00Z",
+            "status":{"type":{"state":"post"}},"competitors":event["competitions"][0]["competitors"]}]},
+            "boxscore":{"players":[
+                {"team":{"id":"14","displayName":"Miami Heat"},"statistics":[{"keys":keys,
+                    "athletes":[{"athlete":{"id":"1642264","displayName":"Stephon Castle"},
+                        "stats":["27","15","3-8","0","5","5","5","1","0","3","4-4","2"],
+                        "didNotPlay":False}]}]},
+                {"team":{"id":"6","displayName":"Dallas Mavericks"},"statistics":[]}]}}
+        bodies={"nba_box":json.dumps(official_box).encode(),"espn_schedule":json.dumps({"events":[event]}).encode(),
+            "espn_summary":json.dumps(summary).encode()}
+        requested=[]
+        def opener(request,timeout):
+            url=request.full_url
+            requested.append(url)
+            if "/boxscore/boxscore_" in url: body=bodies["nba_box"]
+            elif "scoreboard?dates=" in url: body=bodies["espn_schedule"]
+            elif "summary?event=" in url: body=bodies["espn_summary"]
+            else: raise AssertionError(f"unexpected request {url}")
+            return Response(body)
+        official={"id":game_id,"official_game_id":game_id,"home_team_tricode":"MIA",
+            "away_team_tricode":"DAL","game_time_utc":"2026-10-26T23:30:00Z"}
+        with tempfile.TemporaryDirectory() as tmp:
+            client=adapter.JsonClient(Path(tmp),sleep=lambda _:None,opener=opener,
+                source_use_attestations={"nba_cdn":"fixture-only","espn":"fixture-only"})
+            bundle=adapter.acquire_game_bundle_with_fallback(official,client)
+        self.assertEqual(sum("/boxscore/boxscore_" in url for url in requested),1)
+        self.assertEqual(bundle["provider"],"espn")
+        self.assertEqual(bundle["official_game_id"],game_id)
+        self.assertEqual(bundle["provider_game_id"],event_id)
+        self.assertEqual(bundle["source_errors"][0]["kind"],"SCHEMA_DRIFT")
+        player=bundle["players"][0]
+        self.assertEqual(player["player_id"],"espn:1642264")
+        league=json.loads((Path(__file__).parents[1]/"seasons/2026-27/league.json").read_text())
+        trace=adapter.scoring_trace(player["stats"],player["quality"],league["scoring"])
+        self.assertEqual(trace["status"],"PARTIAL_FP")
+        self.assertEqual(trace["missing"],["TECH","EJCT","FF"])
+        self.assertEqual(trace["value"],"32.50")
 
     def test_requested_game_id_mismatch_is_rejected(self):
         payload={"game":{"gameId":"0022600002","gameStatus":3}}
