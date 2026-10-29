@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-29",
+  "as_of": "2026-10-30",
   "authority": "owner_provided_yahoo_fantasy_transaction_screenshots",
-  "description": "Effective owner/league ownership overlay from Yahoo screenshot evidence through 2026-10-29, including user-confirmed Mo Bamba; uncertain roster slots and claimability remain unresolved.",
+  "description": "Effective Yahoo screenshot-based ownership overlay through 2026-10-30 03:48 Asia/Taipei. Completed transaction evidence updates ownership; an owner waiver claim remains pending, not a completed ADD/DROP. Live provider claim outcome still unverified.",
   "unassigned_confirmed_owned_players": [
     {
       "name": "Al Horford",
@@ -97,13 +97,6 @@
       "source": "owner_provided_yahoo_chat_screenshot_2026-10-25"
     },
     {
-      "name": "Sergio De Larrea",
-      "team_id": null,
-      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-27",
-      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
-    },
-    {
       "name": "Terrence Shannon Jr.",
       "team_id": null,
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
@@ -179,6 +172,24 @@
       "evidence_date": "2026-10-29",
       "source": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
       "source_image": "IMG_2843.png"
+    },
+    {
+      "name": "Chaney Johnson",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-29",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png",
+      "note": "10/29 18:02 completed ADD; Yahoo text says Chaney Johnson, not Cameron Johnson. Nickname 宏洋's Nifty Team alone does not establish immutable team_XX."
+    },
+    {
+      "name": "Max Christie",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-30",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png",
+      "note": "Newer screenshot shows completed ADD by same displayed team that dropped Sergio De Larrea. Stable team_id unknown; this supersedes previous Oct 27 release."
     }
   ],
   "released_availability_unverified": [
@@ -268,14 +279,6 @@
       "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
-      "name": "Max Christie",
-      "date": "2026-10-27",
-      "previous_team_id": null,
-      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
-      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
-      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
-    },
-    {
       "name": "Jay Huff",
       "date": "2026-10-28",
       "previous_team_id": null,
@@ -319,6 +322,26 @@
       "reason": "New Yahoo DROP screenshot; claimability not checked",
       "source": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
       "source_image": "IMG_2843.png"
+    },
+    {
+      "name": "Sergio De Larrea",
+      "date": "2026-10-30",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Yahoo screenshot proves DROP around 03:37 Taipei; waiver/free-agent availability not verified.",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png"
+    },
+    {
+      "name": "Myles Turner",
+      "date": "2026-10-30",
+      "previous_team_id": "team_12",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Team_12 completed DROP at 01:13; owner screenshot confirms a pending waiver claim targeting Oct 31, not a completed acquisition.",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png",
+      "claim_screen_as_of": "2026-10-30T03:39:00+08:00",
+      "observed_provider_state": "WAIVER_CLAIM_PENDING"
     }
   ],
   "transactions": [
@@ -822,12 +845,50 @@
       "displayed_time": "18:02",
       "team_id": null,
       "add": [
-        "Cameron Johnson"
+        "Chaney Johnson"
       ],
       "drop": [],
-      "attribution": "already rostered on team_10; possible missing intermediate DROP/re-ADD, preserve prior ownership without double count",
-      "source": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
-      "source_image": "IMG_2843.png"
+      "attribution": "Yahoo screenshot explicitly names Chaney Johnson (BKN, PF), correcting earlier mistaken Cameron Johnson expansion of C. Johnson; displayed fantasy team name does not establish a stable team_id",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "01:13",
+      "team_id": "team_12",
+      "add": [
+        "Quinten Post"
+      ],
+      "drop": [
+        "Myles Turner"
+      ],
+      "attribution": "unique previous Turner owner = team_12",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "4m ago in Yahoo chat screenshot captured at 03:41 Asia/Taipei; precise time not verified",
+      "team_id": null,
+      "add": [],
+      "drop": [
+        "Sergio De Larrea"
+      ],
+      "attribution": "Unassigned previous Sergio ownership; displayed team nickname not mapped to team_XX",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "shown below the 4m-ago DROP notice; no exact timestamp displayed",
+      "team_id": null,
+      "add": [
+        "Max Christie"
+      ],
+      "drop": [],
+      "attribution": "Same displayed fantasy manager as Sergio DROP; not assumed to be a formally paired transaction",
+      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png"
     }
   ],
   "policy": {
@@ -841,5 +902,27 @@
     "displayed_team_names_not_stable_ids": true,
     "add_only_does_not_imply_drop": true,
     "duplicates_of_screenshots_are_one_event": true
-  }
+  },
+  "owner_waiver_snapshot": {
+    "as_of": "2026-10-30T03:46:00+08:00",
+    "priority": 3,
+    "league_size": 16,
+    "standings_display_rank": 6,
+    "moves_displayed": 4,
+    "moves_displayed_period": "UNKNOWN; screenshot does not establish that all four are this week",
+    "source": "owner_provided_yahoo_standings_screenshot_IMG_2848.png",
+    "note": "Owner-associated blue standings row. Continual rolling list priority can change after successful waiver claims; do not treat snapshot as live past as_of."
+  },
+  "owner_pending_waiver_claims": [
+    {
+      "as_of": "2026-10-30T03:39:00+08:00",
+      "add": "Myles Turner",
+      "drop": "Mo Bamba",
+      "status": "PENDING",
+      "scheduled_claim_date": "2026-10-31",
+      "source": "owner_provided_yahoo_waiver_claim_screenshot_IMG_2846.png",
+      "source_image": "IMG_2846.png",
+      "note": "Yahoo screen: Oct 31 Claim 1 of 1, Cancel claim available. Does not prove any competing manager's intentions. Neither owner ADD nor DROP has completed. Recheck result after Oct 31."
+    }
+  ]
 }

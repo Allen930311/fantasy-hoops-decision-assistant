@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-29",
+  "as_of": "2026-10-30",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -275,7 +275,7 @@
         "Evan Mobley",
         "Devin Vassell",
         "Zach Edey",
-        "Myles Turner",
+        "Quinten Post",
         "Tari Eason",
         "Julian Champagnie",
         "Jared McCain",
@@ -373,12 +373,14 @@
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-29",
-    "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
-    "note": "14 new unique transactions (Oct 28-29); Mo Bamba ADD owner-confirmed; two older-snapshot transfers inferred from later completed ADDs. Some positions and Cameron Johnson repeated ADD require Yahoo reconciliation. Owner separately confirmed Justin Champagnie already occupies IL; league has 3 IL slots; other IL occupancy unknown.",
+    "date": "2026-10-30",
+    "authority": "owner_provided_yahoo_transaction_and_waiver_screenshots",
+    "note": "Confirmed team_12 Quinten Post ADD / Myles Turner DROP on Oct 30 at 01:13. Mo Bamba remains owned by team_02; owner Turner-for-Bamba waiver claim is PENDING for Oct 31, not a completed roster swap. New Chaney Johnson and Max Christie ADDs have unresolved stable team IDs; Sergio De Larrea DROP overrides older unassigned ADD.",
     "source_images": [
-      "IMG_2844.png",
-      "IMG_2843.png"
+      "IMG_2846.png",
+      "IMG_2847.png",
+      "IMG_2848.png",
+      "IMG_2849.png"
     ]
   },
   "transaction_notes": [
@@ -551,6 +553,17 @@
       "mapping_basis": "Tre Johnson uniquely rostered team_12; M. Thomas expanded with NBA player match",
       "source_image": "IMG_2843.png",
       "note": "Confirmed transaction reconstructed from most recent screenshot evidence."
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "01:13",
+      "team_id": "team_12",
+      "out": "Myles Turner",
+      "in": "Quinten Post",
+      "authority": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
+      "source_image": "IMG_2847.png",
+      "mapping_basis": "Myles Turner uniquely belonged to team_12 in prior bootstrap roster",
+      "note": "Completed Yahoo add/drop. Owner's separate claim to acquire Turner remains pending until Oct 31 and is not an owner-team add."
     }
   ]
 }
