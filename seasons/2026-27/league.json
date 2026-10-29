@@ -26,5 +26,7 @@
     "DD and TD bonuses are cumulative unless the live Yahoo league settings prove otherwise."
   ],
   "state_source": "owner-provided 16-team preseason snapshot",
-  "state_authority": "bootstrap_only_until_yahoo_read_only_reconciliation"
+  "state_authority": "bootstrap_only_until_yahoo_read_only_reconciliation",
+  "il_slots": 3,
+  "il_slots_source": "owner_confirmed_2026-10-29"
 }
