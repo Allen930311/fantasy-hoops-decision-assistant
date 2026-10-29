@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-27",
+  "as_of": "2026-10-29",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -20,9 +20,17 @@
         "P.J. Washington",
         "Kevin Porter Jr.",
         "Keegan Murray",
-        "Kasparas Jakučionis",
         "Keaton Wagler",
         "Andre Drummond"
+      ],
+      "pending_baseline_departures": [
+        {
+          "player": "Kasparas Jakučionis",
+          "date": "2026-10-28",
+          "source": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+          "source_image": "IMG_2844.png",
+          "meaning": "Later confirmed ADD to another fantasy team supersedes previous snapshot; previous DROP/transfer event not visible, actual replacement unknown."
+        }
       ]
     },
     {
@@ -43,6 +51,9 @@
         "Isaiah Jackson",
         "Zaccharie Risacher",
         "Pelle Larsson"
+      ],
+      "additional_owned_players": [
+        "Mo Bamba"
       ]
     },
     {
@@ -206,10 +217,10 @@
         "Jusuf Nurkic",
         "Bobby Portis Jr.",
         "Damian Lillard",
-        "Quentin Grimes",
         "Cameron Johnson",
-        "Mario Hezonja",
-        "Obi Toppin"
+        "Obi Toppin",
+        "Kasparas Jakučionis",
+        "Dean Wade"
       ],
       "additional_owned_players": [
         "Aaron Wiggins"
@@ -241,7 +252,7 @@
         "Nikola Vucevic",
         "Aaron Nesmith",
         "Jordan Poole",
-        "Kyle Filipowski"
+        "Ryan Kalkbrenner"
       ]
     },
     {
@@ -261,7 +272,7 @@
         "Julian Champagnie",
         "Jared McCain",
         "Jaylon Tyson",
-        "Tre Johnson"
+        "Meleek Thomas"
       ]
     },
     {
@@ -340,23 +351,27 @@
         "Moussa Diabate",
         "Bennedict Mathurin",
         "Oso Ighodaro",
-        "Gui Santos",
-        "Aday Mara"
+        "Gui Santos"
+      ],
+      "pending_baseline_departures": [
+        {
+          "player": "Aday Mara",
+          "date": "2026-10-29",
+          "source": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+          "source_image": "IMG_2843.png",
+          "meaning": "Later confirmed ADD to another fantasy team supersedes previous snapshot; previous DROP/transfer event not visible, actual replacement unknown."
+        }
       ]
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-27",
-    "authority": "owner_provided_yahoo_chat_screenshots_2026-10-27",
-    "note": "17 distinct events, including 5 uniquely attributable roster updates; team_02 unchanged",
+    "date": "2026-10-29",
+    "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+    "note": "14 new unique transactions (Oct 28-29); Mo Bamba ADD owner-confirmed; two older-snapshot transfers inferred from later completed ADDs. Some positions and Cameron Johnson repeated ADD require Yahoo reconciliation.",
     "source_images": [
-      "IMG_2828.png",
-      "IMG_2829.png",
-      "IMG_2830.png",
-      "IMG_2832.png",
-      "IMG_2833.png"
-    ],
-    "duplicate_overlap": "IMG_2831.png"
+      "IMG_2844.png",
+      "IMG_2843.png"
+    ]
   },
   "transaction_notes": [
     {
@@ -455,6 +470,79 @@
       "source_image": "IMG_2828.png",
       "mapping_basis": "unique prior roster membership of DROP",
       "note": "confirmed paired ADD/DROP"
+    },
+    {
+      "date": "2026-10-28",
+      "displayed_time": "08:30",
+      "team_id": "team_11",
+      "out": [
+        "Kyle Filipowski"
+      ],
+      "in": [
+        "Ryan Kalkbrenner"
+      ],
+      "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+      "mapping_basis": "uniquely owned Kyle Filipowski in prior snapshot",
+      "source_image": "IMG_2844.png",
+      "note": "Confirmed transaction reconstructed from most recent screenshot evidence."
+    },
+    {
+      "date": "2026-10-28",
+      "displayed_time": "08:55",
+      "team_id": "team_02",
+      "out": null,
+      "in": [
+        "Mo Bamba"
+      ],
+      "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+      "mapping_basis": "user explicitly confirms this is their completed ADD; no DROP or IL assignment inferred",
+      "source_image": "IMG_2844.png",
+      "note": "Owner-confirmed ADD only; roster/IL slot unspecified."
+    },
+    {
+      "date": "2026-10-28",
+      "displayed_time": "23:52",
+      "team_id": "team_10",
+      "out": [
+        "Quentin Grimes"
+      ],
+      "in": [
+        "Kasparas Jakučionis"
+      ],
+      "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+      "mapping_basis": "uniquely rostered Quentin Grimes; older team_01 Kasparas ownership superseded by newer ADD",
+      "source_image": "IMG_2844.png",
+      "note": "Confirmed transaction reconstructed from most recent screenshot evidence."
+    },
+    {
+      "date": "2026-10-28",
+      "displayed_time": "23:58",
+      "team_id": "team_10",
+      "out": [
+        "Mario Hezonja"
+      ],
+      "in": [
+        "Dean Wade"
+      ],
+      "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+      "mapping_basis": "uniquely rostered Mario Hezonja",
+      "source_image": "IMG_2844.png",
+      "note": "Confirmed transaction reconstructed from most recent screenshot evidence."
+    },
+    {
+      "date": "2026-10-29",
+      "displayed_time": "13:38",
+      "team_id": "team_12",
+      "out": [
+        "Tre Johnson"
+      ],
+      "in": [
+        "Meleek Thomas"
+      ],
+      "authority": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
+      "mapping_basis": "Tre Johnson uniquely rostered team_12; M. Thomas expanded with NBA player match",
+      "source_image": "IMG_2843.png",
+      "note": "Confirmed transaction reconstructed from most recent screenshot evidence."
     }
   ]
 }
