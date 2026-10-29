@@ -95,11 +95,24 @@ def main() -> int:
     ]
     if len(pending_departures) != len(set(pending_departures)):
         errors.append("duplicate pending departure records across teams")
-    if set(pending_departures).intersection(all_known_owned):
-        errors.append(
-            f"pending DROP still present in team ownership: "
-            f"{sorted(set(pending_departures).intersection(all_known_owned))}"
+    # A departure is team-local history. The departed player may already have
+    # been added to a different team (or be held with team_id unknown). Reject
+    # only when the same team still owns its purportedly departed player.
+    for team in teams:
+        current_owned = set(team.get("players") or []) | set(
+            team.get("additional_owned_players") or []
         )
+        pending_on_team = {
+            item.get("player")
+            for item in (team.get("pending_baseline_departures") or [])
+            if isinstance(item, dict)
+        }
+        same_team_overlap = sorted(pending_on_team.intersection(current_owned))
+        if same_team_overlap:
+            errors.append(
+                f"{team.get('team_id')}: pending departure still owned by same team: "
+                f"{same_team_overlap}"
+            )
     duplicate_players = sorted({x for x in set(all_known_owned) if all_known_owned.count(x) > 1})
     if duplicate_players:
         errors.append(f"duplicate team-attributed owned players: {duplicate_players}")
