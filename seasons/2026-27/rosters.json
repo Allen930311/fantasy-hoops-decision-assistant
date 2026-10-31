@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-30",
+  "as_of": "2026-10-31",
   "source": "owner-provided fantasy_16teams_2026_27_projection workbook",
   "owner_team_id": "team_02",
   "teams": [
@@ -53,7 +53,7 @@
         "Pelle Larsson"
       ],
       "additional_owned_players": [
-        "Mo Bamba"
+        "Myles Turner"
       ],
       "confirmed_il_players": [
         "Justin Champagnie"
@@ -79,7 +79,6 @@
         "Fred VanVleet",
         "Kyshawn George",
         "Cade Cunningham",
-        "Klay Thompson",
         "Naji Marshall"
       ],
       "pending_baseline_departures": [
@@ -89,6 +88,13 @@
           "source": "owner_provided_yahoo_chat_screenshots_2026-10-27",
           "source_image": "IMG_2829.png",
           "meaning": "baseline reconciliation pending; not proof of active slot vacancy"
+        },
+        {
+          "player": "Klay Thompson",
+          "date": "2026-10-31",
+          "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+          "source_image": "IMG_2890.png",
+          "meaning": "Confirmed Yahoo DROP; replacement not shown. No FA availability inference."
         }
       ]
     },
@@ -256,7 +262,7 @@
         "Zion Williamson",
         "Day'Ron Sharpe",
         "Collin Murray-Boyles",
-        "Jakob Poeltl",
+        "Moritz Wagner",
         "Nikola Vucevic",
         "Aaron Nesmith",
         "Jordan Poole",
@@ -297,9 +303,9 @@
         "Nikola Jokic",
         "Jarrett Allen",
         "John Collins",
-        "Egor Demin",
+        "Cam Spencer",
         "Jeremiah Fears",
-        "Scotty Pippen Jr.",
+        "De'Anthony Melton",
         "Kyle Kuzma"
       ]
     },
@@ -357,7 +363,7 @@
         "Ivica Zubac",
         "Nic Claxton",
         "Moussa Diabate",
-        "Bennedict Mathurin",
+        "Kenrich Williams",
         "Oso Ighodaro",
         "Gui Santos"
       ],
@@ -373,14 +379,14 @@
     }
   ],
   "last_manual_change": {
-    "date": "2026-10-30",
-    "authority": "owner_provided_yahoo_transaction_and_waiver_screenshots",
-    "note": "Confirmed team_12 Quinten Post ADD / Myles Turner DROP on Oct 30 at 01:13. Mo Bamba remains owned by team_02; owner Turner-for-Bamba waiver claim is PENDING for Oct 31, not a completed roster swap. New Chaney Johnson and Max Christie ADDs have unresolved stable team IDs; Sergio De Larrea DROP overrides older unassigned ADD.",
+    "date": "2026-10-31",
+    "authority": "owner_provided_yahoo_chat_screenshots",
+    "note": "Yahoo processed Owner team_02 Myles Turner ADD/Mo Bamba DROP. Other confirmed ADD/DROP records are applied by chronology, using unique prior roster ownership only for team attribution; unassigned team identities and additional hidden claims are not invented. Live Yahoo FA/waiver status remains UNKNOWN.",
     "source_images": [
-      "IMG_2846.png",
-      "IMG_2847.png",
-      "IMG_2848.png",
-      "IMG_2849.png"
+      "IMG_2892.png",
+      "IMG_2891.png",
+      "IMG_2890.png",
+      "IMG_2889.png"
     ]
   },
   "transaction_notes": [
@@ -564,6 +570,94 @@
       "source_image": "IMG_2847.png",
       "mapping_basis": "Myles Turner uniquely belonged to team_12 in prior bootstrap roster",
       "note": "Completed Yahoo add/drop. Owner's separate claim to acquire Turner remains pending until Oct 31 and is not an owner-team add."
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "05:10",
+      "team_id": "team_13",
+      "out": "Egor Demin",
+      "in": "Jordan Goodwin",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2892.png",
+      "mapping_basis": "Egor Demin uniquely belonged to team_13 at transaction time",
+      "note": "Later replaced by Cam Spencer on Oct 30 19:35; Goodwin no longer marked owned"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "11:13",
+      "team_id": "team_11",
+      "out": "Jakob Poeltl",
+      "in": null,
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png",
+      "mapping_basis": "Poeltl uniquely belonged to team_11; later ADD by different unknown-id manager",
+      "note": "Team_11 later added Moritz Wagner; Poeltl confirmed added again by another team Oct 31"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "19:35",
+      "team_id": "team_13",
+      "out": "Jordan Goodwin",
+      "in": "Cam Spencer",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png",
+      "mapping_basis": "earlier same-manager Goodwin ADD uniquely mapped to team_13",
+      "note": "Confirmed paired ADD/DROP"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "19:35",
+      "team_id": "team_13",
+      "out": "Scotty Pippen Jr.",
+      "in": "De'Anthony Melton",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png",
+      "mapping_basis": "Scotty uniquely belonged to team_13; same named manager as Cam Spencer",
+      "note": "Confirmed paired ADD/DROP"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "06:24",
+      "team_id": "team_03",
+      "out": "Klay Thompson",
+      "in": null,
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png",
+      "mapping_basis": "unique existing owner team_03",
+      "note": "DROP-only; tracked pending_baseline_departures; do not invent ADD"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "13:47",
+      "team_id": "team_16",
+      "out": "Bennedict Mathurin",
+      "in": "Kenrich Williams",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png",
+      "mapping_basis": "Mathurin uniquely belonged to team_16",
+      "note": "Confirmed paired ADD/DROP"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "13:47 same visible section",
+      "team_id": "team_11",
+      "out": null,
+      "in": "Moritz Wagner",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png",
+      "mapping_basis": "same displayed manager as 2026-10-30 Poeltl DROP mapped to team_11",
+      "note": "ADD-only as displayed, no additional DROP implied"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "around 16:21 screenshot; precise claim processing time not shown",
+      "team_id": "team_02",
+      "out": "Mo Bamba",
+      "in": "Myles Turner",
+      "authority": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png",
+      "mapping_basis": "owner team explicitly identified as 琮恩; Yahoo Transactions have been processed",
+      "note": "Completed waiver claim supersedes Oct 30 PENDING status"
     }
   ]
 }
