@@ -1,17 +1,10 @@
 {
   "schema_version": 1,
   "season": "2026-27",
-  "as_of": "2026-10-30",
+  "as_of": "2026-10-31",
   "authority": "owner_provided_yahoo_fantasy_transaction_screenshots",
-  "description": "Effective Yahoo screenshot-based ownership overlay through 2026-10-30 03:48 Asia/Taipei. Completed transaction evidence updates ownership; an owner waiver claim remains pending, not a completed ADD/DROP. Live provider claim outcome still unverified.",
+  "description": "Effective Yahoo screenshot-based ownership overlay through 2026-10-31 approximately 16:22 Asia/Taipei. Owner waiver claim for Turner succeeded; 2 other claims link was collapsed and only one rival claim (Poeltl/Horford) is visible. Live Yahoo FA/waiver availability remains unverified; no unshown transactions inferred.",
   "unassigned_confirmed_owned_players": [
-    {
-      "name": "Al Horford",
-      "team_id": null,
-      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-24",
-      "source": "confirmed-add-fa-exclusions-2026-10-24.json"
-    },
     {
       "name": "Bilal Coulibaly",
       "team_id": null,
@@ -60,13 +53,6 @@
       "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
       "evidence_date": "2026-10-24",
       "source": "confirmed-add-fa-exclusions-2026-10-24.json"
-    },
-    {
-      "name": "Matisse Thybulle",
-      "team_id": null,
-      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
-      "evidence_date": "2026-10-27",
-      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
     },
     {
       "name": "Mitchell Robinson",
@@ -190,6 +176,33 @@
       "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
       "source_image": "IMG_2847.png",
       "note": "Newer screenshot shows completed ADD by same displayed team that dropped Sergio De Larrea. Stable team_id unknown; this supersedes previous Oct 27 release."
+    },
+    {
+      "name": "Jaylin Williams",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-31",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png",
+      "note": "ADD on Oct 31 near 15:55; dropped Matisse Thybulle; team ID unknown"
+    },
+    {
+      "name": "Quentin Grimes",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-31",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png",
+      "note": "ADD-only Oct 31 at 03:09; later than Oct 28 DROP; team ID unknown"
+    },
+    {
+      "name": "Jakob Poeltl",
+      "team_id": null,
+      "status": "CONFIRMED_ADD_TEAM_UNRESOLVED",
+      "evidence_date": "2026-10-31",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png",
+      "note": "ADD with Al Horford DROP; processed Oct 31 by another fantasy team; team ID unknown"
     }
   ],
   "released_availability_unverified": [
@@ -212,14 +225,6 @@
       "name": "Cason Wallace",
       "date": "2026-10-26",
       "previous_team_id": "team_10",
-      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
-      "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
-      "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
-    },
-    {
-      "name": "De'Anthony Melton",
-      "date": "2026-10-27",
-      "previous_team_id": null,
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
       "reason": "Owner-confirmed Yahoo DROP; live FA/waiver status not checked",
       "source": "owner_provided_yahoo_chat_screenshots_2026-10-27"
@@ -288,15 +293,6 @@
       "source_image": "IMG_2844.png"
     },
     {
-      "name": "Quentin Grimes",
-      "date": "2026-10-28",
-      "previous_team_id": null,
-      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
-      "reason": "New Yahoo DROP screenshot; claimability not checked",
-      "source": "owner_provided_yahoo_transaction_screenshots_2026-10-29",
-      "source_image": "IMG_2844.png"
-    },
-    {
       "name": "Mario Hezonja",
       "date": "2026-10-28",
       "previous_team_id": null,
@@ -333,15 +329,76 @@
       "source_image": "IMG_2847.png"
     },
     {
-      "name": "Myles Turner",
+      "name": "Egor Demin",
       "date": "2026-10-30",
-      "previous_team_id": "team_12",
+      "previous_team_id": "team_13",
       "status": "DROPPED_AVAILABILITY_UNVERIFIED",
-      "reason": "Team_12 completed DROP at 01:13; owner screenshot confirms a pending waiver claim targeting Oct 31, not a completed acquisition.",
-      "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
-      "source_image": "IMG_2847.png",
-      "claim_screen_as_of": "2026-10-30T03:39:00+08:00",
-      "observed_provider_state": "WAIVER_CLAIM_PENDING"
+      "reason": "Dropped Oct 30 at 05:10 for Jordan Goodwin; later claimability unverified",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2892.png"
+    },
+    {
+      "name": "Jordan Goodwin",
+      "date": "2026-10-30",
+      "previous_team_id": "team_13",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Dropped Oct 30 at 19:35 for Cam Spencer; not a proven FA",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png"
+    },
+    {
+      "name": "Scotty Pippen Jr.",
+      "date": "2026-10-30",
+      "previous_team_id": "team_13",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Dropped Oct 30 at 19:35 for De'Anthony Melton; not a proven FA",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png"
+    },
+    {
+      "name": "Klay Thompson",
+      "date": "2026-10-31",
+      "previous_team_id": "team_03",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Confirmed DROP at 06:24; no replacement shown, waiver status unverified",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "name": "Bennedict Mathurin",
+      "date": "2026-10-31",
+      "previous_team_id": "team_16",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Confirmed DROP at 13:47 for Kenrich Williams; waiver status unverified",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "name": "Matisse Thybulle",
+      "date": "2026-10-31",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Confirmed DROP when Jaylin Williams added; former unknown manager; waiver status unverified",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "name": "Al Horford",
+      "date": "2026-10-31",
+      "previous_team_id": null,
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Processed other manager's claim: DROP Horford/ADD Jakob Poeltl; waiver status unverified",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png"
+    },
+    {
+      "name": "Mo Bamba",
+      "date": "2026-10-31",
+      "previous_team_id": "team_02",
+      "status": "DROPPED_AVAILABILITY_UNVERIFIED",
+      "reason": "Owner completed ADD Myles Turner/DROP Mo Bamba; waiver status unverified",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png"
     }
   ],
   "transactions": [
@@ -889,6 +946,152 @@
       "attribution": "Same displayed fantasy manager as Sergio DROP; not assumed to be a formally paired transaction",
       "source": "owner_provided_yahoo_chat_screenshot_IMG_2847.png",
       "source_image": "IMG_2847.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "05:10",
+      "team_id": "team_13",
+      "add": [
+        "Jordan Goodwin"
+      ],
+      "drop": [
+        "Egor Demin"
+      ],
+      "attribution": "unique prior Egor Demin owner team_13",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2892.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "11:13",
+      "team_id": "team_11",
+      "add": [],
+      "drop": [
+        "Jakob Poeltl"
+      ],
+      "attribution": "unique prior Poeltl owner team_11",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "19:35",
+      "team_id": "team_13",
+      "add": [
+        "Cam Spencer"
+      ],
+      "drop": [
+        "Jordan Goodwin"
+      ],
+      "attribution": "same prior manager as team_13 Goodwin ADD",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png"
+    },
+    {
+      "date": "2026-10-30",
+      "displayed_time": "19:35",
+      "team_id": "team_13",
+      "add": [
+        "De'Anthony Melton"
+      ],
+      "drop": [
+        "Scotty Pippen Jr."
+      ],
+      "attribution": "unique prior team_13 owner Scotty",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "03:09",
+      "team_id": null,
+      "add": [
+        "Quentin Grimes"
+      ],
+      "drop": [],
+      "attribution": "ADD only; no stable team ID; newer than Oct 28 DROP",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2891.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "06:24",
+      "team_id": "team_03",
+      "add": [],
+      "drop": [
+        "Klay Thompson"
+      ],
+      "attribution": "unique prior owner team_03; no invented replacement",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "13:47",
+      "team_id": "team_16",
+      "add": [
+        "Kenrich Williams"
+      ],
+      "drop": [
+        "Bennedict Mathurin"
+      ],
+      "attribution": "unique prior Mathurin owner team_16",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "13:47 section",
+      "team_id": "team_11",
+      "add": [
+        "Moritz Wagner"
+      ],
+      "drop": [],
+      "attribution": "same manager who dropped team_11 Poeltl Oct 30; no paired DROP shown",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "27m ago on screenshot captured around 16:22",
+      "team_id": null,
+      "add": [
+        "Jaylin Williams"
+      ],
+      "drop": [
+        "Matisse Thybulle"
+      ],
+      "attribution": "prior Matisse ownership unknown; manager ID unresolved",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2890.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "processed notice around 16:21",
+      "team_id": "team_02",
+      "add": [
+        "Myles Turner"
+      ],
+      "drop": [
+        "Mo Bamba"
+      ],
+      "attribution": "explicit owner team and Yahoo processed transactions",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png"
+    },
+    {
+      "date": "2026-10-31",
+      "displayed_time": "processed notice around 16:21",
+      "team_id": null,
+      "add": [
+        "Jakob Poeltl"
+      ],
+      "drop": [
+        "Al Horford"
+      ],
+      "attribution": "other fantasy manager; prior Al Horford ownership unassigned; team ID unresolved",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png"
     }
   ],
   "policy": {
@@ -913,16 +1116,17 @@
     "source": "owner_provided_yahoo_standings_screenshot_IMG_2848.png",
     "note": "Owner-associated blue standings row. Continual rolling list priority can change after successful waiver claims; do not treat snapshot as live past as_of."
   },
-  "owner_pending_waiver_claims": [
+  "owner_pending_waiver_claims": [],
+  "owner_processed_waiver_claims": [
     {
-      "as_of": "2026-10-30T03:39:00+08:00",
+      "date": "2026-10-31",
+      "status": "PROCESSED",
       "add": "Myles Turner",
       "drop": "Mo Bamba",
-      "status": "PENDING",
-      "scheduled_claim_date": "2026-10-31",
-      "source": "owner_provided_yahoo_waiver_claim_screenshot_IMG_2846.png",
-      "source_image": "IMG_2846.png",
-      "note": "Yahoo screen: Oct 31 Claim 1 of 1, Cancel claim available. Does not prove any competing manager's intentions. Neither owner ADD nor DROP has completed. Recheck result after Oct 31."
+      "owner_team_id": "team_02",
+      "source": "owner_provided_yahoo_chat_screenshots_2026-10-31",
+      "source_image": "IMG_2889.png",
+      "note": "Yahoo Fantasy says Transactions have been processed and shows completed owner ADD/DROP; supersedes 2026-10-30 pending claim."
     }
   ]
 }
